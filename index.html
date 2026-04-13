@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>荻野のテストページ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background-color: #f5f5f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            padding: 60px 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            max-width: 520px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 28px;
+            color: #2d3436;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 16px;
+            color: #636e72;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .badge {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 8px 20px;
+            background: #00b894;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .footer {
+            margin-top: 32px;
+            font-size: 13px;
+            color: #b2bec3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>荻野のテストページ</h1>
+        <p>Vercelで公開テスト中です。</p>
+        <p>GitHubにファイルをアップするだけで<br>自動的にこのページが更新されます。</p>
+        <div class="badge">✓ デプロイ成功</div>
+        <div class="footer">powered by GitHub + Vercel</div>
+    </div>
+</body>
+</html>
