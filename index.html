@@ -1,192 +1,116 @@
 <!DOCTYPE html>
 <!--
-  荻野ラボ｜暮らしと家づくりの実験室
-  © 萩森建設 荻野 | hagimori-kensetsu@xxx.co.jp
+  荻野ラボ｜家づくりの実験と実践
+  © 荻野 尚志 | says@o-h.co.jp
 -->
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>荻野ラボ｜暮らしと家づくりの実験室</title>
-    <meta name="description" content="家づくりのヒントになるツールや診断を、ひとつずつ作っています。萩森建設 荻野が運営する実験サイトです。">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --bg: #faf6f1;
-            --card: #ffffff;
-            --primary: #8b6f47;
-            --primary-light: #c4a882;
-            --primary-dark: #6b5535;
-            --accent: #d4a76a;
-            --text: #3d3225;
-            --text-light: #7a6b5a;
-            --border: #e8ddd0;
-        }
-        html { font-size: 16px; }
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.8;
-            min-height: 100dvh;
-        }
-        .hero {
-            text-align: center;
-            padding: 60px 20px 40px;
-        }
-        .hero-icon { font-size: 3rem; margin-bottom: 8px; }
-        .hero h1 {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        .subtitle {
-            font-size: 0.95rem;
-            color: var(--primary-light);
-            font-weight: 500;
-            margin-bottom: 16px;
-        }
-        .desc {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 20px 40px;
-        }
-        .section-label {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary-light);
-            margin-bottom: 12px;
-        }
-        .app-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .app-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            text-decoration: none;
-            color: var(--text);
-            transition: all 0.2s;
-        }
-        a.app-card:hover {
-            border-color: var(--primary-light);
-            box-shadow: 0 4px 16px rgba(100, 80, 50, 0.1);
-            transform: translateY(-2px);
-        }
-        .app-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: #f5efe6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        .app-info h3 {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        .app-info p {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-        .app-tag {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 10px;
-            border-radius: 20px;
-            background: var(--primary);
-            color: #fff;
-        }
-        .app-tag.coming {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--accent);
-        }
-        .footer {
-            text-align: center;
-            padding: 24px 20px 40px;
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荻野ラボ｜家づくりの実験と実践</title>
+<meta name="description" content="診断ツールで家づくりの方向性を探ったり、実務で培った工法の知見を公開しています。萩森建設 荻野 尚志が運営する研究サイトです。">
+<meta property="og:title" content="荻野ラボ｜家づくりの実験と実践">
+<meta property="og:description" content="診断ツールで家づくりの方向性を探ったり、実務で培った工法の知見を公開しています。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0;
+  --card:#ffffff;
+  --main:#5b8a72;
+  --main-light:#e8f0ec;
+  --accent:#d4956a;
+  --method:#4a7fb5;
+  --method-light:#e8f0f8;
+  --text:#3a3a3a;
+  --text-light:#8a8a8a;
+  --border:#e0dcd4;
+  --fd:'Zen Maru Gothic',sans-serif;
+  --fb:'Noto Sans JP',sans-serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.8;min-height:100dvh;display:flex;flex-direction:column}
+main{flex:1}
+.hero{text-align:center;padding:64px 20px 40px}
+.hero-icon{font-size:3rem;margin-bottom:8px}
+.hero h1{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--main);margin-bottom:6px;letter-spacing:.02em}
+.hero .subtitle{font-size:.95rem;color:var(--accent);font-weight:500;margin-bottom:18px}
+.hero .desc{font-size:.9rem;color:var(--text-light);max-width:420px;margin:0 auto;line-height:1.9}
+.container{max-width:640px;margin:0 auto;padding:0 20px 40px;width:100%}
+.room-grid{display:flex;flex-direction:column;gap:20px}
+.room-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;text-decoration:none;color:var(--text);transition:all .25s;box-shadow:0 2px 12px rgba(90,80,60,.04)}
+.room-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(90,80,60,.1)}
+.room-card.apps{border-left:4px solid var(--main)}
+.room-card.apps:hover{border-color:var(--main)}
+.room-card.methods{border-left:4px solid var(--method)}
+.room-card.methods:hover{border-color:var(--method)}
+.room-head{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.room-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+.room-card.apps .room-icon{background:var(--main-light)}
+.room-card.methods .room-icon{background:var(--method-light)}
+.room-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;line-height:1.4}
+.room-card.apps .room-title{color:var(--main)}
+.room-card.methods .room-title{color:var(--method)}
+.room-sub{font-size:.82rem;color:var(--text-light);font-weight:500;margin-top:2px}
+.room-desc{font-size:.88rem;color:var(--text);line-height:1.9;margin-bottom:14px}
+.room-count{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text-light)}
+.count-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-weight:700;font-size:.72rem}
+.room-card.apps .count-badge{background:var(--main-light);color:var(--main)}
+.room-card.methods .count-badge{background:var(--method-light);color:var(--method)}
+.footer{text-align:center;padding:24px 20px 32px;font-size:.75rem;color:var(--text-light);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
+.footer a{color:var(--main);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+@media(max-width:480px){
+  .hero{padding:48px 20px 32px}
+  .hero h1{font-size:1.7rem}
+  .room-card{padding:22px 20px}
+  .room-icon{width:48px;height:48px;font-size:1.5rem}
+  .room-title{font-size:1.15rem}
+}
+</style>
 </head>
 <body>
-
+<main>
 <div class="hero">
-    <div class="hero-icon">🧪</div>
-    <h1>荻野ラボ</h1>
-    <p class="subtitle">暮らしと家づくりの実験室</p>
-    <p class="desc">家づくりのヒントになるツールや診断を、ひとつずつ作っています。</p>
+  <div class="hero-icon">🧪</div>
+  <h1>荻野ラボ</h1>
+  <p class="subtitle">家づくりの実験と実践</p>
+  <p class="desc">診断ツールで家づくりの方向性を探ったり、<br>実務で培った工法の知見を公開しています。</p>
 </div>
-
 <div class="container">
-    <div class="section-label">ミニアプリ</div>
-    <div class="app-grid">
-
-        <a href="dishwasher-quiz.html" class="app-card">
-            <div class="app-icon">🍽️</div>
-            <div class="app-info">
-                <h3>食洗機占い</h3>
-                <p>6つの質問に答えるだけで、あなたにぴったりの食洗機タイプがわかります。</p>
-                <span class="app-tag">診断ツール</span>
-            </div>
-        </a>
-
-        <div class="app-card" style="opacity:0.5; cursor:default;">
-            <div class="app-icon" style="background:#f0e8e0;">🏠</div>
-            <div class="app-info">
-                <h3>家づくりの「絶対ない」を探す</h3>
-                <p>1000の質問であなたの家づくりの価値観を明確にする診断ツール。</p>
-                <span class="app-tag coming">準備中</span>
-            </div>
+  <div class="room-grid">
+    <a href="apps/index.html" class="room-card apps">
+      <div class="room-head">
+        <div class="room-icon">🔮</div>
+        <div>
+          <div class="room-title">アプリ開発室</div>
+          <div class="room-sub">論理と科学の家づくり占い館</div>
         </div>
-
-        <div class="app-card" style="opacity:0.5; cursor:default;">
-            <div class="app-icon" style="background:#f0e8e0;">⚡</div>
-            <div class="app-info">
-                <h3>省エネ診断シミュレーター</h3>
-                <p>断熱性能と設備の組み合わせで光熱費の目安がわかります。</p>
-                <span class="app-tag coming">準備中</span>
-            </div>
+      </div>
+      <p class="room-desc">簡単な質問に答えるだけで、家づくりの「自分の傾向」に気づけるツール集。業態選び・性能・お金・暮らしまで、27の占いを順次公開中。</p>
+      <div class="room-count"><span class="count-badge">27アプリ</span><span>公開中 1 / 準備中 26</span></div>
+    </a>
+    <a href="methods/index.html" class="room-card methods">
+      <div class="room-head">
+        <div class="room-icon">🔧</div>
+        <div>
+          <div class="room-title">工法開発室</div>
+          <div class="room-sub">実務で培った設計・施工の知見</div>
         </div>
-
-    </div>
+      </div>
+      <p class="room-desc">日々の現場から生まれた工法や技術の記録。スマートホーム設計、造作LED、構造補強など、実践的なノウハウを公開予定。</p>
+      <div class="room-count"><span class="count-badge">5記事</span><span>準備中</span></div>
+    </a>
+  </div>
 </div>
-
-<div class="footer">
-    <p>荻野ラボ｜<a href="https://www.hagimori-kensetsu.com/" target="_blank">萩森建設</a></p>
-</div>
-
+</main>
+<footer class="footer">
+  荻野ラボ｜<a href="https://www.hagimori-kensetsu.com/" target="_blank" rel="noopener">萩森建設</a><br>
+  &copy; 荻野 尚志 | says@o-h.co.jp
+</footer>
 </body>
 </html>
