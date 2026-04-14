@@ -1,592 +1,142 @@
 <!DOCTYPE html>
+<!--
+  食洗機占い｜あなたにぴったりの食洗機タイプ診断
+  © 萩森建設 荻野 | hagimori-kensetsu@xxx.co.jp
+  自社サイトに埋め込みたい工務店・ハウスメーカーはご相談ください。
+-->
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>食洗機占い｜あなたにぴったりの食洗機タイプ診断</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #faf8f5;
-            --card: #ffffff;
-            --primary: #5b8a72;
-            --primary-light: #e8f0ec;
-            --primary-dark: #3d6b54;
-            --accent: #d4956a;
-            --accent-light: #fdf0e8;
-            --text: #3a3a3a;
-            --text-light: #7a7a7a;
-            --border: #e8e4df;
-            --shadow: 0 2px 16px rgba(0,0,0,0.06);
-            --shadow-hover: 0 4px 24px rgba(0,0,0,0.1);
-            --radius: 14px;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.7;
-        }
-
-        /* ヘッダー */
-        .header {
-            text-align: center;
-            padding: 48px 20px 32px;
-            background: linear-gradient(135deg, var(--primary-light) 0%, #f5ebe3 100%);
-            border-bottom: 1px solid var(--border);
-        }
-        .header-icon { font-size: 48px; margin-bottom: 12px; }
-        .header h1 {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .header p {
-            font-size: 14px;
-            color: var(--text-light);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        /* プログレスバー */
-        .progress-wrap {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 20px 20px 0;
-        }
-        .progress-bar {
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 3px;
-            transition: width 0.4s ease;
-        }
-        .progress-text {
-            text-align: right;
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-
-        /* メインコンテナ */
-        .container {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* 質問カード */
-        .question-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 32px 24px;
-            animation: fadeIn 0.4s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .q-number {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary);
-            background: var(--primary-light);
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-        }
-        .q-label {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-bottom: 6px;
-        }
-        .q-text {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 18px;
-            font-weight: 500;
-            line-height: 1.6;
-            margin-bottom: 24px;
-            color: var(--text);
-        }
-
-        /* 選択肢 */
-        .options { display: flex; flex-direction: column; gap: 10px; }
-        .option-btn {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 18px;
-            font-size: 15px;
-            font-family: 'Noto Sans JP', sans-serif;
-            color: var(--text);
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s ease;
-            line-height: 1.6;
-        }
-        .option-btn:hover {
-            border-color: var(--primary);
-            background: var(--primary-light);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-hover);
-        }
-        .option-btn:active {
-            transform: translateY(0);
-        }
-
-        /* スタート画面 */
-        .start-screen {
-            text-align: center;
-            padding: 40px 24px;
-        }
-        .start-screen h2 {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 20px;
-            margin-bottom: 16px;
-            color: var(--primary-dark);
-        }
-        .start-screen p {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 28px;
-            line-height: 1.8;
-        }
-        .start-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 16px 48px;
-            font-size: 16px;
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(91,138,114,0.3);
-        }
-        .start-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(91,138,114,0.4);
-        }
-        .start-note {
-            margin-top: 16px;
-            font-size: 12px;
-            color: var(--text-light);
-        }
-
-        /* 結果画面 */
-        .result-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 32px 24px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-        .result-badge {
-            display: inline-block;
-            background: var(--accent-light);
-            color: var(--accent);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-        }
-        .result-type {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-        .result-description {
-            font-size: 15px;
-            color: var(--text);
-            line-height: 1.8;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .result-spec {
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .result-spec h4 {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
-        .result-spec-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            padding: 4px 0;
-            border-bottom: 1px dotted var(--border);
-        }
-        .result-spec-row:last-child { border: none; }
-        .result-spec-label { color: var(--text-light); }
-        .result-spec-value { font-weight: 600; color: var(--text); }
-        .result-personality {
-            background: var(--primary-light);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-        .result-personality h4 {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 14px;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-        }
-        .result-personality p {
-            font-size: 14px;
-            color: var(--text);
-            line-height: 1.8;
-        }
-        .runner-up {
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-        .runner-up h4 {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
-        .runner-up p {
-            font-size: 14px;
-            color: var(--text);
-        }
-        .retry-btn {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            border-radius: 30px;
-            padding: 12px 36px;
-            font-size: 14px;
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .retry-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* フッター */
-        .footer {
-            text-align: center;
-            padding: 32px 20px;
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        /* 非表示ユーティリティ */
-        .hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食洗機占い｜あなたにぴったりの食洗機タイプ診断</title>
+<meta name="description" content="6つの質問に答えるだけで、あなたの暮らしにぴったりの食洗機タイプがわかります。萩森建設が提供する無料診断ツールです。">
+<meta property="og:title" content="食洗機占い｜あなたにぴったりの食洗機タイプ診断">
+<meta property="og:description" content="6つの質問に答えるだけで、あなたの暮らしにぴったりの食洗機タイプがわかります。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#faf6f1;--card:#fff;--primary:#8b6f47;--pl:#c4a882;--pd:#6b5535;--accent:#d4a76a;--text:#3d3225;--tl:#7a6b5a;--border:#e8ddd0;--yes:#5a8a6a;--no:#a0785a;--slg:0 8px 32px rgba(100,80,50,.12);--r:12px;--fd:'Zen Maru Gothic',sans-serif;--fb:'Noto Sans JP',sans-serif}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100dvh;display:flex;flex-direction:column;line-height:1.8}
+.app{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem 1rem;min-height:calc(100dvh - 160px)}
+.screen{display:none;width:100%;max-width:560px;animation:fu .5s ease both}.screen.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.top-card,.q-card,.r-card{background:var(--card);border-radius:var(--r);box-shadow:var(--slg);padding:2rem}
+.top-card{text-align:center;padding:2.5rem 2rem}
+.top-icon{font-size:3.5rem;margin-bottom:.5rem}
+.top-title{font-family:var(--fd);font-size:1.6rem;font-weight:700;color:var(--pd);margin-bottom:.5rem;line-height:1.4}
+.top-sub{font-size:.95rem;color:var(--tl);margin-bottom:2rem;line-height:1.7}
+.btn-start{display:inline-block;background:var(--primary);color:#fff;font-family:var(--fd);font-size:1.1rem;font-weight:700;padding:.9rem 2.5rem;border:none;border-radius:60px;cursor:pointer;transition:all .25s;box-shadow:0 4px 16px rgba(139,111,71,.25)}
+.btn-start:hover{background:var(--pd);transform:translateY(-2px)}
+.q-progress{display:flex;gap:6px;margin-bottom:1.5rem}
+.q-dot{flex:1;height:5px;border-radius:3px;background:var(--border);transition:background .3s}.q-dot.done{background:var(--pl)}.q-dot.current{background:var(--primary)}
+.q-number{font-family:var(--fd);font-size:.85rem;font-weight:500;color:var(--pl);margin-bottom:.4rem}
+.q-text{font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--pd);margin-bottom:1.5rem;line-height:1.6}
+.q-choices{display:flex;flex-direction:column;gap:.75rem}
+.btn-choice{display:flex;align-items:center;gap:.7rem;width:100%;padding:1rem 1.2rem;background:var(--bg);border:2px solid var(--border);border-radius:var(--r);font-family:var(--fb);font-size:1rem;color:var(--text);cursor:pointer;transition:all .2s;text-align:left}
+.btn-choice:hover{border-color:var(--pl);background:#f5efe6}
+.choice-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex-shrink:0}
+.btn-choice.yes .choice-icon{background:#e8f2eb;color:var(--yes)}.btn-choice.no .choice-icon{background:#f2ebe4;color:var(--no)}
+.btn-choice.yes:hover{border-color:var(--yes);background:#f0f7f2}.btn-choice.no:hover{border-color:var(--no);background:#f7f0ea}
+.btn-back{display:inline-flex;align-items:center;gap:.3rem;margin-top:1.2rem;background:none;border:none;color:var(--tl);font-family:var(--fb);font-size:.85rem;cursor:pointer;padding:.4rem .2rem;transition:color .2s}.btn-back:hover{color:var(--primary)}
+.r-label{font-family:var(--fd);font-size:.8rem;font-weight:500;color:var(--pl);text-align:center;margin-bottom:.3rem}
+.r-model{font-family:var(--fd);font-size:1.35rem;font-weight:700;color:var(--pd);text-align:center;margin-bottom:.4rem;line-height:1.4}
+.r-price{font-size:.85rem;color:var(--tl);text-align:center;margin-bottom:1.5rem}
+.r-divider{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.r-body{font-size:.95rem;line-height:1.9;margin-bottom:.2rem}
+.r-sup{font-size:.9rem;line-height:1.8;color:var(--text);padding:.8rem 1rem;background:#f8f4ee;border-radius:8px;margin-top:.8rem;border-left:3px solid var(--accent)}
+.r-sup.q5{font-style:italic;color:var(--tl);border-left-color:var(--pl);background:#f4f0ea}
+.btn-retry{display:block;width:100%;margin-top:1.5rem;padding:.85rem;background:var(--bg);border:2px solid var(--border);border-radius:60px;font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;transition:all .2s}.btn-retry:hover{border-color:var(--primary);background:#f5efe6}
+.back-link{display:block;text-align:center;padding:1rem;font-size:.85rem;color:var(--tl);text-decoration:none;transition:color .2s}.back-link:hover{color:var(--primary)}
+.site-footer{text-align:center;padding:1.2rem 1rem 1.5rem;font-size:.75rem;color:var(--tl);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
+.site-footer a{color:var(--primary);text-decoration:none}.site-footer a:hover{text-decoration:underline}
+@media(max-width:480px){.top-card,.q-card,.r-card{padding:1.5rem 1.2rem}.top-title{font-size:1.3rem}.q-text{font-size:1.05rem}.r-model{font-size:1.15rem}}
+</style>
 </head>
 <body>
-
-<div class="header">
-    <div class="header-icon">🍽️</div>
-    <h1>食洗機占い</h1>
-    <p>10の質問に答えるだけで、あなたにぴったりの食洗機タイプと家づくりの傾向がわかります</p>
+<div class="app">
+  <div class="screen active" id="s-top"><div class="top-card">
+    <div class="top-icon">🍽️</div>
+    <h1 class="top-title">食洗機占い</h1>
+    <p class="top-sub">6つの質問に答えるだけで、<br>あなたの暮らしにぴったりの<br>食洗機タイプがわかります。</p>
+    <button class="btn-start" onclick="start()">診断をはじめる</button>
+  </div></div>
+  <div class="screen" id="s-q"><div class="q-card">
+    <div class="q-progress" id="qp"></div>
+    <div class="q-number" id="qn"></div>
+    <div class="q-text" id="qt"></div>
+    <div class="q-choices" id="qc"></div>
+    <button class="btn-back" id="bb" onclick="back()">&#8592; 前の質問に戻る</button>
+  </div></div>
+  <div class="screen" id="s-r"><div class="r-card">
+    <div class="r-label">あなたにおすすめの食洗機</div>
+    <div class="r-model" id="rm"></div>
+    <div class="r-price" id="rp"></div>
+    <hr class="r-divider">
+    <div class="r-body" id="rb"></div>
+    <div id="rs"></div>
+    <button class="btn-retry" onclick="restart()">もう一度診断する</button>
+  </div></div>
 </div>
-
-<div class="progress-wrap hidden" id="progressWrap">
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
-    <div class="progress-text" id="progressText">1 / 10</div>
-</div>
-
-<div class="container">
-    <!-- スタート画面 -->
-    <div id="startScreen" class="question-card start-screen">
-        <h2>あなたの「食洗機タイプ」を<br>診断してみませんか？</h2>
-        <p>選んだ食洗機で、あなたの家づくりの傾向がわかるかも。<br>所要時間は約2分、全10問です。</p>
-        <button class="start-btn" onclick="startQuiz()">診断スタート</button>
-        <p class="start-note">※ 結果は6タイプに分かれます</p>
-    </div>
-
-    <!-- 質問画面 -->
-    <div id="quizScreen" class="hidden"></div>
-
-    <!-- 結果画面 -->
-    <div id="resultScreen" class="hidden"></div>
-</div>
-
-<div class="footer">
-    <p><a href="index.html">← 荻野ラボ トップへ戻る</a></p>
-    <p>食洗機占い｜萩森建設</p>
-</div>
-
+<a href="index.html" class="back-link">&#8592; 荻野ラボ トップへ戻る</a>
+<footer class="site-footer">&copy; 萩森建設 荻野 | hagimori-kensetsu@xxx.co.jp<br>自社サイトへの埋め込みをご希望の工務店・ハウスメーカー様はご相談ください。<br><a href="https://www.instagram.com/hagimorikensetsu/" target="_blank" rel="noopener">Instagramをフォローする @hagimorikensetsu</a></footer>
 <script>
-// ===== データ定義 =====
-const machines = [
-    { id: 0, name: '60cmフロントオープン（金属ラック）', short: '60cmフロント金属', price: '60〜80万円', makers: 'Panasonic・ミーレ・ボッシュ・AEG・ガゲナウ', feature: '大容量まとめ洗い・途中追加しやすい・何でも洗える' },
-    { id: 1, name: '45cmフロントオープン（金属ラック）', short: '45cmフロント金属', price: '40〜60万円', makers: 'Panasonic・ミーレ・ボッシュ', feature: '途中追加しやすい・静か・バランス型' },
-    { id: 2, name: '45cmフロントオープン（樹脂ラック）', short: '45cmフロント樹脂', price: '15〜25万円', makers: 'リンナイ', feature: '途中追加しやすい・コスパ◎' },
-    { id: 3, name: '45cm引出し式（深型）', short: '45cm引出し深型', price: '15〜25万円', makers: 'Panasonic・リンナイ', feature: 'まとめ洗い・立ったまま操作' },
-    { id: 4, name: '45cm引出し式（浅型）', short: '45cm引出し浅型', price: '10〜20万円', makers: 'Panasonic・リンナイ', feature: 'ランニングコスト安・こまめ洗い向き' },
-    { id: 5, name: '据え置き型', short: '据え置き', price: '〜10万円', makers: 'Panasonic', feature: '設置自由・交換コスト安・姿勢が楽' }
-];
-
-const typeProfiles = [
-    {
-        typeName: '妥協しない本格派',
-        description: '「どうせ入れるなら、全部入れたい。」フライパンも鍋もまな板も。家づくりに対しても同じで、やると決めたら中途半端にしないタイプ。周りからは少しこだわりが強く見えることもあるけれど、それは暮らしの質に本気な証拠。でも本当は、「これでよかった」と安心したいだけなのかも。',
-        personality: '家づくりでも「とことん」を選べる人。素材、設備、間取り、全部に納得してから進みたい。打ち合わせは長くなりがちだけど、完成後の満足度は誰よりも高い。'
-    },
-    {
-        typeName: 'バランス感覚に優れたこだわり派',
-        description: '「いいものが欲しい。でも、ちゃんと理由があるものを。」見た目も性能も妥協しないけれど、ただ高いものを選ぶわけじゃない。納得できる理由があれば投資するし、なければ引く。そのバランス感覚が家づくりにも表れる人。',
-        personality: '情報収集が得意で、比較検討を楽しめるタイプ。「なんとなく」が嫌いで、選んだ理由をちゃんと説明できる。工務店との打ち合わせでは鋭い質問が飛んでくるかも。'
-    },
-    {
-        typeName: '使い勝手で選ぶ合理主義者',
-        description: '「高ければいいってもんじゃないでしょ。」コスパという言葉が好き。でもそれは「安いものを選ぶ」という意味じゃなくて、「払った分だけちゃんと返ってくるか」を見ている。実は見た目にもこだわりたいけど、それを口に出すのは少し照れくさいタイプ。',
-        personality: '家づくりでも「坪単価」より「暮らしやすさ単価」で考える人。動線、収納、メンテナンス性。地味だけど毎日効いてくるポイントを見逃さない。'
-    },
-    {
-        typeName: '毎日の動作にこだわる丁寧な暮らし派',
-        description: '「前かがみになるのが地味にストレスなんですよね。」日々の小さな動作、小さな不便を見逃さない人。家づくりにおいても「使いやすさ」が最優先。インスタ映えより、10年後も快適かどうかを考えている。',
-        personality: 'スイッチの高さ、コンセントの位置、収納の奥行き。住んでから気づく人が多い「日常の使い勝手」に最初から目が向いている稀有なタイプ。'
-    },
-    {
-        typeName: 'コスパと使いやすさを両立させる現実派',
-        description: '「溜めておく方がストレス。」少量でもこまめに回したいし、ランニングコストも抑えたい。全部を完璧にするより、毎日ちょうどいいラインを探すのが得意。家づくりでも「ここは削っていい、ここは譲れない」の線引きが明確。',
-        personality: '予算配分が上手い人。限られた予算の中で、満足度を最大化する方法を見つけるのが得意。工務店側としては、一番提案しがいのあるタイプかもしれない。'
-    },
-    {
-        typeName: '自由度重視のフレキシブル派',
-        description: '「まず使ってみて、ダメなら変えればいい。」完璧を目指すより、まず動いてみるタイプ。食洗機も据え置きなら置き場所を変えられるし、壊れても安く買い替えられる。家づくりにもその「軽やかさ」が表れる。',
-        personality: '家づくりでも「あとから変えられる余白」を大事にする人。造作で可変性を持たせたり、将来のリフォームを見越した間取りを好む。変化を恐れない柔軟さが魅力。'
-    }
-];
-
-const questions = [
-    {
-        num: 1, label: '片付けのタイミング',
-        text: '夕食の後片付け、どんな感じですか？',
-        options: [
-            { text: '食べ終わったらすぐセットして、あとはスイッチを押すだけにしたい', scores: [2,2,2,1,1,2] },
-            { text: '汚れがひどいものは先に手で洗って、あとは食洗機に任せればいい', scores: [1,1,1,1,1,1] },
-            { text: 'シンクに汚れ物が溜まっていく方がストレス。こまめに回したい', scores: [0,0,1,1,2,2] }
-        ]
-    },
-    {
-        num: 2, label: '回す頻度',
-        text: '朝食の食器（少量の洗い物）、どうしますか？',
-        options: [
-            { text: '朝のうちにさっと回してしまいたい', scores: [0,1,1,1,2,2] },
-            { text: '夜のぶんとまとめて、1日1回でいい', scores: [2,2,2,1,0,1] },
-            { text: 'とにかく手早く片付けられれば何でもいい', scores: [1,1,1,1,1,1] }
-        ]
-    },
-    {
-        num: 3, label: '途中で追加したくなるか',
-        text: '食洗機を回しているとき、「あ、これも入れたい」と思うことはありそう？',
-        options: [
-            { text: 'よくある。途中で気づいて追加しそう', scores: [2,2,2,0,0,2] },
-            { text: 'あまりない。まとめてセットする方', scores: [2,2,2,2,2,2] }
-        ]
-    },
-    {
-        num: 4, label: '毎日の動作',
-        text: '食器を入れるとき、体の動きのイメージは？',
-        options: [
-            { text: 'できれば立ったまま入れたい。前かがみは地味にストレス', scores: [0,0,0,2,2,2] },
-            { text: '多少かがんでも気にならない。使いやすければ十分', scores: [2,2,2,2,2,2] }
-        ]
-    },
-    {
-        num: 5, label: '何を洗わせたいか',
-        text: 'フライパンや鍋、大きめの食器はどうしますか？',
-        options: [
-            { text: 'なるべく食洗機に入れたい。手で洗うのは最小限に', scores: [2,1,1,1,0,1] },
-            { text: '大物は手洗いでいい。普段の食器メインで十分', scores: [1,1,1,1,2,2] }
-        ]
-    },
-    {
-        num: 6, label: '衛生への関心',
-        text: '食洗機には高温による消毒効果があると聞いたら？',
-        options: [
-            { text: 'それが一番の魅力。なるべく全部通したい', scores: [2,2,2,2,2,2] },
-            { text: '洗えればそれでいい。消毒はそこまで気にしない', scores: [1,1,1,1,1,1] }
-        ]
-    },
-    {
-        num: 7, label: '音の気になり方',
-        text: 'キッチンと寝室や子ども部屋の距離感は？',
-        options: [
-            { text: 'わりと近い。夜遅くに回すこともあるので、静かな方がいい', scores: [2,2,1,1,1,0] },
-            { text: '離れているか、多少の音では目が覚めないので気にしない', scores: [1,1,1,1,1,1] }
-        ]
-    },
-    {
-        num: 8, label: '設置イメージ',
-        text: '食洗機の設置イメージ、どちらに近いですか？',
-        options: [
-            { text: 'システムキッチンに最初から組み込みたい', scores: [2,2,2,2,2,0] },
-            { text: '造作で置き場を工夫した据え置き型でもいい', scores: [0,0,0,0,0,100] }
-        ]
-    },
-    {
-        num: 9, label: 'キッチンの見た目',
-        text: 'キッチンまわりの雰囲気として、どちらに近いですか？',
-        options: [
-            { text: '機械の存在感は消したい。できるだけすっきり見せたい', scores: [2,2,2,2,2,0] },
-            { text: '使いやすければ、見た目にはそこまでこだわらない', scores: [1,1,1,1,1,1] }
-        ]
-    },
-    {
-        num: 10, label: 'コスト感',
-        text: '食洗機は「中の量に関係なく1回のコストは固定」。どう使う？',
-        options: [
-            { text: 'まとめて1日1〜2回に抑えたい', scores: [2,2,2,2,0,1] },
-            { text: 'こまめに回したい。溜めておく方がストレス', scores: [0,1,1,1,2,2] }
-        ]
-    }
-];
-
-// ===== ステート =====
-let currentQ = 0;
-let totalScores = [0, 0, 0, 0, 0, 0];
-
-// ===== 関数 =====
-function startQuiz() {
-    document.getElementById('startScreen').classList.add('hidden');
-    document.getElementById('progressWrap').classList.remove('hidden');
-    document.getElementById('quizScreen').classList.remove('hidden');
-    currentQ = 0;
-    totalScores = [0, 0, 0, 0, 0, 0];
-    renderQuestion();
-}
-
-function renderQuestion() {
-    const q = questions[currentQ];
-    const pct = (currentQ / questions.length) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressText').textContent = (currentQ + 1) + ' / ' + questions.length;
-
-    let html = `
-        <div class="question-card" key="${currentQ}">
-            <span class="q-number">Q${q.num}</span>
-            <div class="q-label">${q.label}</div>
-            <div class="q-text">${q.text}</div>
-            <div class="options">
-    `;
-    q.options.forEach((opt, i) => {
-        html += `<button class="option-btn" onclick="selectOption(${i})">${opt.text}</button>`;
-    });
-    html += '</div></div>';
-    document.getElementById('quizScreen').innerHTML = html;
-}
-
-function selectOption(optIndex) {
-    const scores = questions[currentQ].options[optIndex].scores;
-    for (let i = 0; i < 6; i++) {
-        totalScores[i] += scores[i];
-    }
-    currentQ++;
-    if (currentQ < questions.length) {
-        renderQuestion();
-    } else {
-        showResult();
-    }
-}
-
-function showResult() {
-    document.getElementById('progressFill').style.width = '100%';
-    document.getElementById('progressText').textContent = '完了！';
-    document.getElementById('quizScreen').classList.add('hidden');
-    document.getElementById('resultScreen').classList.remove('hidden');
-
-    // スコア順にソート
-    let ranked = totalScores.map((s, i) => ({ score: s, index: i }));
-    ranked.sort((a, b) => b.score - a.score);
-
-    const top = ranked[0];
-    const second = ranked[1];
-    const m = machines[top.index];
-    const profile = typeProfiles[top.index];
-    const m2 = machines[second.index];
-
-    let html = `
-        <div class="result-card">
-            <div class="result-badge">あなたの食洗機タイプ</div>
-            <div class="result-type">${profile.typeName}</div>
-            <div class="result-description">${profile.description}</div>
-
-            <div class="result-spec">
-                <h4>おすすめ機種</h4>
-                <div class="result-spec-row">
-                    <span class="result-spec-label">タイプ</span>
-                    <span class="result-spec-value">${m.name}</span>
-                </div>
-                <div class="result-spec-row">
-                    <span class="result-spec-label">価格帯</span>
-                    <span class="result-spec-value">${m.price}</span>
-                </div>
-                <div class="result-spec-row">
-                    <span class="result-spec-label">メーカー</span>
-                    <span class="result-spec-value">${m.makers}</span>
-                </div>
-                <div class="result-spec-row">
-                    <span class="result-spec-label">特徴</span>
-                    <span class="result-spec-value">${m.feature}</span>
-                </div>
-            </div>
-
-            <div class="result-personality">
-                <h4>🏠 あなたの家づくりの傾向</h4>
-                <p>${profile.personality}</p>
-            </div>
-
-            <div class="runner-up">
-                <h4>次点のタイプ</h4>
-                <p><strong>${m2.short}</strong>（${m2.price}）も合っているかもしれません。</p>
-            </div>
-
-            <button class="retry-btn" onclick="retryQuiz()">もう一度やってみる</button>
-        </div>
-    `;
-    document.getElementById('resultScreen').innerHTML = html;
-}
-
-function retryQuiz() {
-    document.getElementById('resultScreen').classList.add('hidden');
-    document.getElementById('resultScreen').innerHTML = '';
-    startQuiz();
-}
+var Q=[
+{id:'Q1',t:'食洗機は、1日1〜2回にまとめて回したいですか？',y:'はい、まとめて回したい',n:'いいえ、こまめに何度でも回したい'},
+{id:'Q2',t:'鍋やフライパンなどの大物も食洗機に入れたいですか？',y:'はい、大物も入れたい',n:'いいえ、普通の食器だけでいい'},
+{id:'Q3',t:'食洗機を使うたびにかがむのは、ストレスに感じますか？',y:'はい、かがむのはストレス',n:'いいえ、多少かがんでも気にしない'},
+{id:'Q4',t:'洗っている途中で「あ、これも」と食器を追加したくなりますか？',y:'はい、途中で追加したくなる',n:'いいえ、まとめてセットする派'},
+{id:'Q5',t:'食洗機はキッチンにすっきり組み込みたいですか？',y:'はい、すっきり組み込みたい',n:'いいえ、見た目は気にしない'},
+{id:'Q6',t:'食洗機の予算に上限はありませんか？（40万円以上も視野に入る）',y:'はい、予算は気にしない',n:'いいえ、40万円未満に抑えたい'}];
+var M={SD:{nm:'引き出し式（深型）',pr:'価格帯の目安：15〜25万円'},SS:{nm:'引き出し式（標準型）',pr:'価格帯の目安：10〜20万円'},FS:{nm:'フロントオープン式（スタンダード／前扉が開くタイプ）',pr:'価格帯の目安：15〜25万円'},F4:{nm:'フロントオープン式（プレミアム・45cm／前扉が開くタイプ）',pr:'価格帯の目安：40〜60万円'},F6:{nm:'フロントオープン式（大容量プレミアム・60cm／前扉が開くタイプ）',pr:'価格帯の目安：60〜80万円'}};
+var P={
+nsba:{m:'SD',b:'立ったまま上から入れられる引き出し式（深型）なら、毎日かがまずに使えます。鍋やフライパンの一部も入る容量があるので、手洗いの出番がぐっと減ります。途中で追加したくなったときも、上段をずらせば入れられます。深型の余裕ある容量が、毎日の「あともう1つ」に応えてくれます。'},
+nsbs:{m:'SD',b:'立ったまま上から入れられる引き出し式（深型）なら、毎日かがまずに使えます。鍋やフライパンの一部も入る容量があるので、手洗いの出番がぐっと減ります。まとめてセットする使い方との相性もよく、予算内で「全部任せられる」にもっとも近い選択です。'},
+nsda:{m:'SS',b:'立ったまま上から入れられる引き出し式（標準型）なら、毎日かがまずに使えます。大物は手洗いと割り切れるなら、標準型のサイズで十分です。途中で追加したくなったときも、上段をずらせば対応できます。食器中心のコンパクトな使い方にちょうどいいサイズです。'},
+nsds:{m:'SS',b:'立ったまま上から入れられる引き出し式（標準型）なら、毎日かがまずに使えます。大物は手洗いでいい、まとめてセットする派なら、標準型は過不足なく応えてくれます。深型より導入費用が低く、使う水の量が少ない分1回あたりの水道・電気代も抑えられます。毎日使うものだからこそ、必要十分なサイズを選ぶのは賢い判断です。'},
+noba:{m:'FS',b:'大物を洗いたい、途中追加もしたい。その両方に応えられるのがフロントオープン式（スタンダード／前扉が開くタイプ）です。扉を前に倒すだけで大きな口が開き、鍋やフライパンも入れやすい構造です。途中で気づいた食器もその都度追加できるので、セットのやり直しがありません。予算内で使い勝手を最優先にした選択です。'},
+nobs:{m:'SD',b:'大物も入る引き出し式（深型）なら、鍋やフライパンの一部も入れられる容量があり、手洗いの出番がぐっと減ります。まとめてセットする使い方と相性がよく、上から食器を並べて一度でセットできる使いやすさが魅力です。予算内で容量を最優先にした選択です。'},
+noda:{m:'FS',b:'途中追加を気軽にしたいなら、フロントオープン式（スタンダード／前扉が開くタイプ）がもっとも快適です。扉を開けてそのまま入れられる手軽さは、食器だけの使い方でも毎日の快適さに直結します。大物は手洗いと割り切れば、予算内で迷わず選べる組み合わせです。'},
+nods:{m:'SS',b:'大物は手洗いでいい、まとめてセットする。その使い方に過不足なく応えるのが引き出し式（標準型）です。食器中心の使い方なら庫内の空間を無駄にせず、使う水の量が少ない分1回あたりの水道・電気代も抑えられます。予算内でもっともシンプルな選択です。'},
+ysba:{m:'SD',b:'かがむ動作がストレスなら、体への優しさを大切にした選択をしましょう。引き出し式（深型）は立ったまま上から入れられ、鍋やフライパンの一部も入るので手洗いの出番が減ります。途中で追加したくなったときも、上段をずらせば対応できます。深型の余裕ある容量が、毎日の「あともう1つ」に応えてくれます。'},
+ysbs:{m:'SD',b:'かがむ動作がストレスなら、体への優しさを大切にした選択をしましょう。引き出し式（深型）は立ったまま上から入れられ、鍋やフライパンの一部も入るので手洗いの出番が減ります。まとめてセットする使い方と相性がよく、予算を気にせず「全部任せられる」に近づける選択です。'},
+ysda:{m:'SS',b:'かがむのがストレスで、食器だけ洗えればいい。その使い方にぴったりなのが引き出し式（標準型）です。立ったまま上から入れられ、食器中心なら標準型の容量で十分です。途中で追加したくなったときも、上段をずらせば対応できます。気軽に使える毎日の相棒になってくれます。'},
+ysds:{m:'SS',b:'かがむのがストレス、食器だけ、まとめてセット。この3つが揃えば引き出し式（標準型）が毎日の動作にもっともフィットします。食器中心の使い方なら標準型の容量で十分で、庫内の空間を無駄なく使えます。毎日自然に手が伸びる、そんな使い勝手のよさが魅力です。'},
+yoba:{m:'F6',b:'大物も洗いたい、追加もしたい、予算にも余裕がある。その条件が揃ったときに実力を発揮するのがフロントオープン式（大容量プレミアム・60cm／前扉が開くタイプ）です。扉を前に倒すだけで大きな口が開き、鍋やフライパンも入れやすい構造です。途中追加もその都度できるので、洗い物のことを考える時間がほとんどなくなります。ステンレス製の庫内は傷がつきにくく、汚れも落ちやすいので長く清潔に保てます。'},
+yobs:{m:'F6',b:'大物もまとめて全部洗い切りたい、予算にも余裕がある。その希望にもっとも応えられるのがフロントオープン式（大容量プレミアム・60cm／前扉が開くタイプ）です。扉を前に倒すだけで大きな口が開き、鍋やフライパンも入れやすい構造です。ステンレス製の庫内は傷がつきにくく、静音性も高いので時間を選ばず使えます。容量・素材・静音性のすべてにおいて、日々の満足度がもっとも高い選択です。'},
+yoda:{m:'F4',b:'食器だけを気軽に任せたい、追加もしたい。その使い方に応えるのがフロントオープン式（プレミアム・45cm／前扉が開くタイプ）です。ステンレス製の庫内は傷がつきにくく、汚れも落ちやすいので長く清潔に保てます。途中追加もその都度できて、静音性も高いので時間を選ばず回せます。'},
+yods:{m:'F4',b:'食器だけをまとめて任せたい、予算にも余裕がある。その使い方にフロントオープン式（プレミアム・45cm／前扉が開くタイプ）は過不足なく応えます。ステンレス製の庫内は傷がつきにくく、長く使っても清潔感が保ちやすいのが特長です。静音性も高く、夜にセットして朝には終わっているリズムが作りやすくなります。'}};
+var C1={
+nsba:{y:'夕食後にまとめてセットして一度で洗い切る使い方に、深型の容量はぴったりです。',n:'少し多めの洗い物でも気兼ねなく入れられる容量が、こまめに回す習慣を後押しします。'},
+nsbs:{y:'夕食後に一度でまとめて洗い切る。その使い方に深型の容量は過不足ありません。',n:'こまめに回すなら、深型の容量がたっぷりあるので気兼ねなく入れられます。'},
+nsda:{y:'食器をまとめてセットして一度で片付ける。標準型のサイズ感がちょうどいいです。',n:'1回あたりの水道・電気代が深型より低いので、こまめに回す使い方でも負担が少ないです。'},
+nsds:{y:'夕食後にまとめてセットして終わり。そのシンプルな使い方に標準型はぴったりです。',n:'こまめに回すなら、1回あたりの水道・電気代が低い標準型は長く使っても負担になりません。'},
+noba:{y:'大物も食器もまとめて一度に洗い切れる容量が、まとめ派の使い方を支えます。',n:'こまめに回すたびに大物もついでに片付けられるので、シンクがいつもきれいに保てます。'},
+nobs:{y:'一度のセットで全部洗い切る。その達成感が毎晩の片付けを楽にしてくれます。',n:'こまめに回しても、深型の容量があるので食器を気兼ねなく入れられます。'},
+noda:{y:'食器をまとめてセットしてから回す使い方でも、フロントオープンの大きな開口は出し入れしやすい構造です。',n:'少量をこまめに入れて回す使い方に、追加しやすいフロントオープンはとくに相性がいいです。'},
+nods:{y:'まとめてセットして一度で片付ける使い方に、標準型のサイズ感はちょうどいいです。',n:'1回あたりの水道・電気代が低い標準型は、こまめに回す習慣でも負担になりません。'},
+ysba:{y:'まとめて大物まで一度で洗い切れる深型の容量は、まとめ派の使い方にぴったりです。',n:'こまめに回すほど「全部任せられる」実感が積み重なっていきます。'},
+ysbs:{y:'夕食後に一度でまとめて洗い切る。その使い方に深型の容量は過不足ありません。',n:'こまめに回しても、深型の容量があるので食器を気兼ねなく入れられます。'},
+ysda:{y:'食器をまとめてセットしてから回す。標準型のサイズ感がちょうどいいです。',n:'1回あたりの水道・電気代が低い標準型は、こまめに回す使い方でも負担が少ないです。'},
+ysds:{y:'まとめてセットして一度で片付ける。そのシンプルな使い方に標準型はぴったりです。',n:'こまめに回すなら、1回あたりの水道・電気代が低い標準型は長く使っても負担になりません。'},
+yoba:{y:'たっぷりの容量が、大物も食器もまとめて洗い切りたいという使い方を支えます。',n:'こまめに回すたびに大物もついでに片付けられるので、シンクがいつもきれいに保てます。'},
+yobs:{y:'夕食後に一度でまとめて全部洗い切る。60cmの容量があれば、それが毎日の日常になります。',n:'こまめに回すほど「全部任せられる」実感が積み重なっていきます。'},
+yoda:{y:'食器をまとめてセットしてから回す。プレミアムの静音性で夜でも気兼ねなく使えます。',n:'こまめに使うほどステンレス庫内の清潔感を実感できます。追加しやすい構造もこまめ派に向いています。'},
+yods:{y:'夜にまとめてセットして朝には終わっている。そのリズムがプレミアムの静音性で実現します。',n:'こまめに使うほどステンレス庫内の清潔感を実感できます。長く使い続けるほど選んでよかったと感じられます。'}};
+var C5={nsba:'扉の色や素材をキッチンと揃えると、引き出し式でもすっきりした印象になります。',nsbs:'扉の色や素材をキッチンと揃えると、引き出し式でも高級感のある仕上がりになります。',nsda:'扉の色や素材をキッチンと揃えると、さらに一体感が出ます。',nsds:'扉の色や素材をキッチンと揃えると、標準型でもすっきりした印象になります。',noba:'扉の色や素材をキッチンに揃えられる機種を選ぶと、すっきりした印象になります。',nobs:'扉の色や素材をキッチンと揃えると、引き出し式でも高級感のある仕上がりになります。',noda:'扉の色や素材をキッチンに揃えられる機種を選ぶと、さらに一体感が出ます。',nods:'見た目にこだわるなら、扉の色や素材選びで印象が大きく変わります。',ysba:'扉の色や素材をキッチンと揃えると、引き出し式でも高級感のある仕上がりになります。',ysbs:'扉の色や素材をキッチンと揃えると、さらに一体感が出ます。',ysda:'扉の色や素材をキッチンと揃えると、すっきりした印象になります。',ysds:'扉の色や素材をキッチンと揃えると、標準型でもすっきりした印象になります。',yoba:'扉の色や素材をキッチンと揃えると、60cmの存在感がさらに映えます。',yobs:'扉の色や素材をキッチンと揃えると、60cmの存在感がさらに際立ちます。',yoda:'扉の色や素材をキッチンと揃えると、プレミアムの質感がさらに際立ちます。',yods:'扉の色や素材をキッチンと揃えると、プレミアムの質感がさらに際立ちます。'};
+var A={},ci=0;
+function sw(id){var s=document.querySelectorAll('.screen');for(var i=0;i<s.length;i++)s[i].classList.remove('active');var e=document.getElementById(id);e.classList.remove('active');void e.offsetWidth;e.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function start(){A={};ci=0;rq();sw('s-q')}
+function restart(){A={};ci=0;sw('s-top')}
+function back(){if(ci>0){ci--;rq()}}
+function rq(){var q=Q[ci],d='';for(var i=0;i<Q.length;i++){var c=i<ci?'done':i===ci?'current':'';d+='<div class="q-dot '+c+'"></div>'}document.getElementById('qp').innerHTML=d;document.getElementById('qn').textContent='\u8CEA\u554F '+(ci+1)+' / '+Q.length;document.getElementById('qt').textContent=q.t;document.getElementById('qc').innerHTML='<button class="btn-choice yes" onclick="ans(true)"><span class="choice-icon">\u25CB</span><span>'+q.y+'</span></button><button class="btn-choice no" onclick="ans(false)"><span class="choice-icon">\u00D7</span><span>'+q.n+'</span></button>';document.getElementById('bb').style.display=ci===0?'none':'inline-flex'}
+function ans(v){A[Q[ci].id]=v;ci++;if(ci<Q.length){rq();sw('s-q')}else{sr()}}
+function gk(){var b=A.Q2?'b':'d',f=A.Q4?'a':'s';if(!A.Q6){if(A.Q3)return 'ns'+b+f;return 'no'+b+f}if(A.Q3)return 'ys'+b+f;return 'yo'+b+f}
+function sr(){var k=gk(),p=P[k],m=M[p.m];document.getElementById('rm').textContent=m.nm;document.getElementById('rp').textContent=m.pr;document.getElementById('rb').textContent=p.b;var s=document.getElementById('rs');s.innerHTML='';var c=C1[k];if(c){var t=A.Q1?c.y:c.n,d=document.createElement('div');d.className='r-sup';d.textContent=t;s.appendChild(d)}if(A.Q5&&C5[k]){var d5=document.createElement('div');d5.className='r-sup q5';d5.textContent=C5[k];s.appendChild(d5)}sw('s-r')}
 </script>
-
 </body>
 </html>
