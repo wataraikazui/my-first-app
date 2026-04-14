@@ -86,12 +86,12 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100
 <footer class="site-footer">&copy; 萩森建設 荻野 | hagimori-kensetsu@xxx.co.jp<br>自社サイトへの埋め込みをご希望の工務店・ハウスメーカー様はご相談ください。<br><a href="https://www.instagram.com/hagimorikensetsu/" target="_blank" rel="noopener">Instagramをフォローする @hagimorikensetsu</a></footer>
 <script>
 var Q=[
+{id:'Q6',t:'食洗機の予算に上限はありませんか？（40万円以上も視野に入る）',y:'はい、予算は気にしない',n:'いいえ、40万円未満に抑えたい'},
 {id:'Q1',t:'食洗機は、1日1〜2回にまとめて回したいですか？',y:'はい、まとめて回したい',n:'いいえ、こまめに何度でも回したい'},
 {id:'Q2',t:'鍋やフライパンなどの大物も食洗機に入れたいですか？',y:'はい、大物も入れたい',n:'いいえ、普通の食器だけでいい'},
-{id:'Q3',t:'食洗機を使うたびにかがむのは、ストレスに感じますか？',y:'はい、かがむのはストレス',n:'いいえ、多少かがんでも気にしない'},
+{id:'Q3',t:'食洗機を使うとき、多少かがむのは平気ですか？',y:'はい、多少かがむのは平気',n:'いいえ、かがむのはストレス'},
 {id:'Q4',t:'洗っている途中で「あ、これも」と食器を追加したくなりますか？',y:'はい、途中で追加したくなる',n:'いいえ、まとめてセットする派'},
-{id:'Q5',t:'食洗機はキッチンにすっきり組み込みたいですか？',y:'はい、すっきり組み込みたい',n:'いいえ、見た目は気にしない'},
-{id:'Q6',t:'食洗機の予算に上限はありませんか？（40万円以上も視野に入る）',y:'はい、予算は気にしない',n:'いいえ、40万円未満に抑えたい'}];
+{id:'Q5',t:'食洗機はキッチンにすっきり組み込みたいですか？',y:'はい、すっきり組み込みたい',n:'いいえ、見た目は気にしない'}];
 var M={SD:{nm:'引き出し式（深型）',pr:'価格帯の目安：15〜25万円'},SS:{nm:'引き出し式（標準型）',pr:'価格帯の目安：10〜20万円'},FS:{nm:'フロントオープン式（スタンダード／前扉が開くタイプ）',pr:'価格帯の目安：15〜25万円'},F4:{nm:'フロントオープン式（プレミアム・45cm／前扉が開くタイプ）',pr:'価格帯の目安：40〜60万円'},F6:{nm:'フロントオープン式（大容量プレミアム・60cm／前扉が開くタイプ）',pr:'価格帯の目安：60〜80万円'}};
 var P={
 nsba:{m:'SD',b:'立ったまま上から入れられる引き出し式（深型）なら、毎日かがまずに使えます。鍋やフライパンの一部も入る容量があるので、手洗いの出番がぐっと減ります。途中で追加したくなったときも、上段をずらせば入れられます。深型の余裕ある容量が、毎日の「あともう1つ」に応えてくれます。'},
@@ -135,7 +135,7 @@ function restart(){A={};ci=0;sw('s-top')}
 function back(){if(ci>0){ci--;rq()}}
 function rq(){var q=Q[ci],d='';for(var i=0;i<Q.length;i++){var c=i<ci?'done':i===ci?'current':'';d+='<div class="q-dot '+c+'"></div>'}document.getElementById('qp').innerHTML=d;document.getElementById('qn').textContent='\u8CEA\u554F '+(ci+1)+' / '+Q.length;document.getElementById('qt').textContent=q.t;document.getElementById('qc').innerHTML='<button class="btn-choice yes" onclick="ans(true)"><span class="choice-icon">\u25CB</span><span>'+q.y+'</span></button><button class="btn-choice no" onclick="ans(false)"><span class="choice-icon">\u00D7</span><span>'+q.n+'</span></button>';document.getElementById('bb').style.display=ci===0?'none':'inline-flex'}
 function ans(v){A[Q[ci].id]=v;ci++;if(ci<Q.length){rq();sw('s-q')}else{sr()}}
-function gk(){var b=A.Q2?'b':'d',f=A.Q4?'a':'s';if(!A.Q6){if(A.Q3)return 'ns'+b+f;return 'no'+b+f}if(A.Q3)return 'ys'+b+f;return 'yo'+b+f}
+function gk(){var b=A.Q2?'b':'d',f=A.Q4?'a':'s';if(!A.Q6){if(A.Q3)return 'no'+b+f;return 'ns'+b+f}if(A.Q3)return 'yo'+b+f;return 'ys'+b+f}
 function sr(){var k=gk(),p=P[k],m=M[p.m];document.getElementById('rm').textContent=m.nm;document.getElementById('rp').textContent=m.pr;document.getElementById('rb').textContent=p.b;var s=document.getElementById('rs');s.innerHTML='';var c=C1[k];if(c){var t=A.Q1?c.y:c.n,d=document.createElement('div');d.className='r-sup';d.textContent=t;s.appendChild(d)}if(A.Q5&&C5[k]){var d5=document.createElement('div');d5.className='r-sup q5';d5.textContent=C5[k];s.appendChild(d5)}sw('s-r')}
 </script>
 </body>
