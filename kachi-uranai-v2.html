@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家づくりの価値観占い</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F7F2E9;
+  --card: #FFFDF8;
+  --text: #2A1A0E;
+  --text-light: #6B5040;
+  --accent: #8B4513;
+  --accent-light: #C8956C;
+  --kansei-color: #C0562C;
+  --seino-color: #3D6B54;
+  --hiyo-color: #9A7A20;
+  --border: #E8DDD0;
+  --shadow: rgba(42,26,14,0.08);
+}
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px 48px;
+}
+
+.app {
+  width: 100%;
+  max-width: 540px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-top: 8px;
+}
+
+.header-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.header-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.header-sub {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 6px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 28px 24px;
+  box-shadow: 0 2px 24px var(--shadow), 0 0 0 1px var(--border);
+  margin-bottom: 14px;
+}
+
+.screen { animation: fadeUp 0.35s ease; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Start ── */
+.home-icon {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 22px;
+}
+
+.input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.input-field {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 18px;
+}
+.input-field:focus { border-color: var(--accent-light); }
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.05em;
+}
+.btn-primary:hover { background: #7A3B10; }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent-light);
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+  letter-spacing: 0.03em;
+}
+.btn-secondary:hover { background: rgba(139,69,19,0.05); }
+
+/* ── Quiz ── */
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.progress-label { font-size: 11px; color: var(--text-light); }
+
+.progress-dots { display: flex; gap: 6px; }
+.progress-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.progress-dot.done    { background: var(--accent); }
+.progress-dot.current { background: var(--accent-light); }
+
+.q-topic {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.q-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.choices { display: flex; flex-direction: column; gap: 9px; }
+
+.choice {
+  padding: 13px 15px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--card);
+  transition: border-color 0.2s, background 0.2s;
+  text-align: left;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.choice:hover   { border-color: var(--accent-light); background: #FFF8F3; }
+.choice.selected { border-color: var(--accent); background: #FFF4EC; color: var(--accent); }
+
+/* ── Triangle ── */
+.triangle-wrap {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px;
+}
+
+/* ── Result ── */
+.result-header { text-align: center; margin-bottom: 18px; }
+
+.type-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.type-name {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.type-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+.divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+.score-bars { margin-bottom: 4px; }
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.score-label { font-size: 12px; width: 36px; color: var(--text-light); flex-shrink: 0; }
+
+.score-bar-bg {
+  flex: 1;
+  height: 7px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+
+.score-pct { font-size: 11px; width: 32px; text-align: right; color: var(--text-light); }
+
+/* ── Compare ── */
+.compare-title { text-align: center; margin-bottom: 16px; }
+.compare-title h2 { font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+.compare-title p  { font-size: 12px; color: var(--text-light); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); }
+.legend-dot  { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── 回答一覧 ── */
+.answer-list { margin-top: 4px; }
+
+.answer-list-title {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.answer-item {
+  display: flex;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+.answer-item:last-child { border-bottom: none; }
+
+.answer-topic {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  width: 52px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.answer-text {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+  flex: 1;
+}
+
+.answer-badge {
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.footnote {
+  font-size: 11px;
+  color: var(--text-light);
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.7;
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+// ===== データ =====
+const QUESTIONS = [
+  {
+    topic: '床　材',
+    text: '気に入った床材が標準より高い。\nこのとき、あなたの本音は？',
+    choices: [
+      '傷がつきにくくワックス不要なら、手入れの手間が省ける分コスパがよい',
+      '毎日素足で触れるものだから、踏んだときの感触や見た目への満足感を考えればコスパがよい',
+      '気に入った見た目も耐久性も、どちらも妥協したくない。費用より後悔しないことが大事',
+      '床材は標準で十分。費用をかけるほどの差はない'
+    ]
+  },
+  {
+    topic: '外　壁',
+    text: '外壁の仕上げをこだわるか、標準にするか。\nこのとき、あなたの本音は？',
+    choices: [
+      '塗り替え周期が長く汚れをはじくなら、メンテナンス費用を含めて考えるとコスパがよい',
+      '帰るたびに「いい家だな」と感じられる満足感が毎日続くなら、コスパがよい',
+      'デザインも耐久性も両方追いかけたい。費用は二の次で、納得できる仕上げを選びたい',
+      '外壁にそこまでの費用をかける必要を感じない'
+    ]
+  },
+  {
+    topic: '断　熱',
+    text: '断熱グレードを上げると費用が増えるが、\n住み心地が変わる。このとき、あなたの本音は？',
+    choices: [
+      '光熱費の削減が長期間続くなら、初期費用を回収できてコスパがよい',
+      '冬に部屋全体が冷えにくく、朝起きたときの寒さが和らぐ毎日が続くなら、コスパがよい',
+      '数値的な性能も体で感じる快適さも、どちらも欲しい。費用は後から考えればいい',
+      '今の建築基準でも一定の断熱性能はある。そこから上の差が体感できないなら、費用はかけなくていい'
+    ]
+  },
+  {
+    topic: '耐　震',
+    text: '耐震等級を一段上げられるが費用が増える。\nこのとき、あなたの本音は？',
+    choices: [
+      '構造計算で根拠が出て、無駄なく強くなるなら、費用に対してコスパがよい',
+      '太い柱や大きな梁で毎日安心感を得られるなら、暮らしの安心感としてコスパがよい',
+      '構造的な強さも、見るからに安心できる造りも、両方欲しい。やりすぎくらいでちょうどいい',
+      '建築基準法の水準も上がっているし、それ以上にお金をかける必要性は感じない'
+    ]
+  },
+  {
+    topic: '吹き抜け',
+    text: '吹き抜けは開放感があるが、冷暖房の効きが落ちる。\nこのとき、あなたの本音は？',
+    choices: [
+      '広さを感じる方法として、面積を広げるよりもコスパがよい',
+      '光の抜けを感じ、豊かな生活感を得られることを考えるとコスパがよい',
+      '開放感も冷暖房性能も、両方諦めたくない。費用がかかっても両立できる設計を追求したい',
+      '冷暖房効率が落ちるとわかっているなら、最初から選ばない'
+    ]
+  },
+  {
+    topic: '窓',
+    text: '大きな窓は眺めがよいが、断熱上は不利になる。\nこのとき、あなたの本音は？',
+    choices: [
+      'トリプルガラスで性能低下を抑えられるなら、その費用を含めても数値を守れてコスパがよい',
+      '朝の光の入り方や庭の緑が見える景色を毎日感じられるなら、その満足感を考えるとコスパがよい',
+      '眺めも断熱性能も、どちらも妥協したくない。高性能窓で両立を目指す。費用は気にしない',
+      '断熱性能が落ちるとわかっているなら、窓のサイズは抑えたい'
+    ]
+  }
+];
+
+// スコア [感性, 性能, 費用]
+const SCORE_MAP = {
+  0: [0, 2, 1],  // A 性能コスパ
+  1: [2, 0, 1],  // B 感性コスパ
+  2: [2, 2, 0],  // C 理想追求
+  3: [0, 0, 3],  // D 節約
+};
+
+const TYPES = {
+  ideal:  { name: '理想追求型', sub: '感性 × 性能', desc: '暮らしの質と建物の性能、両方を本気で追いかけるタイプ。費用よりも「後悔しない家」を最優先に考えます。', color: '#7B4F8E', badge_bg: '#F3EDF7', badge_fg: '#7B4F8E' },
+  kansei: { name: 'コスパ感性型', sub: '感性 × 費用', desc: '気持ちよく暮らせるかどうかを大切にしながら、費用のバランスも意識するタイプ。数値よりも体感と満足感で判断します。', color: '#C0562C', badge_bg: '#FEF0EB', badge_fg: '#C0562C' },
+  seino:  { name: 'コスパ性能型', sub: '性能 × 費用', desc: '断熱・耐震・光熱費など、数値で判断できるところに費用をかけるタイプ。合理的な根拠があれば投資できます。', color: '#3D6B54', badge_bg: '#EEF5F1', badge_fg: '#3D6B54' },
+  saving: { name: '堅実節約型',  sub: '費用 優先',    desc: '必要十分な性能と感性を確保しながら、費用を賢く抑えるタイプ。標準仕様の完成度を信頼します。',            color: '#9A7A20', badge_bg: '#FAF5E7', badge_fg: '#9A7A20' }
+};
+
+const MEMBER_COLORS = ['#E07B54','#5B8A6F','#8B6BAD','#C4A44A','#4A7FA8','#B85C7A'];
+
+// ===== 状態 =====
+let state = {
+  screen: 'start',
+  currentName: '',
+  currentAnswers: [],
+  currentQ: 0,
+  members: [],
+  viewingIdx: -1  // -1 = 最新メンバー
+};
+
+// ===== スコア計算 =====
+function calcScores(answers) {
+  let k = 0, s = 0, h = 0;
+  answers.forEach(a => { const sc = SCORE_MAP[a]; k += sc[0]; s += sc[1]; h += sc[2]; });
+  const total = k + s + h || 1;
+  return { kansei: k/total, seino: s/total, hiyo: h/total };
+}
+
+function getType(sc) {
+  const arr = [
+    { key: 'kansei', v: sc.kansei },
+    { key: 'seino',  v: sc.seino  },
+    { key: 'hiyo',   v: sc.hiyo   }
+  ].sort((a,b) => b.v - a.v);
+  const top1 = arr[0].key, top2 = arr[1].key;
+  if (sc.hiyo > 0.5) return 'saving';
+  const pair = [top1, top2].sort().join('-');
+  if (pair === 'kansei-seino') return 'ideal';
+  if (pair === 'hiyo-kansei')  return 'kansei';
+  if (pair === 'hiyo-seino')   return 'seino';
+  return 'saving';
+}
+
+// ===== 三角形SVG =====
+const V = {
+  kansei: { x: 150, y: 18  },
+  seino:  { x: 20,  y: 255 },
+  hiyo:   { x: 280, y: 255 }
+};
+
+function toXY(sc) {
+  return {
+    x: sc.kansei * V.kansei.x + sc.seino * V.seino.x + sc.hiyo * V.hiyo.x,
+    y: sc.kansei * V.kansei.y + sc.seino * V.seino.y + sc.hiyo * V.hiyo.y
+  };
+}
+
+function triangleSVG(members) {
+  const pts = `${V.kansei.x},${V.kansei.y} ${V.seino.x},${V.seino.y} ${V.hiyo.x},${V.hiyo.y}`;
+  const cx = (V.kansei.x + V.seino.x + V.hiyo.x) / 3;
+  const cy = (V.kansei.y + V.seino.y + V.hiyo.y) / 3;
+
+  let dots = members.map((m, i) => {
+    const sc = calcScores(m.answers);
+    const p  = toXY(sc);
+    const col = MEMBER_COLORS[i % MEMBER_COLORS.length];
+    return `
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="12" fill="${col}" opacity="0.18"/>
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="7"  fill="${col}"/>
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3"  fill="white"/>
+      <text x="${p.x.toFixed(1)}" y="${(p.y - 15).toFixed(1)}" text-anchor="middle"
+        font-size="11" font-family="'Noto Sans JP',sans-serif" fill="${col}" font-weight="500">${m.name}</text>`;
+  }).join('');
+
+  // 重心線（ガイド）
+  const mid = (a, b) => ({ x: (a.x+b.x)/2, y: (a.y+b.y)/2 });
+  const mKS = mid(V.kansei, V.seino);
+  const mKH = mid(V.kansei, V.hiyo);
+  const mSH = mid(V.seino,  V.hiyo);
+
+  return `
+<svg viewBox="0 0 300 275" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+  <!-- 背景塗り -->
+  <polygon points="${pts}" fill="#FAF7F2" stroke="none"/>
+
+  <!-- 重心ガイド線 -->
+  <line x1="${V.kansei.x}" y1="${V.kansei.y}" x2="${mSH.x}" y2="${mSH.y}" stroke="#DDD4C5" stroke-width="0.8" stroke-dasharray="3,4"/>
+  <line x1="${V.seino.x}"  y1="${V.seino.y}"  x2="${mKH.x}" y2="${mKH.y}" stroke="#DDD4C5" stroke-width="0.8" stroke-dasharray="3,4"/>
+  <line x1="${V.hiyo.x}"   y1="${V.hiyo.y}"   x2="${mKS.x}" y2="${mKS.y}" stroke="#DDD4C5" stroke-width="0.8" stroke-dasharray="3,4"/>
+
+  <!-- 外枠 -->
+  <polygon points="${pts}" fill="none" stroke="#C8B9A8" stroke-width="1.5"/>
+
+  <!-- 領域ラベル（各辺の内側） -->
+  <text x="92"  y="128" text-anchor="middle" font-size="9" font-family="'Noto Sans JP',sans-serif" fill="#C0BAB0">理想追求</text>
+  <text x="208" y="128" text-anchor="middle" font-size="9" font-family="'Noto Sans JP',sans-serif" fill="#C0BAB0">感性コスパ</text>
+  <text x="150" y="228" text-anchor="middle" font-size="9" font-family="'Noto Sans JP',sans-serif" fill="#C0BAB0">性能コスパ</text>
+
+  <!-- 頂点バッジ -->
+  <circle cx="${V.kansei.x}" cy="${V.kansei.y}" r="20" fill="#FEF0EB"/>
+  <text x="${V.kansei.x}" y="${V.kansei.y+5}" text-anchor="middle" font-size="12" font-family="'Noto Sans JP',sans-serif" fill="#C0562C" font-weight="500">感性</text>
+
+  <circle cx="${V.seino.x}" cy="${V.seino.y}" r="20" fill="#EEF5F1"/>
+  <text x="${V.seino.x}" y="${V.seino.y+5}" text-anchor="middle" font-size="12" font-family="'Noto Sans JP',sans-serif" fill="#3D6B54" font-weight="500">性能</text>
+
+  <circle cx="${V.hiyo.x}" cy="${V.hiyo.y}" r="20" fill="#FAF5E7"/>
+  <text x="${V.hiyo.x}" y="${V.hiyo.y+5}" text-anchor="middle" font-size="12" font-family="'Noto Sans JP',sans-serif" fill="#9A7A20" font-weight="500">費用</text>
+
+  <!-- ドット -->
+  ${dots}
+</svg>`;
+}
+
+// ===== 画面 =====
+function renderStart() {
+  return `<div class="screen">
+    <div class="card">
+      <svg class="home-icon" viewBox="0 0 56 56" fill="none">
+        <rect width="56" height="56" rx="14" fill="#FEF0EB"/>
+        <path d="M28 10 L46 24 L46 48 L10 48 L10 24 Z" fill="#E07B54" opacity="0.2"/>
+        <path d="M28 10 L46 24 L46 48 L10 48 L10 24 Z" stroke="#E07B54" stroke-width="2" fill="none"/>
+        <rect x="22" y="33" width="12" height="15" rx="2" fill="#E07B54" opacity="0.35"/>
+        <rect x="17" y="22" width="9" height="8" rx="1.5" fill="#E07B54" opacity="0.5"/>
+        <rect x="30" y="22" width="9" height="8" rx="1.5" fill="#E07B54" opacity="0.5"/>
+      </svg>
+      <label class="input-label">あなたのお名前（例：ママ・パパ・長男）</label>
+      <input class="input-field" id="nameInput" type="text" placeholder="お名前を入力" value="${state.currentName}" maxlength="8">
+      <button class="btn-primary" id="btnStart">占いをはじめる →</button>
+      ${state.members.length >= 2
+        ? `<button class="btn-secondary" id="btnCompare">家族の結果を比べる（${state.members.length}人）</button>` : ''}
+    </div>
+    <p class="footnote">6つの場面に答えるだけ。約2分で完了します。<br>家族それぞれが答えて、価値観を比べてみましょう。</p>
+  </div>`;
+}
+
+function renderQuiz() {
+  const q = QUESTIONS[state.currentQ];
+  const dots = QUESTIONS.map((_, i) => {
+    let cls = 'progress-dot';
+    if (i < state.currentQ)      cls += ' done';
+    else if (i === state.currentQ) cls += ' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  return `<div class="screen">
+    <div class="card">
+      <div class="progress-row">
+        <span class="progress-label">${state.currentName}さん　${state.currentQ+1} / ${QUESTIONS.length}</span>
+        <div class="progress-dots">${dots}</div>
+      </div>
+      <div class="q-topic">${q.topic}</div>
+      <div class="q-text">${q.text.replace('\n','<br>')}</div>
+      <div class="choices">
+        ${q.choices.map((c,i) => `
+          <button class="choice${state.currentAnswers[state.currentQ] === i ? ' selected' : ''}" data-i="${i}">${c}</button>
+        `).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// バッジ設定
+const BADGE = {
+  0: { label: '性能コスパ', bg: '#EEF5F1', fg: '#3D6B54' },
+  1: { label: '感性コスパ', bg: '#FEF0EB', fg: '#C0562C' },
+  2: { label: '理想追求',   bg: '#F3EDF7', fg: '#7B4F8E' },
+  3: { label: '節約優先',   bg: '#FAF5E7', fg: '#9A7A20' }
+};
+
+function renderAnswerList(answers) {
+  return answers.map((a, i) => {
+    const q = QUESTIONS[i];
+    const b = BADGE[a];
+    return `
+      <div class="answer-item">
+        <div class="answer-topic">${q.topic}</div>
+        <div class="answer-text">${q.choices[a]}</div>
+        <div class="answer-badge" style="background:${b.bg};color:${b.fg};">${b.label}</div>
+      </div>`;
+  }).join('');
+}
+
+
+function renderResult() {
+  const idx    = state.viewingIdx >= 0 ? state.viewingIdx : state.members.length - 1;
+  const member = state.members[idx];
+  const sc     = calcScores(member.answers);
+  const type   = TYPES[getType(sc)];
+
+  const bars = [
+    { label: '感性', v: sc.kansei, color: '#E07B54' },
+    { label: '性能', v: sc.seino,  color: '#5B8A6F' },
+    { label: '費用', v: sc.hiyo,   color: '#C4A44A' }
+  ];
+
+  const scoreBars = bars.map(b =>
+    '<div class="score-row">' +
+    '<div class="score-label">' + b.label + '</div>' +
+    '<div class="score-bar-bg"><div class="score-bar-fill" style="width:' + Math.round(b.v*100) + '%;background:' + b.color + ';"></div></div>' +
+    '<div class="score-pct">' + Math.round(b.v*100) + '%</div>' +
+    '</div>'
+  ).join('');
+
+  const compareBtn = state.members.length >= 2
+    ? '<button class="btn-secondary" id="btnCompare">家族全員で比べる（' + state.members.length + '人）</button>'
+    : '';
+
+  const backBtn = state.viewingIdx >= 0
+    ? '<button class="btn-secondary" id="btnBackCompare" style="margin-top:10px;">← 家族一覧に戻る</button>'
+    : '';
+
+  return '<div class="screen">' +
+    '<div class="card">' +
+      '<div class="result-header">' +
+        '<div class="type-badge" style="background:' + type.badge_bg + ';color:' + type.badge_fg + ';">' + type.sub + '</div>' +
+        '<div class="type-name" style="color:' + type.color + ';">' + member.name + 'さんは<br>' + type.name + '</div>' +
+        '<div class="type-desc">' + type.desc + '</div>' +
+      '</div>' +
+      '<hr class="divider">' +
+      '<div class="triangle-wrap">' + triangleSVG([member]) + '</div>' +
+      '<div class="score-bars">' + scoreBars + '</div>' +
+    '</div>' +
+    '<button class="btn-primary" id="btnAddMember" style="margin-bottom:10px;">別の家族も占う</button>' +
+    compareBtn + backBtn +
+    '<div class="card" style="margin-top:14px;">' +
+      '<div class="answer-list">' +
+        '<div class="answer-list-title">あなたの回答一覧</div>' +
+        renderAnswerList(member.answers) +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderCompare() {
+  const legend = state.members.map((m, i) => {
+    const sc  = calcScores(m.answers);
+    const typ = TYPES[getType(sc)];
+    return `<div class="legend-item member-link" data-idx="${i}" style="cursor:pointer;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);transition:background 0.2s;">
+      <div class="legend-dot" style="background:${MEMBER_COLORS[i % MEMBER_COLORS.length]};"></div>
+      <span><b>${m.name}</b>：${typ.name}</span>
+      <span style="font-size:10px;color:var(--accent-light);margin-left:4px;">詳細 →</span>
+    </div>`;
+  }).join('');
+
+  return `<div class="screen">
+    <div class="card">
+      <div class="compare-title">
+        <h2>家族の価値観マップ</h2>
+        <p>それぞれのポジションを比べてみましょう</p>
+      </div>
+      <div class="triangle-wrap">${triangleSVG(state.members)}</div>
+      <div class="legend" style="flex-direction:column;align-items:stretch;">${legend}</div>
+    </div>
+    <button class="btn-secondary" id="btnAddMember" style="margin-top:8px;">別の家族も占う</button>
+    <button class="btn-secondary" id="btnBackStart" style="margin-top:8px;">最初に戻る</button>
+    <p class="footnote">自社サイトに埋め込みたい工務店・ハウスメーカーはご相談ください</p>
+  </div>`;
+}
+
+// ===== レンダリング =====
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="header">
+      <div class="header-label">HAGIMORI CONSTRUCTION</div>
+      <div class="header-title">家づくりの価値観占い</div>
+      <div class="header-sub">家族みんなの分を占おう</div>
+    </div>
+    ${{ start: renderStart, quiz: renderQuiz, result: renderResult, compare: renderCompare }[state.screen]()}
+  `;
+  bind();
+}
+
+function bind() {
+  const ni = document.getElementById('nameInput');
+  if (ni) {
+    ni.addEventListener('input', e => { state.currentName = e.target.value; });
+    ni.addEventListener('keydown', e => { if (e.key === 'Enter') startQuiz(); });
+  }
+  const el = id => document.getElementById(id);
+  el('btnStart')     && el('btnStart').addEventListener('click', startQuiz);
+  el('btnCompare')   && el('btnCompare').addEventListener('click', () => { state.screen = 'compare'; render(); });
+  el('btnAddMember') && el('btnAddMember').addEventListener('click', resetForNext);
+  el('btnBackStart') && el('btnBackStart').addEventListener('click', () => { state.screen = 'start'; render(); });
+
+  el('btnBackCompare') && el('btnBackCompare').addEventListener('click', () => {
+    state.viewingIdx = -1;
+    state.screen = 'compare';
+    render();
+  });
+
+  document.querySelectorAll('.member-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.viewingIdx = parseInt(btn.dataset.idx);
+      state.screen = 'result';
+      render();
+    });
+  });
+
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.i);
+      btn.classList.add('selected');
+      document.querySelectorAll('.choice').forEach((b,j) => { if (j !== i) b.classList.remove('selected'); });
+      setTimeout(() => answer(i), 320);
+    });
+  });
+}
+
+function startQuiz() {
+  if (!state.currentName.trim()) { document.getElementById('nameInput').focus(); return; }
+  state.currentAnswers = [];
+  state.currentQ = 0;
+  state.screen = 'quiz';
+  render();
+}
+
+function answer(i) {
+  const answers = [...state.currentAnswers];
+  answers[state.currentQ] = i;
+  state.currentAnswers = answers;
+  if (state.currentQ < QUESTIONS.length - 1) {
+    state.currentQ++;
+    render();
+  } else {
+    state.members.push({ name: state.currentName.trim(), answers: [...state.currentAnswers] });
+    state.viewingIdx = -1;
+    state.screen = 'result';
+    render();
+  }
+}
+
+function resetForNext() {
+  state.currentName = '';
+  state.currentAnswers = [];
+  state.currentQ = 0;
+  state.screen = 'start';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
