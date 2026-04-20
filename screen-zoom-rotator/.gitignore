@@ -1,0 +1,17 @@
+## Build output
+bin/
+obj/
+out/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+
+## Rider
+.idea/
+
+## Publish
+publish/
+*.pdb
