@@ -30,7 +30,6 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100
 .top-icon{font-size:3.5rem;margin-bottom:.5rem}
 .top-title{font-family:var(--fd);font-size:1.6rem;font-weight:700;color:var(--pd);margin-bottom:.5rem;line-height:1.4}
 .top-sub{font-size:.95rem;color:var(--tl);margin-bottom:.8rem;line-height:1.7}
-.top-note{font-size:.78rem;color:var(--tl);margin-bottom:1.8rem;line-height:1.7}
 .btn-start{display:inline-block;background:var(--primary);color:#fff;font-family:var(--fd);font-size:1.1rem;font-weight:700;padding:.9rem 2.5rem;border:none;border-radius:60px;cursor:pointer;transition:all .25s;box-shadow:0 4px 16px rgba(107,140,94,.25)}
 .btn-start:hover{background:var(--pd);transform:translateY(-2px)}
 .q-progress{display:flex;gap:6px;margin-bottom:1.5rem}
@@ -70,8 +69,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100
   <div class="screen active" id="s-top"><div class="top-card">
     <div class="top-icon">🌿</div>
     <h1 class="top-title">自然派の家づくり占い</h1>
-    <p class="top-sub">無垢材の床、漆喰の壁、焼杉の外壁 ──<br>自然派は「素材」だけの話ではありません。<br>構造、設備、設計思想まで含めた、<br>暮らし方そのものの選択です。<br><br>5つの質問に答えて、<br>あなたの「自然派度」を占ってみましょう。</p>
-    <p class="top-note">費用は少し割高になる傾向がありますが、<br>びっくりするほどの差は実はありません。</p>
+    <p class="top-sub">無垢材の床、漆喰の壁、焼杉の外壁 ──<br>自然派は「素材」だけの話ではありません。<br>構造、設備、設計思想まで含めた、<br>暮らし方そのものの選択です。<br><br>費用は少し割高になる傾向がありますが、<br>びっくりするほどの差は実はありません。<br><br>今の気持ちに近いものを選んでみてください。</p>
     <button class="btn-start" onclick="start()">占いをはじめる</button>
   </div></div>
   <div class="screen" id="s-q"><div class="q-card">
@@ -100,7 +98,7 @@ var Q=[
 {id:'Q1',n:'内装仕上げ',
 s:'たとえば、杉の無垢床。素足で歩けば夏はさらっと、冬はほんのり温かい。でも、物を落とせば凹み、暮らすほどに傷の跡が増えていく。',
 t:'内装の仕上げに、こうした自然素材を取り入れたいですか？',
-a:{l:'多少の傷や変化があっても、自然素材の質感で暮らしたい',v:20,c:'傷や色の変化を「暮らしの記録」と捗えられるあなたは、自然素材の内装と長く心地よい関係を築けます。無垢材の床は時間とともに色が深まり、世界にひとつだけの表情になっていきます。'},
+a:{l:'多少の傷や変化があっても、自然素材の質感で暮らしたい',v:20,c:'傷や色の変化を「暮らしの記録」と捉えられるあなたは、自然素材の内装と長く心地よい関係を築けます。無垢材の床は時間とともに色が深まり、世界にひとつだけの表情になっていきます。'},
 b:{l:'素材や場所を選んで、自然素材と機能素材を使い分けたい',v:10,c:'リビングや寝室など長い時間を過ごす場所に自然素材を、水回りや子供部屋には機能素材を。場所ごとに使い分ける方法は、心地よさとメンテナンスのバランスがもっとも取りやすい現実的な選択です。'},
 c:{l:'耐久性やメンテナンスのしやすさで選びたい',v:0,c:'実用性を最優先にする判断は、とても合理的です。最近の複合フローリングは見た目も質感も進化していて、メンテナンスの手間を減らしながら心地よい空間をつくれます。'}},
 {id:'Q2',n:'外装仕上げ',
