@@ -1,0 +1,347 @@
+<!doctype html>
+<!--
+  YKTラボ｜家づくりルート診断
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>家づくりルート診断｜YKTラボ</title>
+  <meta name="description" content="あなたは、どの道から家づくりを考えるタイプ？論理と科学の家づくり占い館シリーズ。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+  <style>
+    :root{--bg:#f3eef8;--paper:#fbf8fc;--ink:#2e2935;--muted:#786f82;--line:#d8cfe2;--accent:#8a6fb3;--accent-dark:#5e4882;--accent-soft:#ebe3f3;--accent-pale:#f5eef8;--shadow:0 16px 40px rgba(70,45,100,0.12);--radius:22px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink);background:radial-gradient(circle at 20% 10%,rgba(255,255,255,0.95),rgba(255,255,255,0) 38%),radial-gradient(circle at 80% 90%,rgba(232,215,245,0.6),rgba(232,215,245,0) 50%),linear-gradient(135deg,#f5edf8 0%,#f3eef8 46%,#ebe3f3 100%);line-height:1.8}
+    .page{width:min(980px,calc(100% - 32px));margin:0 auto;padding:24px 0 72px}
+    .hall-header{text-align:center;padding:12px 0 24px;margin-bottom:8px}
+    .hall-name{font-size:13px;letter-spacing:0.18em;color:var(--accent-dark);font-weight:700;margin-bottom:2px}
+    .hall-name a{color:inherit;text-decoration:none;transition:opacity .2s}.hall-name a:hover{opacity:0.7}
+    .hall-sub{font-size:11px;letter-spacing:0.2em;color:var(--muted)}
+    .hero{position:relative;overflow:hidden;border-radius:32px;background:linear-gradient(135deg,rgba(255,253,255,0.96),rgba(232,215,245,0.7));box-shadow:var(--shadow);padding:clamp(28px,5vw,56px);border:1px solid rgba(138,111,179,0.16)}
+    .hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:320px;height:320px;border-radius:999px;background:radial-gradient(circle,rgba(213,189,235,0.35),rgba(213,189,235,0) 70%);pointer-events:none}
+    .hero::before{content:"";position:absolute;left:-60px;top:-60px;width:220px;height:220px;border-radius:999px;background:radial-gradient(circle,rgba(245,238,248,0.6),rgba(245,238,248,0) 70%);pointer-events:none}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;padding:6px 14px;border-radius:999px;background:rgba(138,111,179,0.14);color:var(--accent-dark);font-size:12px;font-weight:700;letter-spacing:.14em}
+    h1{margin:20px 0 10px;font-size:clamp(34px,7vw,64px);line-height:1.18;letter-spacing:.02em;position:relative}
+    .lead{max-width:780px;margin:18px 0 0;font-size:clamp(16px,2vw,19px);color:#46414f;position:relative}
+    .note-box{margin-top:26px;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,0.74);border:1px solid rgba(138,111,179,0.18);color:var(--muted);font-size:15px;position:relative}
+    .note-box strong{color:var(--accent-dark)}
+    .start-area{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;position:relative}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:none;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;font-weight:800;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;box-shadow:0 10px 22px rgba(94,72,130,0.22)}
+    .button:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(94,72,130,0.28)}
+    .button.secondary{background:#fff;color:var(--accent-dark);border:1px solid var(--line);box-shadow:none}
+    .subtext{font-size:13px;color:var(--muted)}
+    .section{margin-top:28px;padding:clamp(22px,4vw,34px);border-radius:var(--radius);background:rgba(253,251,254,0.92);border:1px solid rgba(138,111,179,0.12);box-shadow:0 10px 26px rgba(70,45,100,0.06)}
+    .section h2{margin:0 0 12px;font-size:clamp(24px,4vw,34px);line-height:1.35}
+    .section p{margin:0 0 12px}
+    .questions{display:grid;gap:24px;margin-top:22px}
+    #questionsRoot{display:grid;gap:28px}
+    .question-card{border:1px solid var(--line);border-radius:22px;background:#fdfafc;overflow:hidden;box-shadow:0 6px 16px rgba(70,45,100,0.04)}
+    .question-head{padding:20px 22px 16px;background:linear-gradient(135deg,rgba(138,111,179,0.10),rgba(245,238,248,0.4));border-bottom:1px solid var(--line)}
+    .question-index{display:inline-block;margin-bottom:8px;font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.08em}
+    .question-title{margin:0 0 6px;font-size:clamp(19px,2.4vw,24px);line-height:1.5}
+    .question-prompt{margin:0;color:var(--muted);font-size:14px}
+    .choices{display:grid;gap:12px;padding:18px}
+    .choice{display:block;position:relative;border:1px solid #e0d6ec;border-radius:18px;background:#fff;cursor:pointer;transition:border .18s ease,background .18s ease,transform .18s ease,box-shadow .18s ease;overflow:hidden}
+    .choice:hover{transform:translateY(-1px);border-color:rgba(138,111,179,0.4);box-shadow:0 10px 22px rgba(70,45,100,0.08)}
+    .choice input{position:absolute;opacity:0;pointer-events:none}
+    .choice-inner{display:grid;grid-template-columns:40px 1fr;gap:14px;padding:16px;align-items:start}
+    .mark{width:40px;height:40px;display:grid;place-items:center;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);font-weight:900;flex-shrink:0}
+    .choice-title{display:block;margin:0 0 4px;font-weight:900;font-size:16px;color:var(--accent-dark)}
+    .choice-text{display:block;margin:0;color:#4d4554;font-size:14.5px;line-height:1.75}
+    .choice input:checked + .choice-inner{background:linear-gradient(135deg,rgba(138,111,179,0.14),rgba(253,251,254,0.94))}
+    .choice input:checked + .choice-inner .mark{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff}
+    .actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .error{display:none;margin-top:16px;padding:12px 14px;border-radius:14px;background:#fbeef0;color:#8d3651;border:1px solid #ecc5cf;font-weight:700}
+    #result{display:none}
+    .result-hero{border-radius:26px;padding:clamp(22px,4vw,34px);background:linear-gradient(135deg,#fdfafc,#ebe3f3 70%,#d8c4ec);border:1px solid rgba(138,111,179,0.2);box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .result-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:999px;background:radial-gradient(circle,rgba(255,255,255,0.5),rgba(255,255,255,0) 70%)}
+    .route-name{margin:6px 0 12px;font-size:clamp(28px,5vw,46px);line-height:1.25;position:relative}
+    .route-kicker{color:var(--accent);font-weight:900;letter-spacing:.05em;position:relative}
+    #routeLead{position:relative}
+    .sheet-grid{display:grid;gap:14px;margin-top:20px}
+    .sheet-row{display:grid;grid-template-columns:80px 1fr;gap:12px;padding:16px;border-radius:16px;background:#fff;border:1px solid #e2d8ed;border-left:4px solid var(--accent);align-items:start}
+    .sheet-mark{display:inline-flex;align-items:center;gap:6px}
+    .sheet-mark-letter{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;color:#fff;font-weight:900;font-size:13px}
+    .sheet-tag{font-size:11px;font-weight:800;letter-spacing:0.1em}
+    .sheet-category{font-size:14px;color:var(--accent-dark);font-weight:700;letter-spacing:0.05em;margin-bottom:8px}
+    .sheet-label{font-weight:900;margin-bottom:4px;color:var(--accent-dark)}
+    .sheet-comment{color:var(--muted);font-size:14px;line-height:1.75}
+    .result-block{margin-top:22px;padding:22px;border-radius:20px;background:#fdfafc;border:1px solid var(--line)}
+    .result-block h3{margin:0 0 10px;font-size:22px}
+    .result-block ul{margin:10px 0 0;padding-left:1.3em}
+    .result-block li{margin-bottom:6px;color:var(--muted);line-height:1.75}
+    .back-to-hall{margin-top:28px;text-align:center}
+    .back-to-hall a{display:inline-block;padding:12px 24px;color:var(--muted);text-decoration:none;font-size:14px;letter-spacing:0.1em;border:1px solid var(--line);border-radius:999px;transition:background .2s,color .2s}
+    .back-to-hall a:hover{background:rgba(255,255,255,0.6);color:var(--accent-dark)}
+    .footer-note{margin-top:22px;color:var(--muted);font-size:13px;text-align:center}
+    @media(max-width:720px){.page{width:min(100% - 20px,980px);padding-top:12px}.hero{border-radius:24px;padding:26px 20px}.section{padding:22px 16px}.choice-inner{grid-template-columns:34px 1fr;gap:12px;padding:14px}.mark{width:34px;height:34px}.sheet-row{grid-template-columns:1fr;gap:8px}.sheet-mark{margin-bottom:4px}.button{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">タイプ占い</div>
+      <h1>家づくり<br>ルート診断</h1>
+      <p class="lead">あなたは、どの道から家づくりを考えるタイプ？</p>
+      <div class="note-box">
+        家づくりでは、耐震、断熱、省エネ、間取り、収納、設備、デザイン……どれも良い方がいいに決まっています。<br>
+        でも、家づくりには必ず予算があります。大切なのは、<strong>どこに、どのくらいお金をかけて良くしたいか</strong>です。
+      </div>
+      <p class="lead">5つの質問から、あなたの家づくりがどちらへ進みたがっているのかを、少しだけ占ってみます。</p>
+      <div class="start-area">
+        <a class="button" href="#diagnosis">占いをはじめる</a>
+        <span class="subtext">1分ほどで結果シートを作成します</span>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <h2>この占いについて</h2>
+      <p>多くの項目は、最初のうちは少しコストをかけるだけで、性能や満足度がぐっと上がります。</p>
+      <p>しかし、一定以上になると、さらに良くするために必要な金額が大きくなっていきます。</p>
+      <p>この占いでは、各項目について「コスパよく高めたい」「中身重視で高めたい」「価格を抑えて必要な水準は任せたい」のどれに近いかを選んでいきます。</p>
+      <p>結果は、正解や不正解ではありません。あくまで、今のあなたの考え方に近い家づくりのルートを見るためのものです。</p>
+    </section>
+
+    <section class="section" id="diagnosis">
+      <h2>5つの質問</h2>
+      <p>今の気持ちに近いものを選んでください。迷ったら、直感で大丈夫です。</p>
+      <form id="diagnosisForm" class="questions">
+        <div id="questionsRoot"></div>
+        <div class="actions">
+          <button class="button" type="submit">占い結果を見る</button>
+          <button class="button secondary" type="button" id="resetButton">選び直す</button>
+        </div>
+        <div class="error" id="errorMessage">未回答の質問があります。5つすべて選んでください。</div>
+      </form>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="route-kicker">あなたに合う家づくりルートを整理しました</div>
+        <h2 class="route-name" id="routeName"></h2>
+        <p id="routeLead"></p>
+      </div>
+      <div class="result-block">
+        <h3>あなたの選択シート</h3>
+        <p>今回の選び方をまとめると、次のような傾向がありそうです。</p>
+        <div class="sheet-grid" id="sheetGrid"></div>
+      </div>
+      <div class="result-block">
+        <h3>おすすめルートの考え方</h3>
+        <div id="mainRouteBody"></div>
+      </div>
+      <div class="result-block" id="themeBlock" style="display:none;">
+        <h3>今回、特に強く出ているこだわり</h3>
+        <div id="themeGrid"></div>
+      </div>
+      <div class="result-block">
+        <h3>このルートで業者に確認したいこと</h3>
+        <p>このルートを選ぶなら、候補業者が次の内容にどこまで対応できるかを確認しておくと安心です。</p>
+        <ul id="confirmList"></ul>
+      </div>
+      <div class="actions">
+        <button class="button secondary" type="button" id="backButton">↻ もう一度占う</button>
+      </div>
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜この占いは家づくりの傾向を見るための簡易チェックです。</p>
+  </main>
+
+  <script>
+    const choiceMeta = {
+      A: { label: 'コスパ重視', color: '#5a8079' },
+      B: { label: '中身重視',   color: '#b85c3e' },
+      C: { label: '価格を抑えて', color: '#8a7558' }
+    };
+    const questions = [
+      { id: "seismic", title: "耐震性能について", prompt: "地震に対する強さは、どう考えたいですか？", category: "耐震性能",
+        options: {
+          A: { title: "コスパよく強くしたい", text: "間取りの形や壁の配置など、構造的に有利な条件はある程度受け入れながら、無駄なコストをかけずに、強さを高めやすい家を目指したい。", sheet: "構造的に有利な形や壁の配置を受け入れながら、無駄なコストをかけずに、強さを高めやすい方向を選びたい傾向があります。" },
+          B: { title: "中身重視でしっかり強くしたい", text: "コストが上がっても、間取りの希望や空間の自由度をできるだけ残しながら、耐震性能もしっかり高めたい。", sheet: "間取りの自由度や空間の希望を残しながら、耐震性能もしっかり高めたい傾向があります。" },
+          C: { title: "価格を抑えて、必要な水準は任せたい", text: "耐震については、必要な水準を確保しながら、細かな仕様の選び方は任せて、価格を抑えたい。", sheet: "耐震は必要な水準を確保しつつ、細かな仕様の選び方は任せて価格を抑えたい傾向があります。" }
+        }
+      },
+      { id: "energy", title: "省エネ・断熱性能について", prompt: "暑さ寒さ、光熱費、室内の快適さはどう考えたいですか？", category: "省エネ・断熱",
+        options: {
+          A: { title: "コスパよく快適にしたい", text: "窓・断熱材・設備の選び方を工夫しながら、費用対効果のよい範囲で、快適さと省エネ性を高めたい。", sheet: "窓・断熱材・設備の選び方を工夫しながら、費用対効果のよい範囲で快適さを高めたい傾向があります。" },
+          B: { title: "中身重視でしっかり快適にしたい", text: "コストが上がっても、暑さ寒さの少ない暮らしや、光熱費を抑えやすい住まいをしっかり目指したい。", sheet: "費用が上がっても、暑さ寒さの少ない暮らしや省エネ性をしっかり大切にしたい傾向があります。" },
+          C: { title: "価格を抑えて、必要な水準は任せたい", text: "断熱や省エネについては、地域や暮らし方に合う水準を確保しながら、全体の価格を抑えたい。", sheet: "断熱や省エネは、地域や暮らし方に合う水準を確保しながら、全体の価格を抑えたい傾向があります。" }
+        }
+      },
+      { id: "function", title: "間取り・収納・家事動線について", prompt: "暮らしやすさに関わる部分はどう考えたいですか？", category: "間取り・収納・動線",
+        options: {
+          A: { title: "コスパよく使いやすくしたい", text: "収納の位置や動線の工夫によって、大きなコストをかけずに、暮らしやすさを高めたい。", sheet: "収納の位置や動線の工夫によって、大きなコストをかけずに暮らしやすさを高めたい傾向があります。" },
+          B: { title: "中身重視で使いやすくしたい", text: "コストが上がっても、家事動線・収納・趣味の空間など、毎日の使いやすさや満足度をしっかり大切にしたい。", sheet: "家事動線・収納・趣味の空間など、毎日の使いやすさや満足度をしっかり大切にしたい傾向があります。" },
+          C: { title: "価格を抑えて、必要な水準は任せたい", text: "間取りや収納は、基本的な暮らしやすさを確保しながら、シンプルで価格を抑えやすい家にしたい。", sheet: "基本的な暮らしやすさを確保しながら、シンプルで価格を抑えやすい家にしたい傾向があります。" }
+        }
+      },
+      { id: "equipment", title: "キッチン・浴室・照明・スマートホームなどの設備について", prompt: "住宅設備はどう考えたいですか？", category: "住宅設備",
+        options: {
+          A: { title: "コスパよく満足度を上げたい", text: "価格と性能のバランスがよい設備を中心に、使いやすさや満足度に効くところを上手に選びたい。", sheet: "価格と性能のバランスがよい設備を中心に、満足度に効くところを上手に選びたい傾向があります。" },
+          B: { title: "中身重視で設備にこだわりたい", text: "コストが上がっても、キッチン・浴室・照明・スマートホームなど、日々の満足度につながる設備にはしっかりこだわりたい。", sheet: "キッチン・浴室・照明・スマートホームなど、日々の満足度につながる設備を大切にしたい傾向があります。" },
+          C: { title: "価格を抑えて、必要な水準は任せたい", text: "設備には大きく予算をかけず、日常的に困らない内容で、全体の費用を抑えたい。", sheet: "設備には大きく予算をかけず、日常的に困らない内容で全体の費用を抑えたい傾向があります。" }
+        }
+      },
+      { id: "design", title: "外観・内装・素材感・空間のデザインについて", prompt: "見た目や空間の気持ちよさはどう考えたいですか？", category: "デザイン",
+        options: {
+          A: { title: "コスパよく整えたい", text: "形・色・素材の使い方を工夫しながら、大きなコストをかけずに、見た目や雰囲気を整えたい。", sheet: "形・色・素材の使い方を工夫しながら、大きなコストをかけずに雰囲気を整えたい傾向があります。" },
+          B: { title: "中身重視でデザインを大切にしたい", text: "コストが上がっても、外観・素材感・空間の気持ちよさなど、デザインの満足度をしっかり大切にしたい。", sheet: "外観・素材感・空間の気持ちよさなど、デザインの満足度をしっかり大切にしたい傾向があります。" },
+          C: { title: "価格を抑えて、必要な水準は任せたい", text: "デザインのために大きなコストはかけず、全体が自然にまとまっていれば十分と考えたい。", sheet: "デザインのために大きなコストはかけず、全体が自然にまとまっていれば十分と考える傾向があります。" }
+        }
+      }
+    ];
+    const baseRoutes = {
+      cost: { name: "コスパ調整ルート", recommended: "地域ビルダー＋地域工務店比較ルート", lead: "あなたが業者に求めているのは、高級仕様をたくさん積み上げることではありません。大きなコストをかけるよりも、設計や仕様の選び方を工夫して、納得できる性能や暮らしやすさを実現することです。", paragraphs: ["今回の結果では、あなたには<strong>地域ビルダー＋地域工務店比較ルート</strong>をおすすめします。","あなたが重視しているのは、単なる安さではなく<strong>費用対効果のよい家づくり</strong>です。耐震、断熱、間取り、設備、デザインのそれぞれについて、どこにお金をかけると効果が出やすいのか、どこは標準的に整えれば十分なのかを説明してくれる業者と相性がよいタイプです。","今回の結果では、<strong>建売住宅・規格住宅ルートはやや慎重に見たいルート</strong>です。建売住宅や規格住宅は、価格や仕様が分かりやすい一方で、性能や暮らしやすさを自分たちに合わせてコスパよく調整することは難しい場合があります。","<strong>大手ハウスメーカーも、コスパを最優先するなら最初の候補にはしにくいルート</strong>です。保証、ブランド、提案体制などに安心感があり、コストをあまり気にしないのであれば十分におすすめできます。","一方で、<strong>地域ビルダー</strong>は、標準化された仕様の中で価格と品質のバランスを取りやすい場合があります。また、<strong>地域工務店</strong>は、設計や仕様を一つずつ相談しながら、無駄なコストを避けた着地点を探しやすい場合があります。"] },
+      value: { name: "中身重視ルート", recommended: "大手ハウスメーカー検討ルート／設計事務所紹介ルート", lead: "あなたが業者に求めているのは、最安値ではありません。耐震、断熱、間取り、設備、デザインなど、意味があると感じる部分には、しっかりお金をかけたいタイプです。", paragraphs: ["今回の結果では、あなたには<strong>中身重視の家づくりルート</strong>をおすすめします。","このタイプの方には、<strong>大手ハウスメーカーも十分おすすめできます。</strong>ブランドの安心感、保証体制、標準仕様の分かりやすさ、提案体制などに強みがあり、コストよりも安心感や総合力を優先したい場合は、前向きに検討してよいルートです。","空間の自由度、素材感、造作、照明、納まり、デザイン性に価値を感じるなら、<strong>設計事務所＋施工力のある工務店ルート</strong>もおすすめです。設計事務所で理想の空間を深め、施工側で構造・納まり・予算の現実性を確認しながら進めるルートです。","今回の結果では、<strong>建売住宅や規格住宅のルートはおすすめしません。</strong>これらは価格や仕様が分かりやすい反面、あなたが価値を感じる部分に合わせて、お金のかけ方を細かく調整することが難しいからです。"] },
+      price: { name: "価格整理ルート", recommended: "建売住宅・規格住宅・地域ビルダー比較ルート", lead: "あなたが業者に求めているのは、細かなこだわりを積み上げることではありません。必要な水準はきちんと確保しながら、全体の価格を分かりやすく整えることです。", paragraphs: ["今回の結果では、あなたには<strong>建売住宅・規格住宅・地域ビルダー比較ルート</strong>をおすすめします。","このタイプの方には、<strong>建売住宅ルートは有力</strong>です。価格が明確で、完成イメージも分かりやすく、予算オーバーを避けやすいからです。","<strong>規格住宅や地域ビルダー</strong>もおすすめです。自由度をある程度絞ることで、価格を抑えながら家づくりを進めやすいからです。","価格を抑えたいからといって、何も確認しなくてよいわけではありません。むしろこのルートでは、<strong>標準仕様の中身を確認すること</strong>がとても大切です。"] },
+      merihari: { name: "メリハリ投資ルート", recommended: "地域工務店ルート", lead: "あなたが業者に求めているのは、単に安い家でも、すべてが高仕様の家でもありません。どこにお金をかけ、どこはコスパよく整えるのかを一緒に考えてくれることです。", paragraphs: ["今回の結果では、あなたには<strong>地域工務店ルート</strong>を強くおすすめします。","建売住宅や規格住宅は、価格と仕様が分かりやすい反面、項目ごとにお金のかけ方を調整することが難しいため、今回の結果ではおすすめしません。","<strong>地域工務店ルートは相性がよい</strong>です。会社によって差はありますが、予算、構造、性能、間取り、素材、施工の現実を見ながら、家づくりの中身を一緒に調整しやすいルートです。","このルートで大切なのは、こだわりを全部盛り込むことではありません。<strong>価値を感じるところには投資し、効果が出にくいところは無理に上げすぎないこと</strong>です。"] },
+      steadyCost: { name: "堅実コスパルート", recommended: "地域ビルダー比較ルート／性能説明に強い地域工務店ルート", lead: "あなたが業者に求めているのは、豪華さではありません。大切な部分はコスパよく高めつつ、深追いしない部分は価格を抑えることです。", paragraphs: ["今回の結果では、あなたには<strong>地域ビルダー比較ルート</strong>、または<strong>性能説明に強い地域工務店ルート</strong>をおすすめします。","このタイプの方は、<strong>建売住宅や規格住宅のルートも候補</strong>になります。","このタイプの方には、<strong>地域ビルダー</strong>が合う可能性があります。規格化や標準仕様によって価格を抑えながら、一定の性能や品質を確保しやすいからです。","このルートで大切なのは、価格を抑えることと、品質を落としすぎないことの境目を見極めることです。"] },
+      focus: { name: "こだわり集中ルート", recommended: "優先順位整理型の地域工務店ルート／設計事務所ルート", lead: "あなたが業者に求めているのは、全部を高仕様にすることではありません。こだわりたいところにはしっかりお金をかけ、そうでないところは価格を抑えることです。", paragraphs: ["今回の結果では、あなたには<strong>こだわる部分を絞って考えるルート</strong>をおすすめします。","このタイプの方には、まず<strong>地域工務店ルート</strong>が合いやすいです。特に、こだわる項目と抑える項目を一緒に整理し、予算の使いどころを明確にできる会社が向いています。","こだわりの中心が空間、素材、造作、デザインに強く出ている場合は、<strong>設計事務所ルート</strong>もおすすめです。","このルートで大切なのは、こだわりたい項目だけを見ることではありません。<strong>こだわるために、どこを抑えるのか</strong>まで決めることです。"] },
+      balance: { name: "ルート整理相談", recommended: "家づくりルート整理相談", lead: "まだ一つの方向に決めきる段階ではなさそうです。どこにお金をかけるべきか、どこは抑えてもよいかを探している状態です。", paragraphs: ["今回の結果では、いきなり特定の住宅会社や工法に絞るより、まず<strong>家づくりルートを整理する</strong>ことをおすすめします。","建売住宅・規格住宅、大手ハウスメーカー、地域ビルダー、設計事務所、地域工務店には、それぞれ良さがあります。今の段階で大切なのは、どこか一社を決めることではなく、自分たちが業者に何を求めているのかを整理することです。","最初にルートを整理しておくと、その後の比較がかなり楽になります。"] }
+    };
+    const themeTexts = {
+      spaceAndStrength: { title: "空間と強さの両立テーマ", paragraphs: ["今回の結果では、<strong>空間の自由度と耐震性の両方を大切にしたい傾向</strong>も出ています。大きな窓、吹き抜け、開放感のあるリビング、余白のある空間。そうした希望は、暮らしの満足度を大きく高めてくれます。","一方で、空間を自由にするほど、構造の確認はより大切になります。希望する間取りや開口を前提に、どのように耐震性を確保するのか。耐震等級の数字だけでなく、構造計算や壁配置の考え方まで説明できるのかを確認したいところです。"] },
+      performanceCost: { title: "性能コスパテーマ", paragraphs: ["今回の結果では、<strong>耐震や断熱をコスパよく高めたい傾向</strong>も出ています。高い仕様をただ足していくのではなく、建物の形、窓の取り方、壁の配置、換気、空調、日射の入り方まで含めて、費用対効果よく性能を高めたいタイプです。","このテーマでは、<strong>性能に強い地域工務店ルート</strong>が有力です。ただ高性能を目指すのではなく、予算の中で効きやすい部分から整えたい方に向いています。"] },
+      livingSatisfaction: { title: "暮らし満足テーマ", paragraphs: ["今回の結果では、<strong>間取り・収納・設備など、毎日の暮らしの満足度を大切にしたい傾向</strong>も出ています。家事動線、収納量、帰宅後の動き、洗濯動線、キッチン、浴室、照明、スマートホーム。こうした要素は、暮らし始めてからの満足度に大きく関わります。","このテーマでは、<strong>暮らし提案に強い地域工務店ルート</strong>が有力です。"] }
+    };
+    const confirmItems = {
+      seismic: {
+        A: "耐震については、等級の数字だけでなく、建物の形や壁の配置を含めて、どうすればコスパよく強くできるかを説明できる業者か確認してください。同じ耐震性能を目指す場合でも、間取りの形、窓の大きさ、壁の配置によって、必要なコストや計画のしやすさは変わります。",
+        B: "耐震については、希望する間取りや開口を前提に、どの計算方法で、どの範囲まで構造を確認しているのかを説明できる業者か確認してください。大きな窓、吹き抜け、広いリビングなどを希望する場合、空間の自由度と構造の安全性を両立できるかが重要になります。",
+        C: "耐震については、価格を抑える場合でも、どの水準を基本として確保しているのかを説明できる業者か確認してください。"
+      },
+      energy: {
+        A: "断熱については、断熱等級やUA値だけでなく、窓、換気、空調、日射まで含めて、費用対効果を説明できる業者か確認してください。",
+        B: "断熱については、暑さ寒さの少ない暮らしや光熱費まで含めて、どこまで性能を高める意味があるかを説明できる業者か確認してください。",
+        C: "断熱については、価格を抑える場合でも、地域や暮らし方に合う基本水準を説明できる業者か確認してください。"
+      },
+      function: {
+        A: "間取りについては、大きなコストをかけずに、収納の位置や家事動線を工夫できる業者か確認してください。",
+        B: "間取りについては、家事動線、収納、趣味の空間など、毎日の使いやすさを具体的に聞き取って提案できる業者か確認してください。",
+        C: "間取りについては、シンプルに価格を抑えながらも、生活動線の大きな不便を避けられる業者か確認してください。"
+      },
+      equipment: {
+        A: "設備については、価格と性能のバランスがよい選択肢を提示し、満足度に効く部分を説明できる業者か確認してください。",
+        B: "設備については、キッチン、浴室、照明、スマートホームなど、毎日使う部分にどこまで予算をかけるべきか整理できる業者か確認してください。",
+        C: "設備については、価格を抑える場合でも、掃除のしやすさ、故障時の交換のしやすさ、日常的な使いやすさまで確認できる業者か確認してください。"
+      },
+      design: {
+        A: "デザインについては、高価な素材だけに頼らず、形、色、素材の使い方で雰囲気を整えられる業者か確認してください。",
+        B: "デザインについては、素材、造作、照明、納まりまで含めて、施工の手間や費用とのバランスを説明できる業者か確認してください。",
+        C: "デザインについては、大きな費用をかけない場合でも、全体の色や素材のまとまりを整えられる業者か確認してください。"
+      }
+    };
+    const questionsRoot = document.getElementById("questionsRoot");
+    const form = document.getElementById("diagnosisForm");
+    const result = document.getElementById("result");
+    const errorMessage = document.getElementById("errorMessage");
+    const resetButton = document.getElementById("resetButton");
+    const backButton = document.getElementById("backButton");
+    function renderQuestions() {
+      questionsRoot.innerHTML = questions.map((q, index) => {
+        const choicesHtml = Object.entries(q.options).map(([key, option]) => `<label class="choice"><input type="radio" name="${q.id}" value="${key}" /><span class="choice-inner"><span class="mark">${key}</span><span><span class="choice-title">${option.title}</span><span class="choice-text">${option.text}</span></span></span></label>`).join("");
+        return `<article class="question-card"><div class="question-head"><span class="question-index">Q${index + 1}</span><h3 class="question-title">${q.title}</h3><p class="question-prompt">${q.prompt}</p></div><div class="choices">${choicesHtml}</div></article>`;
+      }).join("");
+    }
+    function getAnswers() {
+      const answers = {};
+      for (const q of questions) {
+        const checked = form.querySelector(`input[name="${q.id}"]:checked`);
+        if (!checked) return null;
+        answers[q.id] = checked.value;
+      }
+      return answers;
+    }
+    function countAnswers(answers) {
+      return Object.values(answers).reduce((acc, value) => {
+        acc[value] = (acc[value] || 0) + 1;
+        return acc;
+      }, { A: 0, B: 0, C: 0 });
+    }
+    function pickBaseRoute(counts) {
+      if (counts.A >= 2 && counts.B >= 2) return "merihari";
+      if (counts.A >= 2 && counts.C >= 2) return "steadyCost";
+      if (counts.B >= 2 && counts.C >= 2) return "focus";
+      if (counts.B >= 3) return "value";
+      if (counts.C >= 3) return "price";
+      if (counts.A >= 3) return "cost";
+      return "balance";
+    }
+    function pickThemes(answers) {
+      const themes = [];
+      if (answers.seismic === "B" && answers.design === "B") themes.push("spaceAndStrength");
+      if (answers.seismic === "A" && answers.energy === "A") themes.push("performanceCost");
+      if (answers.function === "B" && answers.equipment === "B") themes.push("livingSatisfaction");
+      return themes;
+    }
+    function renderParagraphs(paragraphs) {
+      return paragraphs.map(text => `<p>${text}</p>`).join("");
+    }
+    function renderResult(answers) {
+      const counts = countAnswers(answers);
+      const baseKey = pickBaseRoute(counts);
+      const base = baseRoutes[baseKey];
+      const themes = pickThemes(answers);
+      document.getElementById("routeName").textContent = `おすすめルート：${base.recommended}`;
+      document.getElementById("routeLead").textContent = base.lead;
+      const sheetGrid = document.getElementById("sheetGrid");
+      sheetGrid.innerHTML = questions.map(q => {
+        const ans = answers[q.id];
+        const selected = q.options[ans];
+        const meta = choiceMeta[ans];
+        return `<div class="sheet-row" style="border-left-color: ${meta.color}"><div><span class="sheet-mark"><span class="sheet-mark-letter" style="background: ${meta.color}">${ans}</span><span class="sheet-tag" style="color: ${meta.color}">${meta.label}</span></span></div><div><div class="sheet-category">${q.category}</div><div class="sheet-label">${selected.title}</div><div class="sheet-comment">${selected.sheet}</div></div></div>`;
+      }).join("");
+      document.getElementById("mainRouteBody").innerHTML = renderParagraphs(base.paragraphs);
+      const themeBlock = document.getElementById("themeBlock");
+      const themeGrid = document.getElementById("themeGrid");
+      if (themes.length > 0) {
+        themeBlock.style.display = "block";
+        themeGrid.innerHTML = themes.map(key => {
+          const theme = themeTexts[key];
+          return `<div><h4>${theme.title}</h4>${renderParagraphs(theme.paragraphs)}</div>`;
+        }).join("");
+      } else {
+        themeBlock.style.display = "none";
+        themeGrid.innerHTML = "";
+      }
+      const confirmList = document.getElementById("confirmList");
+      confirmList.innerHTML = questions.map(q => {
+        const ans = answers[q.id];
+        return `<li><strong>${q.category}</strong>：${confirmItems[q.id][ans]}</li>`;
+      }).join("");
+      result.style.display = "block";
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const answers = getAnswers();
+      if (!answers) {
+        errorMessage.style.display = "block";
+        return;
+      }
+      errorMessage.style.display = "none";
+      renderResult(answers);
+    });
+    function resetDiagnosis() {
+      form.reset();
+      result.style.display = "none";
+      errorMessage.style.display = "none";
+      document.getElementById("diagnosis").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    resetButton.addEventListener("click", resetDiagnosis);
+    backButton.addEventListener("click", resetDiagnosis);
+    renderQuestions();
+  </script>
+</body>
+</html>

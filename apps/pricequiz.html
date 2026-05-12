@@ -1,0 +1,273 @@
+<!doctype html>
+<!--
+  YKTラボ｜設備の定価と販売価格
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>設備の定価と販売価格｜YKTラボ</title>
+  <meta name="description" content="5問でわかる、見積もりの見方。論理と科学の家づくり占い館シリーズ。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+  <style>
+    :root{--bg:#f7f2ea;--paper:#fffdf8;--ink:#2c2a27;--muted:#6f665b;--line:#dfd3c2;--accent:#6f7f63;--accent-dark:#43513c;--accent-soft:#e8eee3;--brown:#7b5637;--brown-soft:#efe2d2;--ok:#4f7852;--ng:#9b4a3f;--shadow:0 16px 40px rgba(68,45,26,0.12);--radius:22px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink);background:radial-gradient(circle at top left,rgba(255,255,255,0.92),rgba(255,255,255,0) 38%),linear-gradient(135deg,#f8f0e5 0%,#f6f2ec 48%,#e7eadf 100%);line-height:1.8}
+    .page{width:min(920px,calc(100% - 32px));margin:0 auto;padding:24px 0 72px}
+    .hall-header{text-align:center;padding:12px 0 24px;margin-bottom:8px}
+    .hall-name{font-size:13px;letter-spacing:0.18em;color:var(--accent-dark);font-weight:700;margin-bottom:2px}
+    .hall-name a{color:inherit;text-decoration:none;transition:opacity .2s}.hall-name a:hover{opacity:0.7}
+    .hall-sub{font-size:11px;letter-spacing:0.2em;color:var(--muted)}
+    .hero{position:relative;overflow:hidden;border-radius:32px;background:linear-gradient(135deg,rgba(255,253,248,0.98),rgba(232,238,227,0.92));box-shadow:var(--shadow);padding:clamp(28px,5vw,56px);border:1px solid rgba(67,81,60,0.14)}
+    .hero::after{content:"";position:absolute;right:-90px;bottom:-130px;width:330px;height:330px;border-radius:999px;background:rgba(111,127,99,0.11)}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(111,127,99,0.13);color:var(--accent-dark);font-size:13px;font-weight:800;letter-spacing:.05em}
+    h1{margin:20px 0 10px;font-size:clamp(34px,7vw,62px);line-height:1.12;letter-spacing:.02em}
+    .lead{max-width:760px;margin:18px 0 0;font-size:clamp(16px,2vw,19px);color:#3f3932}
+    .note-box{margin-top:26px;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,0.74);border:1px solid rgba(111,127,99,0.18);color:var(--muted);font-size:15px}
+    .note-box strong{color:var(--accent-dark)}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:none;border-radius:999px;background:var(--accent);color:#fff;font-weight:900;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;box-shadow:0 10px 22px rgba(67,81,60,0.18)}
+    .button:hover{transform:translateY(-1px);background:var(--accent-dark);box-shadow:0 14px 28px rgba(67,81,60,0.22)}
+    .button.secondary{background:#fff;color:var(--accent-dark);border:1px solid var(--line);box-shadow:none}
+    .start-area,.actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .subtext{color:var(--muted);font-size:13px}
+    .section{margin-top:28px;padding:clamp(22px,4vw,34px);border-radius:var(--radius);background:rgba(255,253,248,0.94);border:1px solid rgba(111,127,99,0.12);box-shadow:0 10px 26px rgba(68,45,26,0.08)}
+    .section h2{margin:0 0 12px;font-size:clamp(24px,4vw,34px);line-height:1.35}
+    .section p{margin:0 0 12px}
+    .quiz-card{margin-top:22px;border:1px solid var(--line);border-radius:24px;background:#fffaf3;overflow:hidden;box-shadow:0 8px 20px rgba(68,45,26,0.06)}
+    .quiz-head{padding:20px 22px 16px;background:linear-gradient(135deg,rgba(111,127,99,0.12),rgba(255,253,248,0.84));border-bottom:1px solid var(--line)}
+    .progress-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .question-index{display:inline-block;font-size:13px;font-weight:900;color:var(--accent-dark);letter-spacing:.08em}
+    .score-mini{font-size:13px;color:var(--muted);font-weight:800}
+    .progressbar{height:8px;border-radius:999px;background:#eadfce;overflow:hidden;margin-top:12px}
+    .progressbar span{display:block;height:100%;width:20%;background:var(--accent);transition:width .25s ease}
+    .question-title{margin:0;font-size:clamp(22px,3.6vw,32px);line-height:1.45}
+    .choices{display:grid;gap:14px;padding:18px}
+    .choice{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;width:100%;padding:17px;border:1px solid #e7dac9;border-radius:18px;background:#fff;color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:border .18s ease,background .18s ease,transform .18s ease,box-shadow .18s ease}
+    .choice:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(111,127,99,0.42);box-shadow:0 10px 22px rgba(68,45,26,0.08)}
+    .choice:disabled{cursor:default}
+    .choice.selected.correct{border-color:rgba(79,120,82,0.48);background:#f1f8ef}
+    .choice.selected.wrong{border-color:rgba(155,74,63,0.46);background:#fff1ee}
+    .choice .mark{width:44px;height:44px;display:grid;place-items:center;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);font-weight:900;line-height:1}
+    .choice.selected.correct .mark{background:var(--ok);color:#fff}
+    .choice.selected.wrong .mark{background:var(--ng);color:#fff}
+    .choice-title{display:block;margin-top:2px;font-weight:900;font-size:16px;line-height:1.7}
+    .feedback{display:none;margin:0 18px 18px;padding:18px;border-radius:18px;background:#fffdf8;border:1px solid var(--line)}
+    .feedback.show{display:block}
+    .feedback h3{margin:0 0 8px;font-size:20px}
+    .feedback.correct h3{color:var(--ok)}.feedback.wrong h3{color:var(--ng)}
+    .remember{margin-top:14px;padding:13px 14px;border-radius:14px;background:var(--accent-soft);color:var(--accent-dark);font-weight:900}
+    .remember span{display:block;color:var(--muted);font-size:12px;letter-spacing:.08em;margin-bottom:3px}
+    #result{display:none}
+    .result-hero{border-radius:26px;padding:clamp(22px,4vw,34px);background:linear-gradient(135deg,#fffdf8,#e8eee3);border:1px solid rgba(111,127,99,0.18);box-shadow:var(--shadow)}
+    .result-kicker{color:var(--accent-dark);font-weight:900;letter-spacing:.05em}
+    .result-title{margin:6px 0 12px;font-size:clamp(28px,5vw,46px);line-height:1.25}
+    .result-list{display:grid;gap:12px;margin-top:18px}
+    .result-row{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:14px;border-radius:16px;background:#fff;border:1px solid #eadfce}
+    .result-row b{color:var(--accent-dark)}
+    .result-row p{margin:4px 0 0;color:var(--muted);font-size:14px}
+    .back-to-hall{margin-top:28px;text-align:center}
+    .back-to-hall a{display:inline-block;padding:12px 24px;color:var(--muted);text-decoration:none;font-size:14px;letter-spacing:0.1em;border:1px solid var(--line);border-radius:999px;transition:background .2s,color .2s}
+    .back-to-hall a:hover{background:rgba(255,255,255,0.6);color:var(--accent-dark)}
+    .footer-note{margin-top:22px;color:var(--muted);font-size:13px;text-align:center}
+    .price-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .price-table thead th{background:var(--accent-soft);color:var(--accent-dark);font-weight:700;padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);letter-spacing:0.02em}
+    .price-table tbody td{padding:8px 10px;border-bottom:1px solid #efe7d8;color:var(--ink)}
+    .price-table tbody tr:last-child td{border-bottom:none}
+    .price-table tbody tr:nth-child(even) td{background:#fbf6ec}
+    .q-list{margin:10px 0 12px;padding-left:22px;color:var(--ink);font-size:13.5px;line-height:1.85}
+    .q-list li{margin-bottom:3px;list-style:disc}
+    .price-note{display:block;margin-top:8px;padding:10px 12px;background:var(--brown-soft);border-left:3px solid var(--brown);border-radius:4px;font-size:12px;color:var(--muted);line-height:1.7}
+    @media(max-width:720px){.page{width:min(100% - 20px,920px);padding-top:12px}.hero{border-radius:24px;padding:26px 20px}.section{padding:22px 16px}.choice{grid-template-columns:38px 1fr;gap:12px;padding:14px}.choice .mark{width:38px;height:38px}.result-row{grid-template-columns:1fr}.button{width:100%}}
+    @media(max-width:480px){.price-table{font-size:12px}.price-table thead th,.price-table tbody td{padding:6px 7px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">きほんクイズ</div>
+      <h1>設備の定価と<br>販売価格</h1>
+      <p class="lead">5問でわかる、見積もりの見方</p>
+      <div class="note-box">
+        キッチン、お風呂、トイレ、洗面台などの住宅設備には、「定価」「値引き」「販売価格」「施工費」と、少しわかりにくい言葉が並びます。<br>
+        <strong>三択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>三択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+      <div class="result-list" id="resultList"></div>
+      <div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、住宅設備の見積もりをやさしく知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        title: "住宅設備の「定価」とは、基本的に何を指すでしょう？",
+        choices: { A: "実際にお客さんが必ず支払う金額", B: "メーカーが設定している目安の価格", C: "工務店が自由に決めた価格" },
+        correct: "B",
+        explanation: "設備の定価は、基本的にはメーカーが設定している目安の価格です。実際に家づくりで支払う金額は、仕入れ価格、販売価格、施工費、設置条件などによって変わります。そのため、定価がそのまま支払う価格になるわけではありません。",
+        remember: "定価はメーカーが示す目安の価格。支払額そのものではありません。"
+      },
+      {
+        title: "値引き率が大きい設備ほど、お得と言えるでしょうか？",
+        choices: { A: "必ずお得", B: "必ず損", C: "値引き率だけでは判断できない" },
+        correct: "C",
+        explanation: "「定価100万円から50％OFF」と聞くと、とても安く感じます。でも、そもそもの定価設定や、商品グレード、施工費、必要部品などによって、実際のお得さは変わります。大切なのは、値引き率だけではなく、最終的にいくらかかるのかを見ることです。",
+        remember: "値引き率の数字は、お得さを示しません。"
+      },
+      {
+        title: "同じメーカーのキッチンでも、シリーズによって値引き率が変わることがあります。一般的な傾向として近いものはどれでしょう？",
+        choices: { A: "高級シリーズほど、値引き率が大きくなりやすい", B: "普及シリーズは値引き率が大きく、高級シリーズは値引き率が小さくなりやすい", C: "普及・中級・高級のどれを選んでも、値引き率は必ず同じになる" },
+        correct: "B",
+        explanation: "同じメーカーのキッチンでも、シリーズのグレードによって値引き率が変わることがあります。たとえば一例として、次のような価格差が出る場合があります。<table class=\"price-table\"><thead><tr><th>グレード</th><th>定価</th><th>値引き率</th><th>販売価格</th></tr></thead><tbody><tr><td>普及シリーズ</td><td>100万円</td><td>50％OFF</td><td>50万円</td></tr><tr><td>中級シリーズ</td><td>150万円</td><td>30％OFF</td><td>105万円</td></tr><tr><td>高級シリーズ</td><td>200万円</td><td>10％OFF</td><td>180万円</td></tr></tbody></table>この例では、定価の差は100万円ですが、実際の販売価格の差は130万円になります。「定価が50万円高いだけ」と思っていても、実際の支払額ではもっと大きな差になる場合があるということです。<br><br><span class=\"price-note\">※ 値引き率はメーカー・シリーズ・時期・建築会社の仕入れ条件などによって変わります。ここでは考え方を伝えるための一例として示しています。</span>",
+        remember: "グレードが上がるほど、値引き率は小さくなりがちです。"
+      },
+      {
+        title: "ミラタップさんのように、誰が買っても同じ価格で購入できる「ワンプライス型」の設備メーカーもあります。このような設備を採用したい場合、特に注意したいことはどれでしょう？",
+        choices: { A: "価格がわかりやすい反面、建築会社によっては取り扱い方法・施工費・保証の扱いが変わることがある", B: "値引きがない設備は、必ず品質が低い", C: "定価販売の設備なら、施工費も保証もすべて無料になる" },
+        correct: "A",
+        explanation: "ミラタップさんのように、設計事務所・ゼネコン・工務店などの建築のプロと、施主である一般消費者に対して、同一条件・同一価格で商品を提供している設備メーカーもあります。価格が透明でわかりやすいことは大きなメリットです。一方で、家づくり全体で見ると、建築会社によって対応が分かれることがあります。たとえば、<ul class=\"q-list\"><li>取り扱いができない</li><li>取り扱いに手数料がかかる</li><li>施主支給としての対応になる</li><li>荷受けを施主側で行う必要がある</li><li>施工費が思ったより高くなる</li><li>保証が建物本体とは別扱いになる</li></ul>といったことが起こる可能性があります。「本体価格がわかりやすいこと」と「建築会社が問題なく採用できること」は、別の話です。採用したい設備がある場合は、契約後ではなく、契約前の段階で「この設備を使いたい」と伝えて、対応できるか確認しておくことが大切です。",
+        remember: "採用したい設備があるなら、契約前に建築会社に確認します。"
+      },
+      {
+        title: "キッチンに食洗機を追加するなど、設備の仕様を変えるときに注意したいことはどれでしょう？",
+        choices: { A: "本体価格だけでなく、必要な部品・収納の変更・配管や電気工事・施工費なども変わることがある", B: "食洗機などのオプションは、本体価格だけ見れば総額がわかる", C: "同じキッチンシリーズなら、どんな仕様にしても工事費や部品構成は変わらない" },
+        correct: "A",
+        explanation: "キッチンやお風呂、洗面台などの住宅設備は、家電のように「本体を選べば終わり」とは限りません。たとえばキッチンに食洗機を追加する場合でも、<ul class=\"q-list\"><li>食洗機本体の価格</li><li>食洗機の値引き率</li><li>食洗機を入れる部分の引き出しの有無</li><li>必要な配管工事</li><li>必要な電気工事</li><li>取付費</li><li>部材の変更</li><li>収納量の変化</li></ul>など、いろいろな変更が関係します。「食洗機はいくらか」だけではなく、食洗機を入れることで全体の金額がどう変わるかを見ることが大切です。",
+        remember: "本体価格だけでなく、工事費や部品まで含めて見ます。"
+      }
+    ];
+    let current = 0, score = 0, answered = [];
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = ""; feedbackText.textContent = ""; rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `<button class="choice" type="button" data-choice="${key}"><span class="mark">${key}</span><span class="choice-title">${label}</span></button>`).join("");
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) button.classList.add("selected", isCorrect ? "correct" : "wrong");
+      });
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.innerHTML = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+    function showResult() {
+      quiz.style.display = "none"; result.style.display = "block";
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+      if (score === 5) {
+        resultTitle.textContent = "見積もりの読み方が、よく整理されています";
+        resultLead.textContent = "設備の定価・値引き率・販売価格・施工費・必要部品まで含めて見る視点が、しっかりと身についています。次は、自分の家づくりで、どの設備にどれだけの予算を置きたいかを、暮らし方と合わせて考えていく段階です。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "見方のポイントが見えてきました";
+        resultLead.textContent = "設備の見積もりは、本体の値段だけでは決まりません。定価と値引き率、販売価格、施工費、必要部品の合計で、家に取り付けた状態の総額を見ること。この視点を覚えておくと、見積もりに振り回されにくくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "設備の価格は、定価・値引き・販売価格・施工費と、言葉が並んでわかりにくいものです。まずは、定価そのままが支払額になるわけではないこと、値引き率の大きさだけでは判断できないこと、この2つを押さえておくと、見積もりが落ち着いて見られるようになります。";
+      }
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `<div class="result-row"><div><b>Q${index + 1}</b><br>${status}</div><div><b>${q.remember}</b><p>${q.title}</p></div></div>`;
+      }).join("");
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    function startQuiz() {
+      current = 0; score = 0; answered = [];
+      result.style.display = "none"; quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1; showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else showResult();
+    });
+  </script>
+</body>
+</html>

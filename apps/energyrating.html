@@ -1,0 +1,264 @@
+<!doctype html>
+<!--
+  YKTラボ｜断熱等級・省エネ等級のきほん
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>断熱等級・省エネ等級のきほん｜YKTラボ</title>
+  <meta name="description" content="5問でわかる、家の性能表示の見方。論理と科学の家づくり占い館シリーズ。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌡️</text></svg>">
+  <style>
+    :root{--bg:#f7f2ea;--paper:#fffdf8;--ink:#2c2a27;--muted:#6f665b;--line:#dfd3c2;--accent:#6f7f63;--accent-dark:#43513c;--accent-soft:#e8eee3;--brown:#7b5637;--brown-soft:#efe2d2;--ok:#4f7852;--ng:#9b4a3f;--shadow:0 16px 40px rgba(68,45,26,0.12);--radius:22px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink);background:radial-gradient(circle at top left,rgba(255,255,255,0.92),rgba(255,255,255,0) 38%),linear-gradient(135deg,#f8f0e5 0%,#f6f2ec 48%,#e7eadf 100%);line-height:1.8}
+    .page{width:min(920px,calc(100% - 32px));margin:0 auto;padding:24px 0 72px}
+    .hall-header{text-align:center;padding:12px 0 24px;margin-bottom:8px}
+    .hall-name{font-size:13px;letter-spacing:0.18em;color:var(--accent-dark);font-weight:700;margin-bottom:2px}
+    .hall-name a{color:inherit;text-decoration:none;transition:opacity .2s}.hall-name a:hover{opacity:0.7}
+    .hall-sub{font-size:11px;letter-spacing:0.2em;color:var(--muted)}
+    .hero{position:relative;overflow:hidden;border-radius:32px;background:linear-gradient(135deg,rgba(255,253,248,0.98),rgba(232,238,227,0.92));box-shadow:var(--shadow);padding:clamp(28px,5vw,56px);border:1px solid rgba(67,81,60,0.14)}
+    .hero::after{content:"";position:absolute;right:-90px;bottom:-130px;width:330px;height:330px;border-radius:999px;background:rgba(111,127,99,0.11)}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(111,127,99,0.13);color:var(--accent-dark);font-size:13px;font-weight:800;letter-spacing:.05em}
+    h1{margin:20px 0 10px;font-size:clamp(34px,7vw,62px);line-height:1.12;letter-spacing:.02em}
+    .lead{max-width:760px;margin:18px 0 0;font-size:clamp(16px,2vw,19px);color:#3f3932}
+    .note-box{margin-top:26px;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,0.74);border:1px solid rgba(111,127,99,0.18);color:var(--muted);font-size:15px}
+    .note-box strong{color:var(--accent-dark)}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:none;border-radius:999px;background:var(--accent);color:#fff;font-weight:900;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;box-shadow:0 10px 22px rgba(67,81,60,0.18)}
+    .button:hover{transform:translateY(-1px);background:var(--accent-dark);box-shadow:0 14px 28px rgba(67,81,60,0.22)}
+    .button.secondary{background:#fff;color:var(--accent-dark);border:1px solid var(--line);box-shadow:none}
+    .start-area,.actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .subtext{color:var(--muted);font-size:13px}
+    .section{margin-top:28px;padding:clamp(22px,4vw,34px);border-radius:var(--radius);background:rgba(255,253,248,0.94);border:1px solid rgba(111,127,99,0.12);box-shadow:0 10px 26px rgba(68,45,26,0.08)}
+    .section h2{margin:0 0 12px;font-size:clamp(24px,4vw,34px);line-height:1.35}
+    .section p{margin:0 0 12px}
+    .quiz-card{margin-top:22px;border:1px solid var(--line);border-radius:24px;background:#fffaf3;overflow:hidden;box-shadow:0 8px 20px rgba(68,45,26,0.06)}
+    .quiz-head{padding:20px 22px 16px;background:linear-gradient(135deg,rgba(111,127,99,0.12),rgba(255,253,248,0.84));border-bottom:1px solid var(--line)}
+    .progress-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .question-index{display:inline-block;font-size:13px;font-weight:900;color:var(--accent-dark);letter-spacing:.08em}
+    .score-mini{font-size:13px;color:var(--muted);font-weight:800}
+    .progressbar{height:8px;border-radius:999px;background:#eadfce;overflow:hidden;margin-top:12px}
+    .progressbar span{display:block;height:100%;width:20%;background:var(--accent);transition:width .25s ease}
+    .question-title{margin:0;font-size:clamp(22px,3.6vw,32px);line-height:1.45}
+    .choices{display:grid;gap:14px;padding:18px}
+    .choice{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;width:100%;padding:17px;border:1px solid #e7dac9;border-radius:18px;background:#fff;color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:border .18s ease,background .18s ease,transform .18s ease,box-shadow .18s ease}
+    .choice:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(111,127,99,0.42);box-shadow:0 10px 22px rgba(68,45,26,0.08)}
+    .choice:disabled{cursor:default}
+    .choice.selected.correct{border-color:rgba(79,120,82,0.48);background:#f1f8ef}
+    .choice.selected.wrong{border-color:rgba(155,74,63,0.46);background:#fff1ee}
+    .choice .mark{width:44px;height:44px;display:grid;place-items:center;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);font-weight:900;line-height:1}
+    .choice.selected.correct .mark{background:var(--ok);color:#fff}
+    .choice.selected.wrong .mark{background:var(--ng);color:#fff}
+    .choice-title{display:block;margin-top:2px;font-weight:900;font-size:16px;line-height:1.7}
+    .feedback{display:none;margin:0 18px 18px;padding:18px;border-radius:18px;background:#fffdf8;border:1px solid var(--line)}
+    .feedback.show{display:block}
+    .feedback h3{margin:0 0 8px;font-size:20px}
+    .feedback.correct h3{color:var(--ok)}.feedback.wrong h3{color:var(--ng)}
+    .remember{margin-top:14px;padding:13px 14px;border-radius:14px;background:var(--accent-soft);color:var(--accent-dark);font-weight:900}
+    .remember span{display:block;color:var(--muted);font-size:12px;letter-spacing:.08em;margin-bottom:3px}
+    #result{display:none}
+    .result-hero{border-radius:26px;padding:clamp(22px,4vw,34px);background:linear-gradient(135deg,#fffdf8,#e8eee3);border:1px solid rgba(111,127,99,0.18);box-shadow:var(--shadow)}
+    .result-kicker{color:var(--accent-dark);font-weight:900;letter-spacing:.05em}
+    .result-title{margin:6px 0 12px;font-size:clamp(28px,5vw,46px);line-height:1.25}
+    .result-list{display:grid;gap:12px;margin-top:18px}
+    .result-row{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:14px;border-radius:16px;background:#fff;border:1px solid #eadfce}
+    .result-row b{color:var(--accent-dark)}
+    .result-row p{margin:4px 0 0;color:var(--muted);font-size:14px}
+    .back-to-hall{margin-top:28px;text-align:center}
+    .back-to-hall a{display:inline-block;padding:12px 24px;color:var(--muted);text-decoration:none;font-size:14px;letter-spacing:0.1em;border:1px solid var(--line);border-radius:999px;transition:background .2s,color .2s}
+    .back-to-hall a:hover{background:rgba(255,255,255,0.6);color:var(--accent-dark)}
+    .footer-note{margin-top:22px;color:var(--muted);font-size:13px;text-align:center}
+    @media(max-width:720px){.page{width:min(100% - 20px,920px);padding-top:12px}.hero{border-radius:24px;padding:26px 20px}.section{padding:22px 16px}.choice{grid-template-columns:38px 1fr;gap:12px;padding:14px}.choice .mark{width:38px;height:38px}.result-row{grid-template-columns:1fr}.button{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">きほんクイズ</div>
+      <h1>断熱等級・<br>省エネ等級の<br>きほん</h1>
+      <p class="lead">5問でわかる、家の性能表示の見方</p>
+      <div class="note-box">
+        断熱等級、省エネ等級という言葉は耳にするけれど、何が違うのかは意外と知られていません。<br>
+        <strong>二択を5回、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>二択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+      <div class="result-list" id="resultList"></div>
+      <div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、家の性能表示をやさしく知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        title: "断熱等級は、主に何を見るもの？",
+        choices: { A: "家から熱が逃げにくいか、日射が入りすぎないか", B: "キッチンやお風呂など、設備が使用するエネルギー" },
+        correct: "A",
+        explanation: "断熱等級は、ざっくり言うと、家の外側の包み方を見るものです。窓、壁、屋根、床などから熱が逃げにくいか。夏の日射が入りすぎないか。そうした部分が関係します。",
+        remember: "断熱は、家の「包み方」を見る性能です。"
+      },
+      {
+        title: "省エネ等級は、主に何を見るもの？",
+        choices: { A: "冷暖房・換気・給湯・照明などのエネルギーの使用量", B: "断熱材の種類や厚さ" },
+        correct: "A",
+        explanation: "省エネ等級は、断熱材そのものではなく、冷暖房・換気・給湯・照明など、家の設備が使うエネルギーを見ます。給湯では、水栓やシャワーの選び方が関係することもあります。なお、太陽光発電があっても、断熱や設備の省エネを考えなくてよいわけではありません。",
+        remember: "省エネは、家の設備が使うエネルギーを見る性能です。"
+      },
+      {
+        title: "断熱等級が高ければ、省エネ等級も必ず高くなる？",
+        choices: { A: "高くなりやすいが、それだけでは決まらない", B: "必ず同じように高くなる" },
+        correct: "A",
+        explanation: "断熱性能が高いと、冷暖房の負担は小さくしやすくなります。でも、省エネ等級には、給湯、換気、照明などの設備も関係します。だから、断熱等級だけで、家全体の省エネ等級が必ず決まるわけではありません。",
+        remember: "断熱と省エネは関係しますが、同じものではありません。"
+      },
+      {
+        title: "今の新築住宅に必要な省エネ基準は、どちらに近い？",
+        choices: { A: "断熱等性能等級4・一次エネルギー消費量等級4相当", B: "断熱等性能等級1・一次エネルギー消費量等級1相当" },
+        correct: "A",
+        explanation: "2025年4月以降に着工する新築住宅は、省エネ基準への適合が必要です。住宅性能表示で見ると、住宅部分の省エネ基準は、断熱等性能等級4・一次エネルギー消費量等級4に該当します。",
+        remember: "今の新築住宅は、省エネ基準への適合が必要です。"
+      },
+      {
+        title: "等級を見るときに大切なのは？",
+        choices: { A: "等級は大切な目安。ただし、暮らし方や設計と合わせて考える", B: "等級だけ見れば、家の快適さは全部わかる" },
+        correct: "A",
+        explanation: "等級は、とても大切な目安です。でも、家の快適さや光熱費は、等級だけでは決まりません。窓の大きさ、日当たり、換気、空調、間取り、暮らし方。こうしたものも一緒に考えることで、実際の住み心地に近づいていきます。",
+        remember: "等級は大事ですが、設計や暮らし方と合わせて見るものです。"
+      }
+    ];
+    let current = 0, score = 0, answered = [];
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = ""; feedbackText.textContent = ""; rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `<button class="choice" type="button" data-choice="${key}"><span class="mark">${key}</span><span class="choice-title">${label}</span></button>`).join("");
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) button.classList.add("selected", isCorrect ? "correct" : "wrong");
+      });
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.textContent = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+    function showResult() {
+      quiz.style.display = "none"; result.style.display = "block";
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+      if (score === 5) {
+        resultTitle.textContent = "かなり理解できています";
+        resultLead.textContent = "断熱等級と省エネ等級の違いが、かなり整理できています。次は、自分の家づくりでどの水準を目指すか、予算や暮らし方と合わせて考えていく段階です。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "きほんは見えてきました";
+        resultLead.textContent = "断熱と省エネの違いは、少しずつ見えてきています。断熱は家の包み方、省エネは設備も含めたエネルギーの使い方。まずはこの分け方を覚えておくと、性能表示が見やすくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "断熱等級や省エネ等級は、言葉が似ていて分かりにくいものです。まずは、断熱は家の包み方、省エネは家の設備が使うエネルギーを見るもの、と分けて考えるところから始めましょう。";
+      }
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `<div class="result-row"><div><b>Q${index + 1}</b><br>${status}</div><div><b>${q.remember}</b><p>${q.title}</p></div></div>`;
+      }).join("");
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    function startQuiz() {
+      current = 0; score = 0; answered = [];
+      result.style.display = "none"; quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1; showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else showResult();
+    });
+  </script>
+</body>
+</html>
