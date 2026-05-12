@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <!--
-  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
-  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
-  ── © 萩森建設 / 論理と科学の家づくり占い館
+  YKTラボ｜家づくりの実験と実践
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
 -->
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>萩森建設ラボ｜家づくりの実験と実践</title>
-<meta name="description" content="萩森建設が運営する家づくりの研究サイト。占い・クイズで家づくりの考え方に触れたり、実務で培った工法の知見を公開しています。">
-<meta property="og:title" content="萩森建設ラボ｜家づくりの実験と実践">
-<meta property="og:description" content="占い・クイズで家づくりの考え方に触れたり、実務で培った工法の知見を公開しています。">
+<title>YKTラボ｜家づくりの実験と実践</title>
+<meta name="description" content="家づくりの実験と実践の場。占い・クイズで自分の傾向に気づくツール、実務で培った工法の知見を公開しています。">
+<meta property="og:title" content="YKTラボ｜家づくりの実験と実践">
+<meta property="og:description" content="家づくりの実験と実践の場。占い・クイズや工法の知見を公開しています。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
@@ -37,45 +36,39 @@
 html{font-size:16px;scroll-behavior:smooth}
 body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.8;min-height:100dvh;display:flex;flex-direction:column}
 main{flex:1}
-.hero{text-align:center;padding:56px 20px 36px}
+.hero{text-align:center;padding:64px 20px 40px}
 .hero-icon{font-size:3rem;margin-bottom:8px}
-.hero h1{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--main);margin-bottom:6px;letter-spacing:.02em}
-.hero .subtitle{font-size:.92rem;color:var(--accent);font-weight:500;margin-bottom:16px}
+.hero h1{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--main);margin-bottom:6px;letter-spacing:.04em}
+.hero .subtitle{font-size:.92rem;color:var(--accent);font-weight:500;margin-bottom:18px}
 .hero .desc{font-size:.88rem;color:var(--text-light);max-width:440px;margin:0 auto;line-height:1.9}
-.container{max-width:680px;margin:0 auto;padding:0 20px 40px;width:100%}
-.section-head{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--main-dark);margin-bottom:14px;padding-left:12px;border-left:3px solid var(--main);display:flex;align-items:center;gap:8px}
-.section-head.methods{color:var(--method);border-left-color:var(--method)}
-.section{margin-bottom:32px}
-.app-grid{display:flex;flex-direction:column;gap:8px}
-.app-group-label{font-size:.72rem;font-weight:700;color:var(--text-light);letter-spacing:.15em;padding:10px 0 4px;margin-top:4px}
-.app-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--text);transition:all .2s}
-.app-card:hover{border-color:var(--main);transform:translateY(-2px);box-shadow:0 4px 14px rgba(90,120,100,.1)}
-.app-icon{width:42px;height:42px;border-radius:10px;background:var(--main-light);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
-.app-body{flex:1;min-width:0}
-.app-title{font-family:var(--fd);font-size:.92rem;font-weight:700;color:var(--main-dark);line-height:1.5}
-.app-meta{font-size:.75rem;color:var(--text-light);margin-top:1px}
-.app-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
-.badge-quiz{background:var(--main-light);color:var(--main)}
-.badge-uranai{background:#ede4f3;color:#6b4e8a}
-.app-arrow{font-size:.75rem;color:var(--border);flex-shrink:0;transition:color .15s}.app-card:hover .app-arrow{color:var(--main)}
-.room-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 22px;text-decoration:none;color:var(--text);transition:all .25s;box-shadow:0 2px 12px rgba(90,80,60,.04);border-left:4px solid var(--method)}
+.container{max-width:640px;margin:0 auto;padding:0 20px 40px;width:100%}
+.room-grid{display:flex;flex-direction:column;gap:20px}
+.room-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;text-decoration:none;color:var(--text);transition:all .25s;box-shadow:0 2px 12px rgba(90,80,60,.04)}
 .room-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(90,80,60,.1)}
-.room-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
-.room-icon{width:48px;height:48px;border-radius:12px;background:var(--method-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-.room-title{font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--method);line-height:1.4}
-.room-sub{font-size:.78rem;color:var(--text-light);font-weight:500;margin-top:2px}
-.room-desc{font-size:.85rem;color:var(--text);line-height:1.9;margin-bottom:10px}
-.room-count{font-size:.75rem;color:var(--text-light)}
+.room-card.apps{border-left:4px solid var(--main)}
+.room-card.apps:hover{border-color:var(--main)}
+.room-card.methods{border-left:4px solid var(--method)}
+.room-card.methods:hover{border-color:var(--method)}
+.room-head{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.room-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+.room-card.apps .room-icon{background:var(--main-light)}
+.room-card.methods .room-icon{background:var(--method-light)}
+.room-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;line-height:1.4}
+.room-card.apps .room-title{color:var(--main)}
+.room-card.methods .room-title{color:var(--method)}
+.room-sub{font-size:.82rem;color:var(--text-light);font-weight:500;margin-top:2px}
+.room-desc{font-size:.88rem;color:var(--text);line-height:1.9;margin-bottom:14px}
+.room-count{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text-light)}
+.count-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-weight:700;font-size:.72rem}
+.room-card.apps .count-badge{background:var(--main-light);color:var(--main)}
+.room-card.methods .count-badge{background:var(--method-light);color:var(--method)}
 .footer{text-align:center;padding:24px 20px 32px;font-size:.75rem;color:var(--text-light);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
-.footer a{color:var(--main);text-decoration:none}
-.footer a:hover{text-decoration:underline}
 @media(max-width:480px){
-  .hero{padding:40px 20px 28px}
-  .hero h1{font-size:1.65rem}
-  .app-card{padding:12px 14px;gap:12px}
-  .app-icon{width:38px;height:38px;font-size:1.05rem}
-  .app-title{font-size:.86rem}
-  .room-card{padding:20px 18px}
+  .hero{padding:48px 20px 32px}
+  .hero h1{font-size:1.7rem}
+  .room-card{padding:22px 20px}
+  .room-icon{width:48px;height:48px;font-size:1.5rem}
+  .room-title{font-size:1.15rem}
 }
 </style>
 </head>
@@ -83,82 +76,24 @@ main{flex:1}
 <main>
 <div class="hero">
   <div class="hero-icon">🧪</div>
-  <h1>萩森建設ラボ</h1>
+  <h1>YKTラボ</h1>
   <p class="subtitle">家づくりの実験と実践</p>
   <p class="desc">家づくりの考え方に、ちょっとだけ触れてみてください。<br>占い・クイズで自分の傾向を確認したり、<br>実務で培った工法の知見を公開しています。</p>
 </div>
 <div class="container">
-
-  <div class="section">
-    <div class="section-head">🔮 占い・クイズ</div>
-    <div class="app-grid">
-
-      <div class="app-group-label">占い館で公開中</div>
-      <a href="https://www.hagimori-kensetsu.com/lp/uranai/seismicquiz/index.html" class="app-card" target="_blank" rel="noopener">
-        <div class="app-icon">🏗️</div>
-        <div class="app-body">
-          <div class="app-title">耐震等級のきほん<span class="app-badge badge-quiz">クイズ</span></div>
-          <div class="app-meta">5問でわかる、耐震等級の見方</div>
+  <div class="room-grid">
+    <a href="apps/index.html" class="room-card apps">
+      <div class="room-head">
+        <div class="room-icon">🔮</div>
+        <div>
+          <div class="room-title">アプリ開発室</div>
+          <div class="room-sub">論理と科学の家づくり占い館</div>
         </div>
-        <span class="app-arrow">→</span>
-      </a>
-      <a href="https://www.hagimori-kensetsu.com/lp/uranai/shapeseismic/index.html" class="app-card" target="_blank" rel="noopener">
-        <div class="app-icon">🏠</div>
-        <div class="app-body">
-          <div class="app-title">家のかたちと強さの関係<span class="app-badge badge-quiz">クイズ</span></div>
-          <div class="app-meta">5問でわかる、形と構造の話</div>
-        </div>
-        <span class="app-arrow">→</span>
-      </a>
-      <a href="https://www.hagimori-kensetsu.com/lp/uranai/energyrating/index.html" class="app-card" target="_blank" rel="noopener">
-        <div class="app-icon">🌡️</div>
-        <div class="app-body">
-          <div class="app-title">断熱等級・省エネ等級のきほん<span class="app-badge badge-quiz">クイズ</span></div>
-          <div class="app-meta">5問でわかる、家の性能表示の見方</div>
-        </div>
-        <span class="app-arrow">→</span>
-      </a>
-      <a href="https://www.hagimori-kensetsu.com/lp/uranai/pricequiz/index.html" class="app-card" target="_blank" rel="noopener">
-        <div class="app-icon">💰</div>
-        <div class="app-body">
-          <div class="app-title">設備の定価と販売価格<span class="app-badge badge-quiz">クイズ</span></div>
-          <div class="app-meta">5問でわかる、見積もりの見方</div>
-        </div>
-        <span class="app-arrow">→</span>
-      </a>
-      <a href="https://www.hagimori-kensetsu.com/lp/uranai/buildroute/index.html" class="app-card" target="_blank" rel="noopener">
-        <div class="app-icon">🗺️</div>
-        <div class="app-body">
-          <div class="app-title">家づくりルート診断<span class="app-badge badge-uranai">占い</span></div>
-          <div class="app-meta">あなたは、どの道から家づくりを考えるタイプ？</div>
-        </div>
-        <span class="app-arrow">→</span>
-      </a>
-
-      <div class="app-group-label">このサイトで公開中</div>
-      <a href="apps/dishwasher-quiz.html" class="app-card">
-        <div class="app-icon">🍽️</div>
-        <div class="app-body">
-          <div class="app-title">食洗機占い<span class="app-badge badge-uranai">占い</span></div>
-          <div class="app-meta">あなたにぴったりの食洗機タイプ診断</div>
-        </div>
-        <span class="app-arrow">→</span>
-      </a>
-      <a href="apps/shizen-quiz.html" class="app-card">
-        <div class="app-icon">🌿</div>
-        <div class="app-body">
-          <div class="app-title">自然派の家づくり占い<span class="app-badge badge-uranai">占い</span></div>
-          <div class="app-meta">あなたの自然派度を診断</div>
-        </div>
-        <span class="app-arrow">→</span>
-      </a>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-head methods">🔧 工法・技術</div>
-    <a href="methods/index.html" class="room-card">
+      </div>
+      <p class="room-desc">簡単な質問に答えるだけで、家づくりの「自分の傾向」に気づけるツール集。業態選び・性能・お金・暮らしまで、27の占いを順次公開中。</p>
+      <div class="room-count"><span class="count-badge">27アプリ</span><span>公開中 2 / 準備中 25</span></div>
+    </a>
+    <a href="methods/index.html" class="room-card methods">
       <div class="room-head">
         <div class="room-icon">🔧</div>
         <div>
@@ -166,16 +101,15 @@ main{flex:1}
           <div class="room-sub">実務で培った設計・施工の知見</div>
         </div>
       </div>
-      <p class="room-desc">日々の現場から生まれた工法や技術の記録。スマートホーム設計、造作LED、構造補強など、実践的なノウハウを順次公開予定。</p>
-      <div class="room-count">5記事 準備中</div>
+      <p class="room-desc">日々の現場から生まれた工法や技術の記録。スマートホーム設計、造作LED、構造補強など、実践的なノウハウを公開予定。</p>
+      <div class="room-count"><span class="count-badge">5記事</span><span>準備中</span></div>
     </a>
   </div>
-
 </div>
 </main>
 <footer class="footer">
-  <a href="https://www.hagimori-kensetsu.com/" target="_blank" rel="noopener">有限会社 萩森建設</a><br>
-  &copy; 萩森建設 / says@o-h.co.jp
+  YKTラボ / 荻野 尚志<br>
+  &copy; YKTラボ | says@o-h.co.jp
 </footer>
 </body>
 </html>
