@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+  自然派の家づくり占い｜あなたの自然派度を診断
+  © 荻野 尚志 | says@o-h.co.jp
+  自社サイトに埋め込みたい工務店・ハウスメーカーはご相談ください。
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自然派の家づくり占い｜あなたの自然派度を診断</title>
+<meta name="description" content="5つの質問に答えるだけで、あなたの家づくりがどれくらい「自然派」かわかります。萩森建設が提供する無料診断ツールです。">
+<meta property="og:title" content="自然派の家づくり占い｜あなたの自然派度を診断">
+<meta property="og:description" content="5つの質問に答えるだけで、あなたの家づくりがどれくらい「自然派」かわかります。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f4f6f0;--card:#fff;--primary:#6b8c5e;--pl:#a4bf98;--pd:#4e6b44;--accent:#b89060;--text:#363d32;--tl:#727a6a;--border:#d8e0d0;--yes:#5a8a5e;--mid:#b89060;--no:#9a7a60;--slg:0 8px 32px rgba(80,100,60,.10);--r:12px;--fd:'Zen Maru Gothic',sans-serif;--fb:'Noto Sans JP',sans-serif}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100dvh;display:flex;flex-direction:column;line-height:1.8}
+.app{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem 1rem;min-height:calc(100dvh - 160px)}
+.screen{display:none;width:100%;max-width:560px;animation:fu .5s ease both}.screen.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.top-card,.q-card,.r-card{background:var(--card);border-radius:var(--r);box-shadow:var(--slg);padding:2rem}
+.top-card{text-align:center;padding:2.5rem 2rem}
+.top-icon{font-size:3.5rem;margin-bottom:.5rem}
+.top-title{font-family:var(--fd);font-size:1.6rem;font-weight:700;color:var(--pd);margin-bottom:.5rem;line-height:1.4}
+.top-sub{font-size:.95rem;color:var(--tl);margin-bottom:.8rem;line-height:1.7}
+.top-note{font-size:.78rem;color:var(--tl);margin-bottom:1.8rem;line-height:1.7}
+.btn-start{display:inline-block;background:var(--primary);color:#fff;font-family:var(--fd);font-size:1.1rem;font-weight:700;padding:.9rem 2.5rem;border:none;border-radius:60px;cursor:pointer;transition:all .25s;box-shadow:0 4px 16px rgba(107,140,94,.25)}
+.btn-start:hover{background:var(--pd);transform:translateY(-2px)}
+.q-progress{display:flex;gap:6px;margin-bottom:1.5rem}
+.q-dot{flex:1;height:5px;border-radius:3px;background:var(--border);transition:background .3s}.q-dot.done{background:var(--pl)}.q-dot.current{background:var(--primary)}
+.q-number{font-family:var(--fd);font-size:.85rem;font-weight:500;color:var(--pl);margin-bottom:.4rem}
+.q-scene{font-size:.95rem;color:var(--text);margin-bottom:1rem;line-height:1.8}
+.q-text{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--pd);margin-bottom:1.5rem;line-height:1.6}
+.q-choices{display:flex;flex-direction:column;gap:.75rem}
+.btn-choice{display:flex;align-items:center;gap:.7rem;width:100%;padding:1rem 1.2rem;background:var(--bg);border:2px solid var(--border);border-radius:var(--r);font-family:var(--fb);font-size:.95rem;color:var(--text);cursor:pointer;transition:all .2s;text-align:left}
+.btn-choice:hover{border-color:var(--pl);background:#eef2ea}
+.choice-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex-shrink:0}
+.btn-choice.yes .choice-icon{background:#e4f0e5;color:var(--yes)}.btn-choice.mid .choice-icon{background:#f0e8dc;color:var(--mid)}.btn-choice.no .choice-icon{background:#f0e8e0;color:var(--no)}
+.btn-choice.yes:hover{border-color:var(--yes);background:#edf5ee}.btn-choice.mid:hover{border-color:var(--mid);background:#f5efe6}.btn-choice.no:hover{border-color:var(--no);background:#f5ede6}
+.btn-back{display:inline-flex;align-items:center;gap:.3rem;margin-top:1.2rem;background:none;border:none;color:var(--tl);font-family:var(--fb);font-size:.85rem;cursor:pointer;padding:.4rem .2rem;transition:color .2s}.btn-back:hover{color:var(--primary)}
+.r-label{font-family:var(--fd);font-size:.8rem;font-weight:500;color:var(--pl);text-align:center;margin-bottom:.3rem}
+.r-score{font-family:var(--fd);font-size:2.5rem;font-weight:700;color:var(--pd);text-align:center;line-height:1.2;margin-bottom:.3rem}
+.r-type{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--primary);text-align:center;margin-bottom:.6rem}
+.r-bar{height:8px;background:var(--border);border-radius:4px;margin:0 auto 1.5rem;max-width:80%;overflow:hidden}
+.r-bar-fill{height:100%;background:linear-gradient(90deg,var(--pl),var(--primary));border-radius:4px;transition:width 1s ease}
+.r-divider{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.r-body{font-size:.95rem;line-height:1.9;margin-bottom:.2rem}
+.r-qa{padding:.8rem 1rem;background:var(--bg);border-radius:8px;margin-top:.8rem;border-left:3px solid var(--border)}
+.r-qa.yes{border-left-color:var(--yes)}.r-qa.mid{border-left-color:var(--mid)}.r-qa.no{border-left-color:var(--accent)}
+.r-qa-head{font-family:var(--fd);font-size:.82rem;font-weight:700;color:var(--pd);margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.r-qa-icon{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:.7rem;font-weight:700;color:#fff}
+.r-qa.yes .r-qa-icon{background:var(--yes)}.r-qa.mid .r-qa-icon{background:var(--mid)}.r-qa.no .r-qa-icon{background:var(--no)}
+.r-qa-text{font-size:.85rem;line-height:1.8;color:var(--text)}
+.btn-retry{display:block;width:100%;margin-top:1.5rem;padding:.85rem;background:var(--bg);border:2px solid var(--border);border-radius:60px;font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;transition:all .2s}.btn-retry:hover{border-color:var(--primary);background:#eef2ea}
+.back-link{display:block;text-align:center;padding:1rem;font-size:.85rem;color:var(--tl);text-decoration:none;transition:color .2s}.back-link:hover{color:var(--primary)}
+.site-footer{text-align:center;padding:1.2rem 1rem 1.5rem;font-size:.75rem;color:var(--tl);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
+.site-footer a{color:var(--primary);text-decoration:none}.site-footer a:hover{text-decoration:underline}
+@media(max-width:480px){.top-card,.q-card,.r-card{padding:1.5rem 1.2rem}.top-title{font-size:1.3rem}.q-text{font-size:1rem}.r-score{font-size:2rem}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="screen active" id="s-top"><div class="top-card">
+    <div class="top-icon">🌿</div>
+    <h1 class="top-title">自然派の家づくり占い</h1>
+    <p class="top-sub">無垢材の床、漆喰の壁、焼杉の外壁 ──<br>自然派は「素材」だけの話ではありません。<br>構造、設備、設計思想まで含めた、<br>暮らし方そのものの選択です。<br><br>5つの質問に答えて、<br>あなたの「自然派度」を占ってみましょう。</p>
+    <p class="top-note">費用は少し割高になる傾向がありますが、<br>びっくりするほどの差は実はありません。</p>
+    <button class="btn-start" onclick="start()">占いをはじめる</button>
+  </div></div>
+  <div class="screen" id="s-q"><div class="q-card">
+    <div class="q-progress" id="qp"></div>
+    <div class="q-number" id="qn"></div>
+    <div class="q-scene" id="qs"></div>
+    <div class="q-text" id="qt"></div>
+    <div class="q-choices" id="qc"></div>
+    <button class="btn-back" id="bb" onclick="back()">&#8592; 前の質問に戻る</button>
+  </div></div>
+  <div class="screen" id="s-r"><div class="r-card">
+    <div class="r-label">あなたの自然派度</div>
+    <div class="r-score" id="rsc"></div>
+    <div class="r-type" id="rty"></div>
+    <div class="r-bar"><div class="r-bar-fill" id="rbf"></div></div>
+    <hr class="r-divider">
+    <div class="r-body" id="rb"></div>
+    <div id="ra"></div>
+    <button class="btn-retry" onclick="restart()">もう一度占う</button>
+  </div></div>
+</div>
+<a href="../index.html" class="back-link">&#8592; 荻野ラボ トップへ戻る</a>
+<footer class="site-footer">&copy; 荻野 尚志 | says@o-h.co.jp<br>自社サイトへの埋め込みをご希望の工務店・ハウスメーカー様はご相談ください。<br><a href="https://www.instagram.com/hagimorikensetsu/" target="_blank" rel="noopener">Instagramをフォローする @hagimorikensetsu</a></footer>
+<script>
+var Q=[
+{id:'Q1',n:'内装仕上げ',
+s:'たとえば、杉の無垢床。素足で歩けば夏はさらっと、冬はほんのり温かい。でも、物を落とせば凹み、暮らすほどに傷の跡が増えていく。',
+t:'内装の仕上げに、こうした自然素材を取り入れたいですか？',
+a:{l:'多少の傷や変化があっても、自然素材の質感で暮らしたい',v:20,c:'傷や色の変化を「暮らしの記録」と捗えられるあなたは、自然素材の内装と長く心地よい関係を築けます。無垢材の床は時間とともに色が深まり、世界にひとつだけの表情になっていきます。'},
+b:{l:'素材や場所を選んで、自然素材と機能素材を使い分けたい',v:10,c:'リビングや寝室など長い時間を過ごす場所に自然素材を、水回りや子供部屋には機能素材を。場所ごとに使い分ける方法は、心地よさとメンテナンスのバランスがもっとも取りやすい現実的な選択です。'},
+c:{l:'耐久性やメンテナンスのしやすさで選びたい',v:0,c:'実用性を最優先にする判断は、とても合理的です。最近の複合フローリングは見た目も質感も進化していて、メンテナンスの手間を減らしながら心地よい空間をつくれます。'}},
+{id:'Q2',n:'外装仕上げ',
+s:'たとえば、焼杉や杉板の外壁。年月とともに表情が変わり、街並みに溶け込む風格が出てくる。でも、サイディングやガルバリウムならメンテナンスの手間と頻度はぐっと少なくなる。',
+t:'外装に、経年変化する自然素材を選びたいですか？',
+a:{l:'手間がかかっても、時間とともに味が出る外装がいい',v:20,c:'焼杉や板張りの外壁は、年月とともに「古びる」のではなく「深まる」ように変化します。建物が街の風景の一部になっていく過程を楽しめるのは、自然素材の外装ならではの体験です。'},
+b:{l:'自然な風合いは好きだけど、保護塗装などで手間を減らしたい',v:10,c:'木材に適切な保護塗装を施せば、自然の風合いを保ちながらメンテナンス間隔を延ばせます。見た目の温かさと現実的な維持管理を両立する、賢い落としどころです。'},
+c:{l:'外装はメンテナンスの少なさで選びたい',v:0,c:'外装は風雨に直接さらされる場所。メンテナンス性を重視するのは、長い目で見てとても実用的な判断です。高性能なサイディングやガルバリウムの外装なら、質感も向上しデザインの選択肢も豊富にあります。'}},
+{id:'Q3',n:'構造・断熱',
+s:'たとえば、無垢材の柱梁やセルロースファイバーの断熱。住んでからの空気感が違うと言われる。でも、見えない部分だけで数十万円の差額が出る。',
+t:'見えない部分にも、自然素材を使いたいですか？',
+a:{l:'見えない部分こそ、家の空気をつくる土台だと思う',v:20,c:'無垢材の調湿やセルロースファイバーの吸放湿性は、住んでからの空気感として毎日感じ続けるものです。完成すれば見えなくなる部分にこそこだわるのは、暮らしの質への本質的な投資です。'},
+b:{l:'全部は難しくても、断熱材など一部だけでも自然素材を選びたい',v:10,c:'構造は集成材の寸法安定性に任せて、断熱材にセルロースファイバーを選ぶ。要所を絞って自然素材を入れる方法は、コストと効果のバランスに優れた判断です。'},
+c:{l:'見えない部分はコストと性能で合理的に選びたい',v:0,c:'集成材の安定性やグラスウールのコストパフォーマンスは、長年の実績に裏打ちされた確かな選択です。見えない部分を抑えた分、他の場所に予算を回すのも賢い判断です。'}},
+{id:'Q4',n:'設備',
+s:'たとえば、家具大工が組む造作キッチンや、タイル職人が仕上げる在来浴室。手仕事ならではの存在感がある。でも、システムキッチンやユニットバスの方が掃除も交換もしやすい。',
+t:'設備にも、手仕事や自然素材の質感を求めますか？',
+a:{l:'手仕事の質感は、暮らしの満足度に直結すると思う',v:20,c:'職人の手で仕上げられた設備には、量産品にはない質感と存在感があります。毎日使う場所だからこそ、触れるたびに感じる心地よさが、暮らしの満足度を静かに支え続けます。'},
+b:{l:'自然素材の質感を取り入れたシステム品で、使いやすさと両立したい',v:10,c:'キッチンのカウンターはしっかりコーティングされた無垢材のシステムキッチンで、浴室はユニットバスで。自然素材の質感をシステム品の使いやすさに乗せることで、心地よさとメンテナンス性を両立できます。'},
+c:{l:'設備は実用性と掃除のしやすさで選びたい',v:0,c:'システムキッチンやユニットバスは、掃除のしやすさ・防水性・交換の容易さが高い水準にまとまっています。毎日使う場所だからこそ、実用性を最優先にするのは合理的な選択です。'}},
+{id:'Q5',n:'設計思想',
+s:'たとえば、深い軒で夏の日射を遮り、窓の配置で風の通り道をつくる設計。エアコンに頼る前に、建物そのもので暑さ寒さをやわらげる工夫がある。',
+t:'家の快適さを、設備よりも建物の設計で実現したいですか？',
+a:{l:'建物の設計で自然に調整する考え方が好きだ',v:20,c:'深い軒、風の通り道、適切な窓の位置 ── 建物に組み込まれた快適性は、設備のように壊れることがなく、ランニングコストもかかりません。自然の力を設計に取り込む考え方は、家が長く快適であり続けるための知恵です。'},
+b:{l:'設計の工夫は取り入れつつ、冷暖房機器もしっかり活用してバランスを取りたい',v:10,c:'パッシブ設計で基本的な心地よさを確保しながら、冷暖房機器もしっかり活用してバランスよく暮らす。自然と設備のいいとこ取りは、日本の四季に合った現実的な選択です。'},
+c:{l:'快適さは高性能な空調設備で確実に確保したい',v:0,c:'全館空調や高性能エアコンは、どんな気候でも室内を一定に保てる確実性があります。設計に頼らず設備で快適さを担保するのは、現代の住宅性能を最大限に活かす合理的な方法です。'}}
+];
+var R=[
+{min:80,t:'徹底自然派',b:'内装から構造、設備、設計思想まで、暮らしのすみずみに自然の質感を求めるタイプ。メンテナンスの手間すら「暮らしの一部」として楽しめる姿勢があります。自然素材の家づくりを得意とする工務店や設計事務所との相性がとても良いでしょう。'},
+{min:60,t:'自然派寄り',b:'自然素材の良さをよく理解したうえで、現実的なバランス感覚も持ち合わせています。すべてを自然素材にするのではなく、「ここぞ」という場所に重点的に取り入れる選択ができるタイプ。この感覚は、実は家づくりのプロがもっとも共感しやすいバランスです。'},
+{min:40,t:'バランス型',b:'自然素材の魅力も機能素材の合理性も、どちらも冷静に見れるタイプ。こだわる場所にはこだわり、割り切る場所は割り切る。そんなメリハリのある家づくりが向いています。'},
+{min:20,t:'機能寄り',b:'実用性やメンテナンス性を重視する堅実な考え方。自然素材の良さは理解していても、日々の暮らしやすさを優先できるのは、長く住む家を選ぶうえで大切な判断力です。アクセントとして一部に自然素材を取り入れる方法もあります。'},
+{min:0,t:'機能重視型',b:'メンテナンス性・耐久性・合理性を最優先にする、とても堅実な家づくりの考え方です。自然素材にこだわらなくても、高品質な機能素材で快適で美しい住まいは十分に実現できます。予算を断熱や耐震などの性能に集中させるのも賢い選択です。'}
+];
+var A=[],ci=0;
+function sw(id){var s=document.querySelectorAll('.screen');for(var i=0;i<s.length;i++)s[i].classList.remove('active');var e=document.getElementById(id);e.classList.remove('active');void e.offsetWidth;e.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function start(){A=[];ci=0;rq();sw('s-q')}
+function restart(){A=[];ci=0;sw('s-top')}
+function back(){if(ci>0){ci--;A.pop();rq()}}
+function rq(){var q=Q[ci],d='';for(var i=0;i<Q.length;i++){var cls=i<ci?'done':i===ci?'current':'';d+='<div class="q-dot '+cls+'"></div>'}document.getElementById('qp').innerHTML=d;document.getElementById('qn').textContent='質問 '+(ci+1)+' / '+Q.length;document.getElementById('qs').textContent=q.s;document.getElementById('qt').textContent=q.t;var h='';h+='<button class="btn-choice yes" onclick="ans(\'a\')"><span class="choice-icon">○</span><span>'+q.a.l+'</span></button>';h+='<button class="btn-choice mid" onclick="ans(\'b\')"><span class="choice-icon">△</span><span>'+q.b.l+'</span></button>';h+='<button class="btn-choice no" onclick="ans(\'c\')"><span class="choice-icon">×</span><span>'+q.c.l+'</span></button>';document.getElementById('qc').innerHTML=h;document.getElementById('bb').style.display=ci===0?'none':'inline-flex'}
+function ans(k){A.push(k);ci++;if(ci<Q.length){rq();sw('s-q')}else{sr()}}
+function sr(){var sc=0;for(var i=0;i<A.length;i++)sc+=Q[i][A[i]].v;document.getElementById('rsc').textContent=sc+'%';document.getElementById('rbf').style.width=sc+'%';var tier=R[R.length-1];for(var i=0;i<R.length;i++){if(sc>=R[i].min){tier=R[i];break}}document.getElementById('rty').textContent=tier.t;document.getElementById('rb').textContent=tier.b;var ra=document.getElementById('ra');ra.innerHTML='';var icons={a:'○',b:'△',c:'×'};var cls={a:'yes',b:'mid',c:'no'};for(var i=0;i<Q.length;i++){var q=Q[i],k=A[i],ch=q[k];var d=document.createElement('div');d.className='r-qa '+cls[k];var hd=document.createElement('div');hd.className='r-qa-head';hd.innerHTML=q.n+' <span class="r-qa-icon">'+icons[k]+'</span>';d.appendChild(hd);var tx=document.createElement('div');tx.className='r-qa-text';tx.textContent=ch.c;d.appendChild(tx);ra.appendChild(d)}sw('s-r')}
+</script>
+</body>
+</html>

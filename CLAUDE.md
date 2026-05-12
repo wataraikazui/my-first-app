@@ -17,7 +17,8 @@ Claude Code向けのプロジェクト概要です。新しいセッションで
 index.html                    ← 荻野ラボ トップ（2つの開発室への入口）
 ├── apps/                     ← アプリ開発室（占い館）
 │   ├── index.html            ← アプリ一覧（27アプリ）
-│   └── dishwasher-quiz.html  ← 食洗機占い【公開中】
+│   ├── dishwasher-quiz.html  ← 食洗機占い【公開中】
+│   └── shizen-quiz.html     ← 自然派の家づくり占い【公開中】
 └── methods/                  ← 工法開発室
     ├── index.html            ← 記事一覧（5記事）
     └── （各記事HTML）
