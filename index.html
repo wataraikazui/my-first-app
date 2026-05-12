@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <!--
-  荻野ラボ｜家づくりの実験と実践
-  © 荻野 尚志 | says@o-h.co.jp
+  YKTラボ｜家づくりの実験と実践
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
 -->
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>荻野ラボ｜家づくりの実験と実践</title>
-<meta name="description" content="診断ツールで家づくりの方向性を探ったり、実務で培った工法の知見を公開しています。萩森建設 荻野 尚志が運営する研究サイトです。">
-<meta property="og:title" content="荻野ラボ｜家づくりの実験と実践">
-<meta property="og:description" content="診断ツールで家づくりの方向性を探ったり、実務で培った工法の知見を公開しています。">
+<title>YKTラボ｜家づくりの実験と実践</title>
+<meta name="description" content="家づくりの実験と実践の場。占い・クイズで自分の傾向に気づくツール、実務で培った工法の知見を公開しています。">
+<meta property="og:title" content="YKTラボ｜家づくりの実験と実践">
+<meta property="og:description" content="家づくりの実験と実践の場。占い・クイズや工法の知見を公開しています。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
@@ -23,6 +23,7 @@
   --card:#ffffff;
   --main:#5b8a72;
   --main-light:#e8f0ec;
+  --main-dark:#47705b;
   --accent:#d4956a;
   --method:#4a7fb5;
   --method-light:#e8f0f8;
@@ -37,9 +38,9 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.
 main{flex:1}
 .hero{text-align:center;padding:64px 20px 40px}
 .hero-icon{font-size:3rem;margin-bottom:8px}
-.hero h1{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--main);margin-bottom:6px;letter-spacing:.02em}
-.hero .subtitle{font-size:.95rem;color:var(--accent);font-weight:500;margin-bottom:18px}
-.hero .desc{font-size:.9rem;color:var(--text-light);max-width:420px;margin:0 auto;line-height:1.9}
+.hero h1{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--main);margin-bottom:6px;letter-spacing:.04em}
+.hero .subtitle{font-size:.92rem;color:var(--accent);font-weight:500;margin-bottom:18px}
+.hero .desc{font-size:.88rem;color:var(--text-light);max-width:440px;margin:0 auto;line-height:1.9}
 .container{max-width:640px;margin:0 auto;padding:0 20px 40px;width:100%}
 .room-grid{display:flex;flex-direction:column;gap:20px}
 .room-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;text-decoration:none;color:var(--text);transition:all .25s;box-shadow:0 2px 12px rgba(90,80,60,.04)}
@@ -62,8 +63,6 @@ main{flex:1}
 .room-card.apps .count-badge{background:var(--main-light);color:var(--main)}
 .room-card.methods .count-badge{background:var(--method-light);color:var(--method)}
 .footer{text-align:center;padding:24px 20px 32px;font-size:.75rem;color:var(--text-light);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
-.footer a{color:var(--main);text-decoration:none}
-.footer a:hover{text-decoration:underline}
 @media(max-width:480px){
   .hero{padding:48px 20px 32px}
   .hero h1{font-size:1.7rem}
@@ -77,9 +76,9 @@ main{flex:1}
 <main>
 <div class="hero">
   <div class="hero-icon">🧪</div>
-  <h1>荻野ラボ</h1>
+  <h1>YKTラボ</h1>
   <p class="subtitle">家づくりの実験と実践</p>
-  <p class="desc">診断ツールで家づくりの方向性を探ったり、<br>実務で培った工法の知見を公開しています。</p>
+  <p class="desc">家づくりの考え方に、ちょっとだけ触れてみてください。<br>占い・クイズで自分の傾向を確認したり、<br>実務で培った工法の知見を公開しています。</p>
 </div>
 <div class="container">
   <div class="room-grid">
@@ -92,7 +91,7 @@ main{flex:1}
         </div>
       </div>
       <p class="room-desc">簡単な質問に答えるだけで、家づくりの「自分の傾向」に気づけるツール集。業態選び・性能・お金・暮らしまで、27の占いを順次公開中。</p>
-      <div class="room-count"><span class="count-badge">27アプリ</span><span>公開中 1 / 準備中 26</span></div>
+      <div class="room-count"><span class="count-badge">27アプリ</span><span>公開中 2 / 準備中 25</span></div>
     </a>
     <a href="methods/index.html" class="room-card methods">
       <div class="room-head">
@@ -109,8 +108,8 @@ main{flex:1}
 </div>
 </main>
 <footer class="footer">
-  荻野ラボ｜<a href="https://www.hagimori-kensetsu.com/" target="_blank" rel="noopener">萩森建設</a><br>
-  &copy; 荻野 尚志 | says@o-h.co.jp
+  YKTラボ / 荻野 尚志<br>
+  &copy; YKTラボ | says@o-h.co.jp
 </footer>
 </body>
 </html>
