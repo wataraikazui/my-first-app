@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ブロック塀の方向性補強（カーボンテープ）— 解説シミュレーション</title>
+<style>
+  :root{ --bg:#0e1116; --panel:#161b22; --ink:#e8eaed; --sub:#9aa4b2; --line:#2a313c; }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:"Yu Gothic","Meiryo","Hiragino Kaku Gothic ProN",system-ui,sans-serif;}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px 16px 40px;}
+  h1{font-size:18px;font-weight:700;margin:4px 0 2px;letter-spacing:.02em}
+  .lead{color:var(--sub);font-size:13px;margin:0 0 14px}
+  .stage{position:relative;background:#0b0e13;border:1px solid var(--line);
+    border-radius:12px;overflow:hidden;aspect-ratio:16/9}
+  canvas{display:block;width:100%;height:100%}
+  .controls{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button{background:var(--panel);color:var(--ink);border:1px solid var(--line);
+    border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer}
+  button:hover{border-color:#3d4756}
+  button.primary{background:#1f6feb;border-color:#1f6feb;color:#fff}
+  .dots{display:flex;gap:7px;margin-left:auto}
+  .dot{width:11px;height:11px;border-radius:50%;background:#2a313c;border:none;padding:0;cursor:pointer}
+  .dot.on{background:#1f6feb}
+  .bar{height:4px;background:#1b2129;border-radius:3px;margin-top:12px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;background:#1f6feb}
+  .note{color:var(--sub);font-size:12px;margin-top:16px;line-height:1.7}
+  .note b{color:var(--ink)}
+  code{background:#11151b;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" style="display:inline-block;margin-bottom:8px;color:var(--sub);text-decoration:none;font-size:13px">&#8592; 工法開発室へ</a>
+  <h1>ブロック塀の方向性補強（カーボンテープ）</h1>
+  <p class="lead">できるだけ倒さない。それでも限界を超えたら、人のいない庭側へ倒す ― その理屈の解説シミュレーション。</p>
+
+  <div class="stage"><canvas id="cv"></canvas></div>
+
+  <div class="controls">
+    <button id="play" class="primary">⏸ 一時停止</button>
+    <button id="replay">↻ 最初から</button>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="bar"><i id="prog"></i></div>
+
+  <p class="note">
+    <b>見方：</b>左が道路（歩道・人）、右が敷地（庭）。塀を横から見た断面です。<br>
+    <b>理屈の核：</b>倒れる向きは<b>縦テープ</b>（庭側の面のみ・基礎へ定着）が決め、ばらけ防止は<b>横テープ</b>（両面）が担います。<br>
+    動画ファイル（MP4）が必要なら、この画面をそのまま画面録画するか、別途レンダリングします。サイトへ埋め込む場合はこの <code>index.html</code> を使えます。
+  </p>
+</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const W = 960, H = 540;             // logical size
+function fit(){
+  const dpr = Math.max(1, Math.min(2, window.devicePixelRatio||1));
+  cv.width = W*dpr; cv.height = H*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+fit(); addEventListener('resize', fit);
+
+// ---- geometry ----
+const groundY = 432;
+const wallX = 486, wallW = 36, wallH = 198, nC = 11, ch = wallH/nC;
+const personX = 158, houseX = 812;
+const CARBON = '#20242b', CARBON_HI = '#3a4350';
+
+// ---- helpers ----
+function rot(dx,dy,th){ const c=Math.cos(th),s=Math.sin(th); return [dx*c-dy*s, dx*s+dy*c]; }
+const ease = t => t<0?0 : t>1?1 : t*t*(3-2*t);
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+function lerp(a,b,t){return a+(b-a)*t;}
+
+function rrect(x,y,w,h,r){
+  r=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function pill(text,x,y,col){
+  ctx.font='600 14px "Yu Gothic","Meiryo",sans-serif';
+  const w=ctx.measureText(text).width;
+  ctx.fillStyle='rgba(8,11,16,.78)';
+  rrect(x-w/2-9,y-15,w+18,24,9); ctx.fill();
+  ctx.fillStyle=col||'#e8eaed'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(text,x,y-3);
+}
+function tag(text,x,y,col,align){
+  ctx.font='700 13px "Yu Gothic","Meiryo",sans-serif';
+  ctx.fillStyle=col; ctx.textAlign=align||'left'; ctx.textBaseline='middle';
+  ctx.fillText(text,x,y);
+}
+
+// ---- scene background ----
+function drawScene(){
+  // sky
+  const g=ctx.createLinearGradient(0,0,0,groundY);
+  g.addColorStop(0,'#0d1219'); g.addColorStop(1,'#11161d');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,groundY);
+  // ground: road (left) + yard (right)
+  ctx.fillStyle='#2b2f36'; ctx.fillRect(0,groundY,W,H-groundY);          // road asphalt
+  ctx.fillStyle='#1f3a2a'; ctx.fillRect(wallX,groundY,W-wallX,H-groundY); // yard
+  // ground line
+  ctx.strokeStyle='#3a414c'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,groundY); ctx.lineTo(W,groundY); ctx.stroke();
+  // sidewalk curb hint
+  ctx.fillStyle='#3a414c'; ctx.fillRect(wallX-3,groundY,6,8);
+  // zone labels
+  tag('道路・歩道（人）',24,groundY+28,'#aeb6c2','left');
+  tag('敷地（庭）',W-24,groundY+28,'#9fd6ad','right');
+
+  // footing under wall
+  ctx.fillStyle='#3c3a33';
+  ctx.fillRect(wallX-wallW/2-10, groundY, wallW+20, 30);
+  ctx.strokeStyle='#56503f'; ctx.lineWidth=1.5; ctx.strokeRect(wallX-wallW/2-10, groundY, wallW+20, 30);
+  tag('基礎',wallX+wallW/2+18,groundY+18,'#cdbf8e','left');
+
+  // house at yard (property hint)
+  ctx.fillStyle='#16271c'; ctx.strokeStyle='#2f6b46'; ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(houseX-46,groundY); ctx.lineTo(houseX-46,groundY-44);
+  ctx.lineTo(houseX,groundY-70); ctx.lineTo(houseX+46,groundY-44);
+  ctx.lineTo(houseX+46,groundY); ctx.closePath(); ctx.fill(); ctx.stroke();
+}
+function drawPerson(x, alarmed){
+  ctx.strokeStyle = alarmed ? '#ff6b6b' : '#cfd6e0';
+  ctx.fillStyle = ctx.strokeStyle; ctx.lineWidth=3; ctx.lineCap='round';
+  const hy=groundY-54;
+  ctx.beginPath(); ctx.arc(x,hy,8,0,7); ctx.fill();          // head
+  ctx.beginPath(); ctx.moveTo(x,hy+8); ctx.lineTo(x,hy+30);  // body
+  ctx.moveTo(x,hy+14); ctx.lineTo(x-11,hy+24);               // arms
+  ctx.moveTo(x,hy+14); ctx.lineTo(x+11,hy+24);
+  ctx.moveTo(x,hy+30); ctx.lineTo(x-9,groundY);              // legs
+  ctx.moveTo(x,hy+30); ctx.lineTo(x+9,groundY);
+  ctx.stroke();
+  if(alarmed){ pill('！',x,hy-22,'#ff8585'); }
+}
+
+// ---- the wall ----
+// opts: {scatter, tape, tapeTaut, bands, tension, ghost}
+function drawWall(theta, pivotX, pivotY, opts){
+  opts = opts||{};
+  const sc = opts.scatter||0;
+  // blocks
+  for(let i=0;i<nC;i++){
+    const cx=wallX, cy=groundY-(i+0.5)*ch;
+    let [rx,ry]=rot(cx-pivotX, cy-pivotY, theta);
+    let wx=pivotX+rx, wy=pivotY+ry, own=theta;
+    if(sc>0){
+      const k = 0.35 + i/nC;                 // upper blocks scatter more
+      wx += -1 * sc * 150 * k;               // toward road (left)
+      wy += -Math.sin(i*0.9)*sc*26 - sc*8*k; // tumble height
+      own += (i%2?1:-1) * sc * (0.6 + i*0.08);
+    }
+    ctx.save();
+    ctx.translate(wx,wy); ctx.rotate(own);
+    // block body
+    ctx.fillStyle = opts.ghost ? 'rgba(150,160,175,.18)' : '#aeb3bb';
+    rrect(-wallW/2,-ch/2,wallW,ch-1.5,3); ctx.fill();
+    if(!opts.ghost){
+      ctx.fillStyle='#c5cad2'; rrect(-wallW/2+2,-ch/2+2,wallW-4,(ch-1.5)/2,2); ctx.fill(); // top highlight
+      ctx.strokeStyle='#7e858f'; ctx.lineWidth=1; rrect(-wallW/2,-ch/2,wallW,ch-1.5,3); ctx.stroke();
+      // hollow cores
+      ctx.fillStyle='rgba(70,76,84,.5)';
+      ctx.fillRect(-wallW/2+6,-ch/2+5,7,ch-11);
+      ctx.fillRect(wallW/2-13,-ch/2+5,7,ch-11);
+    }
+    ctx.restore();
+  }
+  if(opts.ghost) return;
+
+  // tension/compression faces (scene 2)
+  if(opts.tension){
+    const faceLine=(fx,col)=>{
+      const [ax,ay]=rot(fx-pivotX,(groundY)-pivotY,theta);
+      const [bx,by]=rot(fx-pivotX,(groundY-wallH)-pivotY,theta);
+      ctx.strokeStyle=col; ctx.lineWidth=6; ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(pivotX+ax,pivotY+ay); ctx.lineTo(pivotX+bx,pivotY+by); ctx.stroke();
+    };
+    faceLine(wallX+wallW/2,'#ff5d5d');   // yard face = tension
+    faceLine(wallX-wallW/2,'#5da8ff');   // road face = compression
+  }
+
+  // vertical tape on yard (right) face, anchored into footing (scenes 3-5)
+  if(opts.tape){
+    const top=[wallX+wallW/2, groundY-wallH];
+    const base=[wallX+wallW/2, groundY];
+    const anc=[wallX+wallW/2, groundY+26];   // into footing
+    const T=p=>{const [x,y]=rot(p[0]-pivotX,p[1]-pivotY,theta);return [pivotX+x,pivotY+y];};
+    const [tx,ty]=T(top),[bx,by]=T(base),[ax,ay]=T(anc);
+    if(opts.tapeTaut){ ctx.strokeStyle='rgba(255,90,90,.35)'; ctx.lineWidth=12;
+      ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(tx,ty); ctx.stroke(); }
+    ctx.strokeStyle=CARBON; ctx.lineWidth=7; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(tx,ty); ctx.stroke();
+    ctx.strokeStyle=CARBON_HI; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(tx,ty); ctx.stroke();
+    // anchor bracket
+    ctx.fillStyle='#e0b95a'; ctx.beginPath(); ctx.arc(ax,ay,5,0,7); ctx.fill();
+  }
+
+  // horizontal bands both faces (scenes 4-5)
+  if(opts.bands){
+    const rows=[1.5,4.5,7.5,10.2];
+    ctx.strokeStyle=CARBON; ctx.lineWidth=5; ctx.lineCap='round';
+    rows.forEach(j=>{
+      const y=groundY-j*ch;
+      const [ax,ay]=rot((wallX-wallW/2-3)-pivotX, y-pivotY, theta);
+      const [bx,by]=rot((wallX+wallW/2+3)-pivotX, y-pivotY, theta);
+      ctx.beginPath(); ctx.moveTo(pivotX+ax,pivotY+ay); ctx.lineTo(pivotX+bx,pivotY+by); ctx.stroke();
+    });
+  }
+}
+
+// arrow helper
+function arrow(x1,y1,x2,y2,col,wd){
+  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=wd||4; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1), s=9;
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-s*Math.cos(a-0.4),y2-s*Math.sin(a-0.4));
+  ctx.lineTo(x2-s*Math.cos(a+0.4),y2-s*Math.sin(a+0.4));
+  ctx.closePath(); ctx.fill();
+}
+
+// ---- scenes ----
+const scenes = [
+  {id:'', dur:3.2, title:'', cap:'', draw:(t)=>{
+    drawScene();
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='#e8eaed'; ctx.font='800 34px "Yu Gothic","Meiryo",sans-serif';
+    ctx.fillText('ブロック塀の方向性補強', W/2, 196);
+    ctx.fillStyle='#7fc6ff'; ctx.font='800 26px "Yu Gothic","Meiryo",sans-serif';
+    ctx.fillText('「倒れるなら、人のいない庭側へ」', W/2, 240);
+    ctx.fillStyle='#9aa4b2'; ctx.font='600 15px "Yu Gothic","Meiryo",sans-serif';
+    ctx.fillText('カーボンテープ（CFRP）による後付け補強の考え方', W/2, 280);
+  }},
+
+  {id:'①', dur:6.5, title:'① 問題 ─ ふつうの古い塀',
+   cap:'補強なし。地震で塀が"道路（歩道）側"へ倒れ、ブロックが歩行者を直撃する。',
+   draw:(t)=>{
+    drawScene();
+    let theta=0, scatter=0, alarmed=false;
+    if(t<0.32){ theta = Math.sin(t*48)*0.012*(t/0.32); }            // shaking
+    else if(t<0.66){ const u=ease((t-0.32)/0.34); theta=-u*1.45; }   // topple toward road
+    else { theta=-1.45; scatter=ease((t-0.62)/0.38); alarmed=true; } // scatter
+    drawPerson(personX, alarmed && (Math.floor(t*8)%2===0));
+    drawWall(theta, wallX-wallW/2, groundY, {scatter});
+    if(t>=0.32 && t<0.66) arrow(wallX-70,150,wallX-150,150,'#ff6b6b',5);
+    if(t>=0.32) pill('道路側へ倒壊', 250, 120, '#ff8585');
+  }},
+
+  {id:'②', dur:6.0, title:'② 力学 ─ どの面が"引っ張られる"か',
+   cap:'塀が道路側へ倒れるとき、引っ張られるのは"庭側"の面（曲げの外側が伸びる）。だから庭側を効かせる。',
+   draw:(t)=>{
+    drawScene(); drawPerson(personX,false);
+    const theta = -0.16 - Math.sin(t*5)*0.02;
+    drawWall(theta, wallX-wallW/2, groundY, {tension:true});
+    arrow(wallX-60,150,wallX-128,150,'#ff6b6b',5);
+    pill('押される向き', wallX-150, 130, '#ffb3b3');
+    tag('引張（伸びる）= 庭側の面', W-30, 250, '#ff7a7a', 'right');
+    tag('圧縮（縮む）= 道路側の面', W-30, 286, '#7fb6ff', 'right');
+  }},
+
+  {id:'③', dur:8.5, title:'③ 縦テープ ＝ 倒れる"方向"を決める',
+   cap:'庭側の面に縦テープを通し、基礎へ定着。道路側への転倒に強く抵抗 ─ 限界を超えても"庭側"へ倒れる。',
+   draw:(t)=>{
+    drawScene();
+    let theta=0, pivotX=wallX-wallW/2, taut=false, alarmed=false;
+    if(t<0.22){ theta=0; }                                            // intro: tape shown
+    else if(t<0.48){ const u=Math.sin((t-0.22)/0.26*Math.PI); theta=-u*0.10; taut=true; } // pushed to road but resisted
+    else { const u=ease((t-0.48)/0.52); theta=u*1.45; pivotX=wallX+wallW/2; alarmed=false; } // falls to yard
+    drawPerson(personX,false);
+    drawWall(theta, pivotX, groundY, {tape:true, tapeTaut:taut});
+    if(t<0.22){ tag('縦テープ（庭側の面）＋基礎へ定着', W-30, 250, '#cfd6e0','right'); }
+    if(t>=0.22 && t<0.48){ pill('道路側へは倒れない', 250, 120, '#7fe0a0'); arrow(wallX-60,150,wallX-110,150,'#ff6b6b',4); }
+    if(t>=0.48){ pill('庭側へ倒れる', W-220, 130, '#7fe0a0'); arrow(wallX+70,170,wallX+150,170,'#7fe0a0',5); }
+  }},
+
+  {id:'④', dur:6.0, title:'④ 横テープ ＝ "ばらけ"を防ぐ',
+   cap:'両面の横テープが段を緊結。倒れても"塊"のまま倒れる ─ ブロックが飛散しない。',
+   draw:(t)=>{
+    drawScene(); drawPerson(personX,false);
+    // ghost of scattered (no-band) version for contrast, fading
+    const gh = clamp(1-t*2,0,1);
+    if(gh>0){ ctx.globalAlpha=gh*0.5; drawWall(-1.45, wallX-wallW/2, groundY,{scatter:1,ghost:true}); ctx.globalAlpha=1; }
+    drawWall(1.45, wallX+wallW/2, groundY, {tape:true, bands:true});
+    pill('塊のまま倒れる（飛散なし）', W-250, 120, '#7fe0a0');
+    if(gh>0){ ctx.globalAlpha=gh; tag('× 補強なし＝飛散', 250, 120, '#ff8585'); ctx.globalAlpha=1; }
+    tag('横テープ（両面・段を緊結）', W-30, 260, '#cfd6e0', 'right');
+  }},
+
+  {id:'⑤', dur:6.5, title:'⑤ まとめ',
+   cap:'縦テープが"倒れる向き"を、横テープが"ばらけない"を担う。倒伏範囲 ≦ 庭側の空き（≒ 塀高さ H）。',
+   draw:(t)=>{
+    drawScene(); drawPerson(personX,false);
+    drawWall(1.45, wallX+wallW/2, groundY, {tape:true, bands:true});
+    // footprint dimension along yard
+    const x0=wallX+wallW/2, x1=wallX+wallW/2+wallH, y=groundY-44;
+    ctx.strokeStyle='#9fd6ad'; ctx.lineWidth=2; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke(); ctx.setLineDash([]);
+    arrow(x0+6,y,x0,y,'#9fd6ad',2); arrow(x1-6,y,x1,y,'#9fd6ad',2);
+    pill('倒伏範囲 ≒ H ≦ 庭側の空き', (x0+x1)/2, y-12, '#9fd6ad');
+    // recap
+    const rc=ease(clamp((t-0.15)/0.5,0,1));
+    ctx.globalAlpha=rc;
+    tag('● 縦テープ（庭面・基礎定着）→ 倒れる"方向"', 36, 150, '#cfe3ff','left');
+    tag('● 横テープ（両面）→ "ばらけ"防止（塊で倒す）', 36, 182, '#cfe3ff','left');
+    tag('● 必要条件：庭側に H 以上の空き', 36, 214, '#9fd6ad','left');
+    ctx.globalAlpha=1;
+  }},
+];
+
+// ---- player ----
+const totalDur = scenes.reduce((s,x)=>s+x.dur,0);
+let playing=true, elapsed=0, lastTick=performance.now();
+
+function caption(s){
+  if(!s.title && !s.cap) return;
+  // title (top-left)
+  if(s.title){
+    ctx.font='700 16px "Yu Gothic","Meiryo",sans-serif';
+    ctx.fillStyle='rgba(8,11,16,.7)';
+    const w=ctx.measureText(s.title).width;
+    rrect(20,16,w+22,30,8); ctx.fill();
+    ctx.fillStyle='#e8eaed'; ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillText(s.title,32,32);
+  }
+  // caption (bottom band)
+  if(s.cap){
+    ctx.fillStyle='rgba(8,11,16,.82)';
+    ctx.fillRect(0,H-54,W,54);
+    ctx.strokeStyle='#1f6feb'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(0,H-54); ctx.lineTo(W,H-54); ctx.stroke();
+    ctx.fillStyle='#e8eaed'; ctx.font='600 16px "Yu Gothic","Meiryo",sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(s.cap, W/2, H-27);
+  }
+}
+
+const dotsEl=document.getElementById('dots');
+scenes.forEach((s,i)=>{
+  const b=document.createElement('button'); b.className='dot'; b.title=s.title||'タイトル';
+  b.onclick=()=>seekScene(i); dotsEl.appendChild(b);
+});
+const progEl=document.getElementById('prog');
+
+function seekScene(i){
+  let acc=0; for(let k=0;k<i;k++) acc+=scenes[k].dur;
+  elapsed=acc; lastTick=performance.now();
+  frame();
+}
+
+function frame(){
+  const time=elapsed % totalDur;
+  // find scene
+  let acc=0, idx=0, tl=0;
+  for(let i=0;i<scenes.length;i++){
+    if(time < acc+scenes[i].dur){ idx=i; tl=(time-acc)/scenes[i].dur; break; }
+    acc+=scenes[i].dur; idx=i; tl=1;
+  }
+  ctx.clearRect(0,0,W,H);
+  scenes[idx].draw(clamp(tl,0,1));
+  caption(scenes[idx]);
+  // ui
+  progEl.style.width=(time/totalDur*100)+'%';
+  [...dotsEl.children].forEach((d,i)=>d.classList.toggle('on',i===idx));
+}
+function loop(){
+  const now=performance.now();
+  if(playing){ elapsed += (now-lastTick)/1000; }
+  lastTick=now;
+  frame();
+  requestAnimationFrame(loop);
+}
+loop();
+
+document.getElementById('play').onclick=function(){
+  playing=!playing;
+  lastTick=performance.now();
+  this.textContent = playing ? '⏸ 一時停止' : '▶ 再生';
+};
+document.getElementById('replay').onclick=function(){
+  elapsed=0; lastTick=performance.now();
+  if(!playing){ playing=true; document.getElementById('play').textContent='⏸ 一時停止'; }
+};
+</script>
+</body>
+</html>
