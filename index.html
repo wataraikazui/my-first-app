@@ -69,6 +69,14 @@ main{flex:1}
 .room-card.apps .count-badge{background:var(--main-light);color:var(--main)}
 .room-card.methods .count-badge{background:var(--method-light);color:var(--method)}
 .room-card.cases .count-badge{background:var(--case-light);color:var(--case-dark,#8a5f33)}
+.featured{margin-top:4px}
+.featured-label{font-size:.78rem;color:var(--text-light);font-weight:700;margin-bottom:10px;letter-spacing:.04em}
+.featured-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;text-decoration:none;color:var(--text);transition:all .2s;margin-bottom:10px}
+.featured-card:hover{border-color:var(--method);transform:translateY(-2px);box-shadow:0 4px 14px rgba(74,127,181,.1)}
+.fc-icon{font-size:1.3rem;flex-shrink:0}
+.fc-body{display:flex;flex-direction:column;min-width:0}
+.fc-title{font-family:var(--fd);font-weight:700;font-size:.95rem;color:var(--method)}
+.fc-sub{font-size:.75rem;color:var(--text-light)}
 .nav-links{display:flex;justify-content:center;gap:20px;margin-top:32px;flex-wrap:wrap}
 .nav-link{font-size:.82rem;color:var(--text-light);text-decoration:none;padding:6px 0;border-bottom:1px solid transparent;transition:all .2s}.nav-link:hover{color:var(--main);border-bottom-color:var(--main)}
 .footer{text-align:center;padding:24px 20px 32px;font-size:.75rem;color:var(--text-light);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
@@ -124,6 +132,23 @@ main{flex:1}
       <p class="room-desc">YKTラボの診断ツールを、実際の工務店のサイトに組み込んで運用しているサービスの展開事例。構造診断・資金計画整理など。</p>
       <div class="room-count"><span class="count-badge">3事例</span><span>運用中</span></div>
     </a>
+    <div class="featured">
+      <div class="featured-label">工法開発室の公開記事</div>
+      <a href="methods/zosaku-led.html" class="featured-card">
+        <span class="fc-icon">💡</span>
+        <span class="fc-body">
+          <span class="fc-title">造作LED設計</span>
+          <span class="fc-sub">LEDテープによる建築化照明</span>
+        </span>
+      </a>
+      <a href="methods/block-wall-carbon.html" class="featured-card">
+        <span class="fc-icon">🧱</span>
+        <span class="fc-body">
+          <span class="fc-title">ブロックカーボンファイバー補強法</span>
+          <span class="fc-sub">ブロック塀の方向性補強・解説シミュレーション</span>
+        </span>
+      </a>
+    </div>
     <div class="nav-links">
       <a href="about.html" class="nav-link">運営者について</a>
       <a href="join.html" class="nav-link">実践研究パートナー</a>
