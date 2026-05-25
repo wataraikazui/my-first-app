@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>家づくり業態しぼり込み診断（β版）｜論理と科学の家づくり占い館</title>
+<meta name="description" content="総予算と坪単価でざっくり絞り、価値観で濃淡をつけて、あなたに合う家づくりの依頼先タイプを見える化する試作ツール。論理と科学の家づくり占い館シリーズ。" />
+<meta property="og:title" content="家づくり業態しぼり込み診断（β版）｜論理と科学の家づくり占い館" />
+<meta property="og:description" content="総予算と坪単価でざっくり絞り、価値観で濃淡をつけて、あなたに合う家づくりの依頼先タイプを見える化する試作ツール。" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ja_JP" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f8f5ee;
+    --ink:#2a2a26;
+    --line:#e5dfd0;
+    --brand:#c97b50;
+    --brand-soft:#f3eddd;
+    --primary:#2d5f3f;
+    --gold1:#f6d365; --gold2:#d4af37;
+    --dash-top:14px;
+  }
+  *{ -webkit-tap-highlight-color: transparent; }
+  body{
+    font-family:'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(1100px 520px at 18% -8%, #fbf4e6 0%, rgba(251,244,230,0) 60%),
+      radial-gradient(900px 520px at 110% 0%, #f3e7d6 0%, rgba(243,231,214,0) 55%),
+      var(--bg);
+    color:var(--ink);
+    margin:0;
+  }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 18px; }
+
+  /* ===== Sticky dashboard ===== */
+  .dash{
+    position:sticky; top:var(--dash-top); z-index:50;
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(16px);
+    border:1px solid rgba(226,232,240,0.9);
+    border-top:4px solid var(--brand);
+    border-radius:20px;
+    box-shadow:0 22px 45px -22px rgba(2,6,23,0.4);
+    padding:16px 16px 14px;
+    margin-top:14px;
+  }
+  .eyebrow{ font-size:11px; font-weight:900; letter-spacing:.12em; color:var(--brand); }
+  .dash-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:14px; }
+  .dh-main{ min-width:0; }
+  .read-line{ display:flex; align-items:baseline; gap:2px; margin-top:3px; }
+  .read-lead{ font-size:16px; font-weight:900; color:#64748b; }
+  .read-num{ font-size:46px; font-weight:900; line-height:.9; letter-spacing:-.025em; color:var(--primary); transition:color .3s ease; }
+  .read-unit{ font-size:19px; font-weight:900; color:#334155; margin-left:1px; transition:color .3s ease; }
+  .read-anno{ font-size:10.5px; font-weight:700; color:#94a3b8; margin-left:5px; }
+  .read-line.dim .read-lead,
+  .read-line.dim .read-num,
+  .read-line.dim .read-unit{ color:#cabfa6; }
+  .dh-side{ text-align:right; flex-shrink:0; padding-bottom:4px; }
+  .dh-side-label{ font-size:10.5px; font-weight:900; letter-spacing:.05em; color:#94a3b8; }
+  .dh-side-num{ font-size:21px; font-weight:900; color:#1e293b; line-height:1.15; margin-top:1px; }
+  .dh-side-unit{ font-size:12px; font-weight:900; color:#64748b; margin-left:1px; }
+
+  /* breakdown */
+  .bd-toggle{ font-size:11px; font-weight:900; color:var(--brand); background:var(--brand-soft); border:0; border-radius:999px; padding:3px 9px; margin-top:5px; cursor:pointer; line-height:1.4; }
+  .bd{ margin-top:10px; padding:9px 12px; background:#faf6ed; border:1px solid var(--line); border-radius:12px; }
+  .bd-row{ display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; font-weight:700; color:#64748b; padding:2px 0; }
+  .bd-row > span:last-child{ font-weight:900; color:#1e293b; font-variant-numeric:tabular-nums; }
+  .bd-sum{ border-top:1px dashed #d8cdb6; margin-top:3px; padding-top:6px; }
+  .bd-sum > span{ color:var(--brand); }
+  .bd-sum > span:last-child{ color:var(--brand); font-size:14px; }
+
+  /* tiles */
+  .tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+  .tile{
+    position:relative; height:56px; border-radius:12px;
+    border:1px solid rgba(74,40,20,0.14);
+    display:flex; align-items:center; justify-content:center;
+    padding:5px 6px; cursor:pointer; user-select:none; overflow:hidden;
+    transition:background-color .3s ease, color .3s ease, box-shadow .3s ease, transform .15s ease;
+  }
+  .tile:active{ transform:scale(.97); }
+  .tile .inner{ display:flex; flex-direction:column; align-items:center; gap:6px; width:100%; }
+  .tile .nm{ font-size:12px; font-weight:900; line-height:1.1; letter-spacing:-.02em; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tile .vbar{ display:flex; gap:3px; }
+  .tile .vbar i{ width:15px; height:5px; border-radius:3px; border:1px solid currentColor; opacity:.45; transition:all .3s ease; }
+  .tile .vbar i.on{ background:#f59e0b; border-color:#f59e0b; opacity:1; }
+
+  /* legend */
+  .legend{ display:flex; flex-wrap:wrap; gap:8px 16px; font-size:11.5px; font-weight:700; color:#64748b; align-items:center; }
+  .swatch{ width:13px; height:13px; border-radius:4px; display:inline-block; vertical-align:-2px; margin-right:5px; }
+  .swatch-grad{ width:34px; background:linear-gradient(90deg,#ffffff,#78aaf8,#2c52a8,#172554); }
+  .vbar-demo{ display:inline-flex; gap:3px; vertical-align:-1px; margin-right:5px; }
+  .vbar-demo i{ width:11px; height:5px; border-radius:3px; border:1px solid #94a3b8; opacity:.45; display:inline-block; }
+  .vbar-demo i.on{ background:#f59e0b; border-color:#f59e0b; opacity:1; }
+
+  /* sliders */
+  input[type="range"]{
+    -webkit-appearance:none; appearance:none; width:100%;
+    background:transparent; cursor:pointer; touch-action:pan-y;
+  }
+  input[type="range"]::-webkit-slider-runnable-track{ height:9px; background:#e2e8f0; border-radius:999px; }
+  input[type="range"]::-moz-range-track{ height:9px; background:#e2e8f0; border-radius:999px; }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; height:28px; width:28px; border-radius:999px;
+    background:#fff; border:3px solid var(--brand); margin-top:-9.5px;
+    box-shadow:0 10px 16px -12px rgba(2,6,23,0.6);
+  }
+  input[type="range"]::-moz-range-thumb{
+    height:24px; width:24px; border-radius:999px; background:#fff;
+    border:3px solid var(--brand); box-shadow:0 10px 16px -12px rgba(2,6,23,0.6);
+  }
+
+  .card{ background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 1px 0 rgba(2,6,23,.02); padding:22px 20px; }
+  .h2{ font-size:18px; font-weight:900; letter-spacing:-.01em; border-left:4px solid var(--brand); padding-left:12px; }
+  .step{ display:inline-block; font-size:11px; font-weight:900; color:#fff; background:var(--brand); border-radius:999px; padding:2px 10px; letter-spacing:.04em; }
+  .step.soft{ background:var(--primary); }
+  .help{ font-size:13px; line-height:1.7; color:#475569; }
+  .axis-name{ font-size:15px; font-weight:900; color:#1e293b; }
+
+  /* value chips */
+  .chiprow{ display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+  .chip{
+    border:1.5px solid var(--line); background:#fff; color:#475569;
+    border-radius:12px; padding:11px 6px; font-size:13px; font-weight:900;
+    line-height:1.2; cursor:pointer; transition:all .15s ease; text-align:center;
+  }
+  .chip .em{ display:block; font-size:18px; margin-bottom:3px; line-height:1; }
+  .chip-desc{ font-size:12px; line-height:1.6; color:#5b5648; background:#faf6ed; border:1px solid var(--line); border-radius:10px; padding:8px 11px; margin-top:7px; }
+  .chip[aria-pressed="true"]{
+    border-color:var(--brand); background:var(--brand); color:#fff;
+    box-shadow:0 10px 20px -12px rgba(201,123,80,.7);
+  }
+
+  /* spec steppers (重点ポイント) */
+  .seg{ display:inline-flex; border:1.5px solid var(--line); border-radius:11px; overflow:hidden; }
+  .seg button{ width:42px; padding:8px 0; font-size:14px; font-weight:900; background:#fff; color:#94a3b8; cursor:pointer; border:0; border-left:1px solid var(--line); }
+  .seg button:first-child{ border-left:0; }
+  .seg button[aria-pressed="true"]{ background:var(--brand); color:#fff; }
+
+  /* land */
+  input[type="checkbox"].land-check{ width:20px; height:20px; accent-color:var(--brand); }
+  .landinput{ display:flex; align-items:center; gap:8px; }
+  .landinput input{ flex:1; min-width:0; font-size:18px; font-weight:900; color:var(--ink); border:1.5px solid var(--line); border-radius:12px; padding:10px 14px; text-align:right; background:#fff; }
+  .landinput input:focus{ outline:none; border-color:var(--brand); box-shadow:0 0 0 3px rgba(201,123,80,.16); }
+  .landinput .suffix{ font-size:14px; font-weight:900; color:#64748b; }
+
+  /* popover */
+  .pop{
+    position:fixed; z-index:200; width:min(330px,calc(100% - 28px));
+    max-height:calc(100vh - 28px); overflow-y:auto;
+    background:rgba(15,23,42,.97); color:#fff; border-radius:14px;
+    border:1px solid rgba(148,163,184,.22);
+    box-shadow:0 18px 40px -18px rgba(2,6,23,.85); padding:13px; display:none;
+  }
+  .pop .t{ font-size:14px; font-weight:900; margin-bottom:6px; }
+  .pop .d{ font-size:13px; line-height:1.6; color:#e2e8f0; }
+  .pop .hagi{ margin-top:11px; padding:10px 11px; border-radius:10px; background:rgba(212,175,55,.12); border:1px solid rgba(212,175,55,.4); }
+  .pop .hagi-t{ font-size:11.5px; font-weight:900; color:#f6d365; letter-spacing:.02em; margin-bottom:4px; }
+  .pop .hagi-d{ font-size:12.5px; line-height:1.6; color:#f1f5f9; }
+  .pop .n{ margin-top:8px; font-size:12px; color:#fbbf24; line-height:1.5; }
+
+  .cta a{ color:var(--brand); font-weight:900; text-decoration:none; }
+  .cta a:hover{ text-decoration:underline; }
+  .foot{ font-size:12px; color:#9a9183; line-height:1.7; }
+  .hall-back{ color:var(--brand); font-weight:900; text-decoration:none; }
+  .hall-back:hover{ text-decoration:underline; }
+
+  /* 4択相談パネル */
+  .cta-lead{ font-size:13px; line-height:1.7; color:#5b5648; }
+  .contact-toggle{ width:100%; margin-top:14px; padding:14px; border:0; border-radius:14px; background:var(--brand); color:#fff; font-size:15px; font-weight:900; cursor:pointer; box-shadow:0 12px 24px -14px rgba(201,123,80,.85); transition:transform .12s ease; }
+  .contact-toggle:active{ transform:scale(.99); }
+  .contact-panel{ margin-top:12px; }
+  .contact-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  .contact-card{ display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; padding:15px 8px; border:1.5px solid var(--line); border-radius:14px; background:#fff; text-decoration:none; color:var(--ink); transition:border-color .15s ease, box-shadow .15s ease, transform .12s ease; }
+  .contact-card:active{ transform:scale(.97); }
+  .contact-card:hover{ border-color:var(--brand); box-shadow:0 10px 20px -14px rgba(201,123,80,.6); }
+  .contact-card.line{ border-color:rgba(6,199,85,.5); }
+  .contact-icon{ font-size:24px; line-height:1; }
+  .contact-label{ font-size:13px; font-weight:900; }
+  .contact-desc{ font-size:11px; color:#7a7468; line-height:1.45; }
+  .contact-close{ display:block; margin:12px auto 0; padding:8px 18px; border:0; background:transparent; color:#7a7468; font-size:13px; font-weight:900; cursor:pointer; }
+  .next-links{ display:grid; gap:8px; margin-top:16px; }
+  .next-link{ display:block; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#faf6ed; text-decoration:none; }
+  .next-link b{ display:block; font-size:13.5px; font-weight:900; color:var(--primary); }
+  .next-link span{ font-size:11.5px; color:#7a7468; }
+
+  /* ===== Tailwind CDN 廃止に伴う最小プリフライト＋使用ユーティリティの自前定義（兄弟シリーズと同じ純CSS化）===== */
+  html{ line-height:1.5; -webkit-text-size-adjust:100%; }
+  *,*::before,*::after{ box-sizing:border-box; }
+  h1,h2,h3,p,figure{ margin:0; }
+  button,input,select,textarea{ font-family:inherit; font-size:100%; }
+  strong{ font-weight:700; }
+
+  .flex{ display:flex; }
+  .items-center{ align-items:center; }
+  .items-end{ align-items:flex-end; }
+  .justify-between{ justify-content:space-between; }
+  .gap-3{ gap:12px; }
+  .text-center{ text-align:center; }
+  .cursor-pointer{ cursor:pointer; }
+  .select-none{ -webkit-user-select:none; user-select:none; }
+  .font-bold{ font-weight:700; }
+  .font-black{ font-weight:900; }
+  .text-lg{ font-size:18px; line-height:28px; }
+  .text-sm{ font-size:14px; line-height:20px; }
+  .text-xs{ font-size:12px; line-height:16px; }
+  .text-slate-400{ color:#94a3b8; }
+  .text-slate-500{ color:#64748b; }
+  .text-slate-700{ color:#334155; }
+  .border-0{ border-width:0; }
+  .border-t{ border-top-width:1px; border-top-style:solid; }
+  .border-slate-100{ border-color:#f1f5f9; }
+  .border-slate-200{ border-color:#e2e8f0; }
+  .p-0{ padding:0; }
+  .pt-1{ padding-top:4px; }
+  .pt-3{ padding-top:12px; }
+  .pt-4{ padding-top:16px; }
+  .pb-24{ padding-bottom:96px; }
+  .ml-1{ margin-left:4px; }
+  .mt-2{ margin-top:8px; }
+  .mt-3{ margin-top:12px; }
+  .mt-5{ margin-top:20px; }
+  .space-y-2 > * + *{ margin-top:8px; }
+  .space-y-3 > * + *{ margin-top:12px; }
+  .space-y-5 > * + *{ margin-top:20px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="scope">
+
+  <!-- ===== STICKY DASHBOARD ===== -->
+  <header class="dash" id="dash">
+    <div class="dash-head">
+      <div class="dh-main">
+        <div class="eyebrow">この条件で建てられる目安</div>
+        <div class="read-line" id="read-line">
+          <span class="read-lead">約</span>
+          <span class="read-num" id="r-area">34</span>
+          <span class="read-unit">坪</span>
+          <span class="read-anno">（※施工面積）</span>
+        </div>
+      </div>
+      <div class="dh-side">
+        <div class="dh-side-label">本体（税別）</div>
+        <div class="dh-side-num">約<span id="r-body">3,000</span><span class="dh-side-unit">万</span></div>
+        <button id="bd-toggle" type="button" class="bd-toggle">内訳 ▾</button>
+      </div>
+    </div>
+
+    <div id="breakdown" class="bd" style="display:none">
+      <div class="bd-row"><span>建物本体（税別）</span><span id="bd-body">3,000万</span></div>
+      <div class="bd-row"><span>消費税・諸経費</span><span id="bd-extra">+600万</span></div>
+      <div class="bd-row"><span id="bd-land-label">土地（お持ち）</span><span id="bd-land">—</span></div>
+      <div class="bd-row bd-sum"><span>総予算</span><span id="bd-total">3,600万</span></div>
+    </div>
+
+    <div class="tiles mt-3" id="tiles"></div>
+
+    <div class="legend mt-3 pt-3 border-t border-slate-100">
+      <span><span class="swatch swatch-grad"></span>色が濃いほど予算で届きやすい</span>
+      <span><span class="vbar-demo"><i class="on"></i><i class="on"></i><i></i></span>下のバー＝価値観の合い方</span>
+    </div>
+  </header>
+
+  <!-- ===== STEP 1: 予算で大きく絞る ===== -->
+  <main class="space-y-5 mt-5 pb-24">
+    <section class="card space-y-5">
+      <div class="flex items-center gap-3">
+        <span class="step">STEP 1</span>
+        <h2 class="h2 border-0 p-0">予算で大きく絞る</h2>
+      </div>
+      <p class="help">総予算と坪単価を動かすと、予算的に「届くタイプ」だけがダッシュボードに残ります。届かないタイプはグレーで沈みます。</p>
+
+      <div class="space-y-2">
+        <div class="flex items-end justify-between">
+          <span class="axis-name">総予算（土地・建物すべて込み）</span>
+          <span class="text-lg font-black"><span id="l-total">3,600</span><span class="text-sm text-slate-500 ml-1">万円</span></span>
+        </div>
+        <input id="in-total" type="range" min="1800" max="7200" step="100" value="3600" />
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-end justify-between">
+          <span class="axis-name">坪単価（本体・税別）</span>
+          <span class="text-lg font-black"><span id="l-unit">88</span><span class="text-sm text-slate-500 ml-1">万円/坪</span></span>
+        </div>
+        <input id="in-unit" type="range" min="50" max="180" step="1" value="88" />
+      </div>
+
+      <div class="pt-1 space-y-3 border-t border-slate-100 pt-4">
+        <label class="flex items-center gap-3 cursor-pointer select-none">
+          <input id="in-noland" type="checkbox" class="land-check" />
+          <span class="text-sm font-black text-slate-700">土地がない（これから購入する）</span>
+        </label>
+        <div id="land-wrap" class="space-y-2" style="display:none">
+          <div class="flex items-end justify-between">
+            <span class="axis-name">土地購入費</span>
+            <span class="text-xs font-bold text-slate-400">総予算から差し引きます</span>
+          </div>
+          <div class="landinput">
+            <input id="in-land" type="number" inputmode="numeric" min="0" step="50" value="1000" />
+            <span class="suffix">万円</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEP 2: 価値観で濃淡をつける ===== -->
+    <section class="card space-y-5">
+      <div class="flex items-center gap-3">
+        <span class="step soft">STEP 2</span>
+        <h2 class="h2 border-0 p-0">価値観で濃淡をつける</h2>
+      </div>
+      <p class="help">家づくりの好みをタップで選ぶと、各タイプの<strong>名前の下のバー</strong>に価値観の合い方が出ます（合うほどバーが伸びます）。</p>
+      <div id="values" class="space-y-5"></div>
+    </section>
+
+    <div class="foot pt-4 border-t border-slate-200 text-center space-y-2">
+      <p>※ β版。判定は傾向を知るたたき台です（個別の会社で大きな差があります）。パネルの色の濃さ＝ご予算での届きやすさ、文字の下のバー＝価値観の合い方です。</p>
+      <p><a class="hall-back" href="../index.html">← YKTラボ トップへ</a></p>
+      <p>© 荻野 尚志 / says@o-h.co.jp</p>
+    </div>
+  </main>
+</div>
+
+<div id="pop" class="pop" role="dialog" aria-hidden="true"></div>
+
+<script>
+(function(){
+  const TAX_FEE = 1.3;
+
+  const TYPES = [
+    { name:"総合大手",       baseMin:130, hagimori:false, minArea:17, desc:"全国展開する総合ハウスメーカー。豊富な商品ラインと標準化された仕様で、品質のばらつきが少ないのが特長です。住宅展示場や宿泊体験など、検討の環境が充実しています。研究開発力とアフター網が厚く、長期保証も手厚い傾向。ブランドの安心感を重視する方に選ばれています。" },
+    { name:"木造大手",       baseMin:110, hagimori:false, minArea:17, desc:"木造を主力とする大手・準大手メーカー。木の質感を活かしつつ、構造や金物を規格化して品質を担保します。間取りの自由度が比較的高く、将来の増改築にも対応しやすい。標準仕様が整い、提案の幅と安心感のバランスが取れています。全国〜地域に営業網を持ちます。" },
+    { name:"ユニット大手",   baseMin:110, hagimori:false, minArea:21, desc:"工場で箱（ユニット）を生産し、現場で組み上げる工業化住宅。鉄骨を中心とした強靭な構造と、短い工期・安定した品質が強みです。仕様は堅牢な一方、間取りの自由度はやや制約されます。大規模なリフォームや将来の改変は不得手な面も。工場生産ゆえの均質さが魅力です。" },
+    { name:"実力派工務店",   baseMin:80,  hagimori:true,  minArea:11, desc:"地域に根ざし、設計から施工まで自社で手掛ける工務店。施主の要望を丁寧に汲み取り、一棟ごとに作り込む対応力が最大の武器です。職人や協力会社との距離が近く、細部の融通が利きます。担当者の力量が仕上がりを大きく左右します。地域の気候や土地勘にも明るい存在です。" },
+    { name:"デザイン系FC",   baseMin:85,  hagimori:false, minArea:15, desc:"デザイン性を看板に掲げるフランチャイズ系の住宅ブランド。洗練された外観・内装と、暮らしの世界観づくりが得意です。共通の設計言語やパッケージで一定の質感を再現します。性能の担保方法は加盟店ごとに差が出ることもあります。見た目と暮らし心地の魅力で選ばれます。" },
+    { name:"性能特化型",     baseMin:90,  hagimori:false, minArea:15, desc:"断熱・気密・耐震など住宅性能の数値を突き詰める専門性の高い会社。UA値やC値、構造計算など根拠を明示する姿勢が特長です。光熱費や快適性、健康面のメリットを重視する方と相性が良い。性能への思想や哲学が明確で、共感で選ばれることが多い。長く住むほど価値が出る住まいを目指します。" },
+    { name:"独立建築家",     baseMin:105, hagimori:true,  minArea:11, desc:"施主と一対一で向き合い、唯一無二の住まいを設計する建築家。敷地条件や暮らし方を読み解き、既製品にない解を提案します。設計と施工を分け、第三者の立場で工事を監理することが多い。実力を引き出すには任せる度量が問われます。作品性の高さとオリジナリティが魅力です。" },
+    { name:"ローコスト系",   baseMin:70,  hagimori:false, minArea:17, desc:"規格化と効率化を徹底し、価格の手頃さを最大の強みとする会社。標準プランの範囲で建てれば、コストパフォーマンスは随一です。仕様や選択肢を絞ることで無駄を省いています。標準から外れる要望は、かえって割高になることも。明快な価格で住まいを持ちたい方に向きます。" },
+    { name:"建築条件付き土地", baseMin:75, hagimori:false, minArea:21, desc:"土地の購入と同時に、指定の会社で家を建てる前提の分譲形態。立地の良さや価格のまとまりが、最大の価値になりやすい。プランや仕様の自由度は限定的な場合が多い。住まいそのものより『その場所に住む』ことを優先する選択です。土地探しと家づくりを一度に進められます。" }
+  ];
+
+  // 34坪=1.0 とした面積補正
+  function areaFactor(t){
+    const p=[{x:15,y:1.30},{x:25,y:1.10},{x:34,y:1.00},{x:44,y:0.90},{x:54,y:0.85}];
+    if(t<=p[0].x)return p[0].y;
+    if(t>=p[p.length-1].x)return p[p.length-1].y;
+    for(let i=0;i<p.length-1;i++){const a=p[i],b=p[i+1];if(t>=a.x&&t<=b.x){const r=(t-a.x)/(b.x-a.x);return a.y+(b.y-a.y)*r;}}
+    return 1.0;
+  }
+
+  // スタンス採点（A/B/C/D は内部値。3チップ → 左=A / 中=B,Cの平均 / 右=D）
+  const STYLE_POINTS = {
+    "総合大手":      {freedom:{A:1,B:5,C:0,D:0},   trust:{A:30,B:5,C:1,D:-5}, effort:{A:1,B:3,C:1,D:-3}, duration:{A:0,B:5,C:1,D:0}},
+    "木造大手":      {freedom:{A:1,B:5,C:1,D:0},   trust:{A:30,B:5,C:1,D:-5}, effort:{A:1,B:2,C:1,D:-3}, duration:{A:0,B:5,C:1,D:0}},
+    "ユニット大手":  {freedom:{A:1,B:1,C:1,D:-35}, trust:{A:30,B:5,C:1,D:-5}, effort:{A:5,B:3,C:0,D:null}, duration:{A:10,B:3,C:-5,D:null}},
+    "実力派工務店":  {freedom:{A:3,B:5,C:5,D:10},  trust:{A:-50,B:-20,C:5,D:10}, effort:{A:-5,B:1,C:5,D:7}, duration:{A:-10,B:1,C:3,D:5}},
+    "デザイン系FC":  {freedom:{A:5,B:7,C:3,D:1},   trust:{A:0,B:0,C:-2,D:-2}, effort:{A:-2,B:0,C:3,D:2}, duration:{A:-2,B:-1,C:1,D:0}},
+    "性能特化型":    {freedom:{A:5,B:0,C:0,D:1},   trust:{A:3,B:2,C:3,D:10}, effort:{A:-2,B:0,C:0,D:0}, duration:{A:-2,B:0,C:1,D:1}},
+    "独立建築家":    {freedom:{A:5,B:0,C:0,D:3},   trust:{A:-5,B:-2,C:3,D:5}, effort:{A:5,B:0,C:1,D:7}, duration:{A:-5,B:0,C:3,D:5}},
+    "ローコスト系":  {freedom:{A:null,B:5,C:1,D:null}, trust:{A:-10,B:1,C:-2,D:-2}, effort:{A:3,B:5,C:1,D:null}, duration:{A:1,B:3,C:0,D:null}},
+    "建築条件付き土地":{freedom:{A:0,B:1,C:1,D:null}, trust:{A:0,B:0,C:0,D:-2}, effort:{A:10,B:5,C:0,D:-2}, duration:{A:10,B:5,C:-2,D:null}}
+  };
+
+  // 価値観テーマ（チップUI）。axes=このテーマが同時に動かす内部軸
+  const THEMES = [
+    {axes:["freedom","effort"], title:"関わり方",   opts:[
+      {em:"🤝",t:"おまかせ",      d:"プロにできるだけ任せて、決め事は最小限に。打ち合わせの負担を軽くしたい人。"},
+      {em:"⚖️",t:"バランス",      d:"要所は自分で選び、細部はプロに任せる。ほどよく関わりたい人。"},
+      {em:"🔧",t:"自分でこだわる", d:"間取りや素材まで自分で深く関わり、とことん作り込みたい人。"}
+    ]},
+    {axes:["trust"],            title:"安心の源泉", opts:[
+      {em:"🏛️",t:"ブランド",     d:"会社の規模・実績・知名度で安心したい。長期保証やアフター網も重視する人。"},
+      {em:"⚖️",t:"バランス",     d:"ブランドの安心も、数字の裏づけも、どちらもほどほどに見たい。特に偏りなし。"},
+      {em:"📊",t:"数値・根拠",   d:"UA値・C値・構造計算など、データと根拠で納得して選びたい人。"}
+    ]},
+    {axes:["duration"],         title:"ペース",     opts:[
+      {em:"⚡",t:"早く建てたい",   d:"工期は短く、できるだけ早く入居したい。スピードを優先する人。"},
+      {em:"⚖️",t:"こだわらない",  d:"ペースは特に重視しない。標準的な進み方でよい人。"},
+      {em:"🌱",t:"じっくり",      d:"時間をかけて、納得いくまで打ち合わせを重ねたい人。"}
+    ]}
+  ];
+
+  // ---- state ----
+  const val  = {freedom:1, trust:1, effort:1, duration:1}; // 0=左 1=中 2=右（中=デフォルト）
+
+  // ---- DOM ----
+  const $=id=>document.getElementById(id);
+  const inTotal=$("in-total"), inUnit=$("in-unit");
+  const inNoland=$("in-noland"), landWrap=$("land-wrap"), inLand=$("in-land");
+  const lTotal=$("l-total"), lUnit=$("l-unit");
+  const rArea=$("r-area"), rBody=$("r-body"), readLine=$("read-line");
+  const bdBody=$("bd-body"), bdExtra=$("bd-extra"), bdLand=$("bd-land"), bdLandLabel=$("bd-land-label"), bdTotal=$("bd-total");
+  const tilesWrap=$("tiles"), valuesWrap=$("values"), pop=$("pop");
+
+  // ---- helpers ----
+  const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const mix=(c1,c2,t)=>[Math.round(lerp(c1[0],c2[0],t)),Math.round(lerp(c1[1],c2[1],t)),Math.round(lerp(c1[2],c2[2],t))];
+
+  function letterVal(table, idx){ // idx: 0=A,1=mid(B,C),2=D ; returns {v, ng}
+    if(idx===0){ const v=table.A; return (v==null)?{v:0,ng:true}:{v,ng:false}; }
+    if(idx===2){ const v=table.D; return (v==null)?{v:0,ng:true}:{v,ng:false}; }
+    return {v:(table.B+table.C)/2, ng:false}; // 中間（B/Cにnullは無い）
+  }
+
+  function stanceScore(name){
+    const tbl=STYLE_POINTS[name]; let sum=0, ng=false;
+    for(const k of ["freedom","trust","effort","duration"]){
+      const r=letterVal(tbl[k], val[k]);
+      if(r.ng) ng=true; else sum+=r.v;
+    }
+    return {sum, ng};
+  }
+
+  // 価値観マッチ度を3段階に（名前下のバーの本数）
+  function matchLevel(score, ng){
+    if(ng) return 1;
+    if(score>=12) return 3;
+    if(score>=3)  return 2;
+    return 1;
+  }
+  // お金の届きやすさ(0..1) → 背景色（淡→青→濃紺）
+  // 白〜薄青（黒文字ゾーン）→ FLIPで一段濃い青へジャンプ → 紺（白文字ゾーン）。FLIPで明度差を大きく取る
+  const COLOR_FLIP = 0.58;
+  function moneyColor(m){
+    const PALE=[255,255,255], LIGHTCAP=[120,170,248], DARKSTART=[44,82,168], DEEP=[23,37,84];
+    return (m<COLOR_FLIP) ? mix(PALE,LIGHTCAP,m/COLOR_FLIP) : mix(DARKSTART,DEEP,(m-COLOR_FLIP)/(1-COLOR_FLIP));
+  }
+
+  // ---- build value chips ----
+  function buildValues(){
+    valuesWrap.innerHTML="";
+    THEMES.forEach(th=>{
+      const block=document.createElement("div"); block.className="space-y-2";
+      const head=document.createElement("div"); head.className="axis-name"; head.textContent=th.title;
+      const row=document.createElement("div"); row.className="chiprow";
+      const desc=document.createElement("div"); desc.className="chip-desc";
+      desc.textContent=(th.opts[val[th.axes[0]]]||{}).d||"";
+      th.opts.forEach((o,i)=>{
+        const b=document.createElement("button");
+        b.className="chip"; b.type="button";
+        b.setAttribute("aria-pressed", String(val[th.axes[0]]===i));
+        b.innerHTML=`<span class="em">${o.em}</span>${o.t}`;
+        b.addEventListener("click",()=>{
+          th.axes.forEach(ax=>val[ax]=i);
+          row.querySelectorAll(".chip").forEach((c,j)=>c.setAttribute("aria-pressed",String(j===i)));
+          desc.textContent=o.d||"";
+          closePop(); update();
+        });
+        row.appendChild(b);
+      });
+      block.appendChild(head); block.appendChild(row); block.appendChild(desc); valuesWrap.appendChild(block);
+    });
+  }
+
+  // ---- build tiles ----
+  const tileEls=[];
+  function buildTiles(){
+    tilesWrap.innerHTML=""; tileEls.length=0;
+    TYPES.forEach(t=>{
+      const el=document.createElement("div"); el.className="tile";
+      const inner=document.createElement("div"); inner.className="inner";
+      const nm=document.createElement("div"); nm.className="nm"; nm.textContent=t.name;
+      const vbar=document.createElement("div"); vbar.className="vbar";
+      for(let k=0;k<3;k++){ vbar.appendChild(document.createElement("i")); }
+      inner.appendChild(nm); inner.appendChild(vbar); el.appendChild(inner);
+      el.addEventListener("click",e=>{ e.stopPropagation(); openPop(el,t); });
+      tilesWrap.appendChild(el); tileEls.push(el);
+    });
+  }
+
+  // ---- popover（業態の定義概要のみ。判定基準には触れない）----
+  const HAGIMORI = {};
+  function closePop(){ pop.style.display="none"; pop.setAttribute("aria-hidden","true"); }
+  function openPop(el,t){
+    const h=HAGIMORI[t.name];
+    const hagi = h ? `<div class="hagi"><div class="hagi-t">${h.title}</div><div class="hagi-d">${h.body}</div></div>` : "";
+    pop.innerHTML=`<div class="t">${t.name}</div><div class="d">${t.desc}</div>${hagi}`;
+    pop.style.display="block"; pop.setAttribute("aria-hidden","false");
+    const r=el.getBoundingClientRect(), pr=pop.getBoundingClientRect(), pad=12;
+    let left=clamp(r.left+r.width/2-pr.width/2, pad, window.innerWidth-pr.width-pad);
+    let top=r.top-pr.height-10; if(top<pad) top=r.bottom+10;
+    pop.style.left=left+"px"; pop.style.top=top+"px";
+  }
+
+  // ---- main update ----
+  function update(){
+    const total=Number(inTotal.value);            // 総予算（土地・建物すべて込み）
+    const unit=Number(inUnit.value);              // 坪単価（本体・税別）
+    const noLand=inNoland.checked;
+    const land = noLand ? Math.max(0, Number(inLand.value)||0) : 0;
+    const effLand = Math.min(land, total);         // 総予算を超えては引かない
+    const buildTotal = total - effLand;            // 建物に使える総額（諸経費・税込）
+    const body=Math.max(0, Math.round(buildTotal/TAX_FEE)); // 本体予算（税別）
+    const area = body>0 ? Math.round(body/unit) : 0; // 延床面積（坪）
+    const minMin = Math.min.apply(null, TYPES.map(function(t){return t.minArea;})); // 全業態の最小床面積
+    const tooSmall = (area < minMin);              // どの業態も建てられない狭さ
+    const factor=areaFactor(area>0?area:13);
+
+    lTotal.textContent=total.toLocaleString();
+    lUnit.textContent=unit.toLocaleString();
+    rArea.textContent=area.toLocaleString();
+    rBody.textContent=body.toLocaleString();
+    readLine.classList.toggle("dim", tooSmall); // どの業態も建てられない狭さ＝グレー表示
+
+    // 内訳（合計＝総予算 になるよう effLand で整合）
+    const extra=Math.max(0, buildTotal-body);
+    bdBody.textContent=body.toLocaleString()+"万";
+    bdExtra.textContent="+"+extra.toLocaleString()+"万";
+    if(noLand){ bdLandLabel.textContent="土地"; bdLand.textContent="+"+effLand.toLocaleString()+"万"; }
+    else { bdLandLabel.textContent="土地（お持ち）"; bdLand.textContent="—"; }
+    bdTotal.textContent=total.toLocaleString()+"万";
+
+    const reachList=[];
+    TYPES.forEach((t,i)=>{
+      const el=tileEls[i];
+      const st=stanceScore(t.name);
+      const req=t.baseMin*factor;                  // 必要坪単価
+      const out = (area < t.minArea);              // この業態の最低坪数に未達＝対象外（白）
+      const reach= out ? 0 : unit/req;              // 達成率
+
+      // お金の制限 → 背景の濃淡（濃いほど届きやすい。言葉は使わない）
+      let m=clamp((reach-0.7)/(1.25-0.7), 0, 1);
+      // 低価格帯の業態は、坪単価が高いと“身の丈に合わない”ため薄く（100超で減衰→120で白）
+      if(t.name==="ローコスト系" || t.name==="建築条件付き土地"){
+        m *= clamp((120-unit)/20, 0, 1);
+      }
+      const rgb=moneyColor(m);
+      el.style.backgroundColor=`rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+      // 第一段階（色がつき始め）から文字をはっきり：ほぼ白＝沈める／薄〜中背景＝濃い文字／濃背景＝白
+      el.style.color = (m<0.04) ? "rgb(190,182,168)" : (m>=COLOR_FLIP ? "rgba(255,255,255,0.97)" : "rgb(42,42,38)");
+      el.style.boxShadow = m>=0.55 ? "0 8px 16px -10px rgba(2,6,23,0.5)" : "none";
+      if(m>=0.5) reachList.push(t.name);
+
+      // 価値観適合 → 名前の下の3段階バー
+      let lv=matchLevel(st.sum, st.ng);
+      // 「早く建てたい」時は、工期の短いユニット大手以外は3本にしない（最大2本）
+      if(val.duration===0 && t.name!=="ユニット大手") lv=Math.min(lv,2);
+      // 独立建築家は工期が長く時間縛りが強いので「早く建てたい」では1本まで落とす
+      if(val.duration===0 && t.name==="独立建築家") lv=1;
+      el.querySelectorAll(".vbar i").forEach((s,k)=> s.classList.toggle("on", k<lv));
+    });
+
+  }
+
+  // ---- events ----
+  [inTotal,inUnit].forEach(x=>x.addEventListener("input",()=>{closePop();update();}));
+  inLand.addEventListener("input",()=>{closePop();update();});
+  inNoland.addEventListener("change",()=>{
+    landWrap.style.display = inNoland.checked ? "block" : "none";
+    closePop(); update();
+  });
+  document.addEventListener("click",closePop);
+  pop.addEventListener("click",e=>e.stopPropagation());
+  window.addEventListener("resize",closePop);
+
+  // 内訳トグル（初期は折りたたみ＝コンパクト）
+  let bdOpen=false;
+  const bdToggle=$("bd-toggle"), breakdown=$("breakdown");
+  bdToggle.addEventListener("click",e=>{
+    e.stopPropagation();
+    bdOpen=!bdOpen;
+    breakdown.style.display=bdOpen?"block":"none";
+    bdToggle.textContent=bdOpen?"内訳 ▴":"内訳 ▾";
+  });
+
+  // ---- init ----
+  buildValues(); buildTiles(); update();
+})();
+</script>
+</body>
+</html>

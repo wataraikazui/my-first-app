@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自分で描いた間取りを、家にする。｜間取り診断｜YKTラボ</title>
+<meta name="description" content="自分で描いた間取りを、家にする。間取り診断の考え方。手描きの一枚も、間取りアプリの一枚も、家づくりの種として育てます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Klee+One:wght@400;600&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f1a14;
+    --ink-soft: #4a3f33;
+    --ink-mute: #8a7f6f;
+    --paper: #f8f3e6;
+    --paper-deep: #ecdfc1;
+    --paper-soft: #fdfaef;
+    --paper-warm: #f5ead2;
+    --accent: #d4582a;
+    --accent-deep: #993d18;
+    --accent-soft: #f0bb8e;
+    --leaf: #4f7548;
+    --leaf-soft: #b9c89a;
+    --sun: #e4a52e;
+    --sun-soft: #f4d68a;
+    --rule: #c8b88f;
+    --rule-soft: #e0d5b4;
+    --shadow: rgba(60, 45, 25, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Shippori Mincho', 'Yu Mincho', '游明朝', serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.95;
+    font-feature-settings: "palt";
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .handwritten {
+    font-family: 'Klee One', 'Shippori Mincho', serif;
+    font-weight: 600;
+  }
+  .sans { font-family: 'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif; }
+
+  /* ====== スクロール進捗バー ====== */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--accent), var(--sun));
+    z-index: 9999;
+    width: 0%;
+    transition: width 0.15s ease-out;
+    box-shadow: 0 1px 6px rgba(212, 88, 42, 0.4);
+  }
+
+  /* ====== ノイズ／紙の質感 ====== */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.4   0 0 0 0 0.35   0 0 0 0 0.25   0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ====== グリッド／方眼背景 ====== */
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(60, 50, 30, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(60, 50, 30, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* =========================================================
+     HERO
+  ========================================================= */
+  .hero {
+    min-height: 100vh;
+    padding: 88px 24px 120px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background:
+      radial-gradient(ellipse 80% 60% at 80% 20%, rgba(244, 214, 138, 0.25), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 10% 90%, rgba(240, 187, 142, 0.18), transparent 70%),
+      var(--paper);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(60, 50, 30, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(60, 50, 30, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 100% 100% at center, black 30%, transparent 90%);
+  }
+
+  .hero-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  @media (min-width: 960px) {
+    .hero-inner {
+      grid-template-columns: 1.05fr 1fr;
+      gap: 80px;
+    }
+  }
+
+  .hero-label {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    color: var(--accent-deep);
+    margin-bottom: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero-label::before {
+    content: "";
+    width: 36px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 6.2vw, 72px);
+    font-weight: 600;
+    line-height: 1.42;
+    letter-spacing: 0.015em;
+    color: var(--ink);
+    margin-bottom: 44px;
+    position: relative;
+  }
+
+  .hero-title .line2 {
+    display: inline-block;
+    position: relative;
+    margin-top: 0.15em;
+  }
+
+  .hero-title .accent-mark {
+    color: var(--accent-deep);
+    position: relative;
+    display: inline-block;
+    padding: 0 0.06em;
+  }
+
+  .hero-title .accent-mark::after {
+    content: "";
+    position: absolute;
+    bottom: 0.08em;
+    left: -0.05em;
+    right: -0.05em;
+    height: 0.22em;
+    background: var(--sun-soft);
+    z-index: -1;
+    border-radius: 50% 50% 4px 4px / 50% 50% 4px 4px;
+    transform: rotate(-1.5deg);
+  }
+
+  /* 手描きの下線SVG */
+  .hand-underline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -14px;
+    width: 100%;
+    height: 14px;
+    pointer-events: none;
+  }
+  .hand-underline path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: drawLine 2.2s ease-out 0.4s forwards;
+  }
+
+  @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .hero-sub {
+    font-size: clamp(15px, 1.65vw, 18px);
+    color: var(--ink-soft);
+    max-width: 520px;
+    line-height: 2.15;
+    margin-bottom: 56px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px 56px;
+    padding-top: 36px;
+    border-top: 1px solid var(--rule);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .hero-meta-item span:first-child {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-bottom: 6px;
+    color: var(--ink-mute);
+  }
+
+  .hero-meta-item span:last-child {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* ヒーローの手描き間取り図 */
+  .hero-sketch {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .hero-sketch svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .hero-sketch .sk-paper {
+    fill: var(--paper-soft);
+    stroke: var(--rule);
+    stroke-width: 1.5;
+    filter: drop-shadow(8px 12px 0 var(--shadow));
+  }
+
+  .hero-sketch .sk-grid {
+    stroke: rgba(60, 50, 30, 0.08);
+    stroke-width: 0.6;
+  }
+
+  .hero-sketch .sk-line {
+    fill: none;
+    stroke: var(--ink-soft);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: drawLine 3s ease-out 0.6s forwards;
+  }
+
+  .hero-sketch .sk-line-2 {
+    animation-delay: 1.2s;
+  }
+
+  .hero-sketch .sk-line-3 {
+    animation-delay: 1.8s;
+  }
+
+  .hero-sketch .sk-accent {
+    fill: var(--accent);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 2.6s forwards;
+  }
+
+  .hero-sketch .sk-accent-soft {
+    fill: var(--sun-soft);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 2.4s forwards;
+  }
+
+  .hero-sketch .sk-label {
+    font-family: 'Klee One', sans-serif;
+    font-size: 14px;
+    fill: var(--ink-soft);
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .hero-sketch .sk-note {
+    font-family: 'Klee One', sans-serif;
+    font-size: 12px;
+    fill: var(--accent-deep);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .hero-sketch .delay-1 { animation-delay: 2.0s; }
+  .hero-sketch .delay-2 { animation-delay: 2.2s; }
+  .hero-sketch .delay-3 { animation-delay: 2.4s; }
+  .hero-sketch .delay-4 { animation-delay: 2.6s; }
+  .hero-sketch .delay-5 { animation-delay: 2.8s; }
+  .hero-sketch .delay-6 { animation-delay: 3.0s; }
+
+  /* マスキングテープ */
+  .hero-sketch .tape {
+    position: absolute;
+    top: -14px;
+    left: 30%;
+    width: 110px;
+    height: 28px;
+    background: rgba(228, 165, 46, 0.55);
+    transform: rotate(-3deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  }
+  .hero-sketch .tape::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.3) 0%, transparent 30%),
+      linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 100%);
+  }
+
+  /* スクロール誘導 */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--ink-mute);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .scroll-hint::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, var(--ink-mute), transparent);
+    animation: scrollHint 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollHint {
+    0%, 100% { transform: scaleY(0.5); transform-origin: top; opacity: 0.4; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  /* =========================================================
+     セクション共通
+  ========================================================= */
+  section {
+    padding: 140px 24px;
+    position: relative;
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .container-wide {
+    max-width: 1080px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-num {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--accent-deep);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    gap: 14px;
+  }
+
+  .section-num::before {
+    content: "";
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-size: clamp(26px, 3.8vw, 40px);
+    font-weight: 500;
+    line-height: 1.65;
+    margin-bottom: 56px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .section-lead {
+    font-size: clamp(16px, 1.75vw, 18px);
+    line-height: 2.25;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+
+  /* セクション間の手描き仕切り */
+  .divider-sketch {
+    display: block;
+    width: 80px;
+    height: 24px;
+    margin: 0 auto;
+    opacity: 0.5;
+  }
+  .divider-sketch path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+
+  /* =========================================================
+     SEED — 種
+  ========================================================= */
+  .seed {
+    background: var(--paper-soft);
+    border-top: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .seed::before, .seed::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--sun-soft), transparent 70%);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .seed::before { top: -100px; left: -100px; }
+  .seed::after { bottom: -100px; right: -100px; background: radial-gradient(circle, var(--accent-soft), transparent 70%); opacity: 0.25; }
+
+  .seed-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 640px;
+    margin: 0 auto 56px;
+  }
+
+  @media (max-width: 640px) {
+    .seed-thumbs { grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 320px; }
+  }
+
+  .seed-thumb {
+    aspect-ratio: 1 / 1;
+    background: var(--paper);
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 14px;
+    position: relative;
+    box-shadow: 0 3px 0 var(--shadow), 4px 6px 16px rgba(0,0,0,0.04);
+    transition: transform 0.4s ease;
+  }
+  .seed-thumb:nth-child(1) { transform: rotate(-2deg); }
+  .seed-thumb:nth-child(2) { transform: rotate(1deg); }
+  .seed-thumb:nth-child(3) { transform: rotate(-1.5deg); }
+  .seed-thumb:nth-child(4) { transform: rotate(2deg); }
+  .seed-thumb:hover { transform: rotate(0deg) scale(1.05); }
+
+  .seed-thumb svg { width: 100%; height: 100%; }
+  .seed-thumb .stamp {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    background: var(--accent);
+    color: var(--paper-soft);
+    font-family: 'Klee One', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    transform: rotate(-5deg);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .seed-emphasis {
+    font-size: clamp(24px, 3.2vw, 36px);
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--accent-deep);
+    margin: 48px auto 0;
+    padding: 56px 56px 48px;
+    display: inline-block;
+    position: relative;
+    max-width: 600px;
+  }
+
+  .seed-emphasis::before, .seed-emphasis::after {
+    content: "";
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-color: var(--accent);
+  }
+  .seed-emphasis::before {
+    top: 0;
+    left: 0;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+  .seed-emphasis::after {
+    bottom: 0;
+    right: 0;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+
+  .seed-emphasis-mark {
+    display: block;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 24px;
+  }
+
+  /* =========================================================
+     THEORY — 人気の間取り
+  ========================================================= */
+  .theory-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 48px 0;
+  }
+
+  .theory-tag {
+    font-family: 'Klee One', sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 12px 22px;
+    background: var(--paper-soft);
+    border: 1.5px solid var(--rule);
+    border-radius: 100px;
+    line-height: 1.4;
+    position: relative;
+    font-weight: 600;
+  }
+  .theory-tag:nth-child(odd) { transform: rotate(-1deg); }
+  .theory-tag:nth-child(even) { transform: rotate(0.8deg); }
+
+  .theory-tag.crossed::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 50%;
+    height: 2px;
+    background: var(--accent);
+    transform: rotate(-3deg);
+    border-radius: 4px;
+    opacity: 0.7;
+  }
+
+  .lifestyle-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 28px;
+    margin: 40px 0;
+    padding: 32px 0;
+    border-top: 1px dashed var(--rule);
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  .lifestyle-list li {
+    list-style: none;
+    font-size: 15px;
+    color: var(--ink-soft);
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .lifestyle-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 10px;
+    height: 10px;
+    border: 1.5px solid var(--leaf);
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  /* =========================================================
+     WORRIES — 不安
+  ========================================================= */
+  .worries {
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(244, 214, 138, 0.2), transparent 70%),
+      var(--paper-warm);
+  }
+
+  .worry-bubbles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 40px 0 60px;
+  }
+
+  @media (min-width: 640px) {
+    .worry-bubbles { grid-template-columns: 1fr 1fr; }
+  }
+
+  .worry-bubble {
+    background: var(--paper-soft);
+    border: 1.5px solid var(--rule);
+    border-radius: 18px;
+    padding: 24px 28px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    position: relative;
+    line-height: 1.85;
+    font-family: 'Klee One', sans-serif;
+    font-weight: 600;
+    box-shadow: 0 3px 0 var(--shadow);
+  }
+
+  .worry-bubble::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 32px;
+    width: 18px;
+    height: 18px;
+    background: var(--paper-soft);
+    border-right: 1.5px solid var(--rule);
+    border-bottom: 1.5px solid var(--rule);
+    transform: rotate(45deg);
+  }
+
+  .worry-bubble:nth-child(1) { transform: rotate(-0.5deg); }
+  .worry-bubble:nth-child(2) { transform: rotate(0.5deg); }
+  .worry-bubble:nth-child(3) { transform: rotate(0.3deg); }
+  .worry-bubble:nth-child(4) { transform: rotate(-0.4deg); }
+
+  .reassure-block {
+    text-align: center;
+    margin: 64px 0 48px;
+    padding: 40px 24px;
+    position: relative;
+  }
+
+  .reassure-circle {
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 20px;
+  }
+
+  .reassure {
+    font-size: clamp(28px, 3.4vw, 38px);
+    font-weight: 600;
+    color: var(--accent-deep);
+    letter-spacing: 0.08em;
+    font-family: 'Klee One', sans-serif;
+  }
+
+  /* =========================================================
+     STANCE — まず否定しない
+  ========================================================= */
+  .stance {
+    position: relative;
+    overflow: hidden;
+  }
+  .stance-margin {
+    position: absolute;
+    top: 80px;
+    right: -60px;
+    width: 320px;
+    height: 320px;
+    opacity: 0.5;
+    pointer-events: none;
+    transform: rotate(8deg);
+  }
+  @media (max-width: 900px) {
+    .stance-margin { display: none; }
+  }
+  .stance-margin svg { width: 100%; height: 100%; overflow: visible; }
+  .stance-margin .sm-line {
+    fill: none;
+    stroke: var(--ink-soft);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .stance-margin .sm-accent {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .stance-margin .sm-note {
+    font-family: 'Klee One', sans-serif;
+    font-size: 14px;
+    fill: var(--accent-deep);
+    font-weight: 600;
+  }
+  .stance-margin .sm-cross {
+    fill: none;
+    stroke: var(--ink-mute);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    opacity: 0.5;
+  }
+
+  .stance-quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin: 48px 0;
+  }
+
+  .stance-quote {
+    padding: 24px 28px;
+    background: var(--paper-soft);
+    border-left: 3px solid var(--accent);
+    font-family: 'Klee One', sans-serif;
+    font-weight: 600;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.9;
+    position: relative;
+  }
+  .stance-quote::before {
+    content: "なぜ、";
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* =========================================================
+     PROCESS — 診断の流れ
+  ========================================================= */
+  .process {
+    background: var(--paper-soft);
+  }
+
+  .process-track {
+    position: relative;
+    padding-left: 12px;
+  }
+
+  .process-track::before {
+    content: "";
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    bottom: 40px;
+    width: 2px;
+    background: repeating-linear-gradient(to bottom, var(--rule) 0 6px, transparent 6px 12px);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 32px;
+    padding: 36px 0;
+    align-items: start;
+    position: relative;
+  }
+
+  @media (max-width: 640px) {
+    .step { grid-template-columns: 64px 1fr; gap: 20px; }
+    .process-track::before { left: 26px; }
+  }
+
+  .step-num {
+    width: 80px;
+    height: 80px;
+    background: var(--paper);
+    color: var(--accent-deep);
+    border: 2.5px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 600;
+    font-size: 30px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+
+  @media (max-width: 640px) {
+    .step-num { width: 54px; height: 54px; font-size: 20px; }
+    .step-num span { display: none; }
+  }
+
+  .step-num span {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    display: block;
+    margin-bottom: 4px;
+    color: var(--accent-deep);
+    opacity: 0.7;
+    font-weight: 500;
+  }
+
+  .step-content {
+    padding-top: 12px;
+  }
+
+  .step-content h3 {
+    font-size: clamp(20px, 2.4vw, 24px);
+    font-weight: 600;
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    position: relative;
+    display: inline-block;
+  }
+
+  .step-content h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 32px;
+    height: 2px;
+    background: var(--sun);
+    border-radius: 4px;
+  }
+
+  .step-content p {
+    font-size: 15px;
+    line-height: 2.1;
+    color: var(--ink-soft);
+  }
+
+  /* =========================================================
+     AUDIENCE — 対象者
+  ========================================================= */
+  .audience-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .audience-cols { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+
+  .audience-col {
+    padding: 40px 32px;
+    background: var(--paper-soft);
+    border-radius: 18px;
+    box-shadow: 0 3px 16px var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .audience-col::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--accent);
+  }
+  .audience-col.alt::before { background: var(--leaf); }
+
+  .audience-col-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 20px;
+  }
+
+  .audience-col h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+
+  .audience-col ul { list-style: none; }
+
+  .audience-col li {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+    padding: 12px 0 12px 32px;
+    position: relative;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .audience-col li:last-child { border-bottom: none; }
+
+  .audience-col li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    width: 16px;
+    height: 16px;
+    background: var(--accent-soft);
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M2 8L6 12L14 4' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M2 8L6 12L14 4' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center;
+    background-color: var(--accent);
+  }
+
+  .audience-col.alt li::before {
+    background-color: var(--ink-mute);
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><line x1='3' y1='8' x2='13' y2='8' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>") no-repeat center;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><line x1='3' y1='8' x2='13' y2='8' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>") no-repeat center;
+  }
+
+  .audience-note {
+    margin-top: 56px;
+    padding: 36px 32px;
+    background: var(--paper-deep);
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 2.1;
+    color: var(--ink-soft);
+    text-align: center;
+    position: relative;
+  }
+
+  /* 「向いていないかもしれない方」カラム末尾の補足 */
+  .audience-col-note {
+    margin-top: 24px;
+    padding: 20px 22px;
+    background: var(--paper-warm);
+    border-radius: 12px;
+    border-left: 3px solid var(--leaf);
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+    font-family: 'Klee One', 'Shippori Mincho', serif;
+    font-weight: 600;
+    position: relative;
+  }
+  .audience-col-note::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 18px;
+    width: 14px;
+    height: 14px;
+    background: var(--paper-warm);
+    border-top: 3px solid var(--leaf);
+    border-left: 3px solid var(--leaf);
+    transform: rotate(45deg);
+    border-radius: 2px 0 0 0;
+  }
+
+  /* =========================================================
+     PILLARS — 二つの軸
+  ========================================================= */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin: 56px 0 32px;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .pillars-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .pillars-divider {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px;
+      height: 56px;
+      background: var(--paper);
+      border: 2px solid var(--sun);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sun);
+      font-weight: 700;
+      font-size: 24px;
+      z-index: 2;
+      font-family: 'Klee One', sans-serif;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .pillars-divider {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 2px solid var(--sun);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sun);
+      font-weight: 700;
+      font-size: 22px;
+      font-family: 'Klee One', sans-serif;
+    }
+  }
+
+  .pillar {
+    padding: 48px 36px;
+    background: var(--paper-soft);
+    border-radius: 18px;
+    position: relative;
+    border: 1.5px solid var(--rule-soft);
+    overflow: hidden;
+  }
+
+  .pillar.accent-pillar {
+    background: linear-gradient(165deg, #fff3e6 0%, var(--paper-soft) 100%);
+    border-color: var(--accent-soft);
+  }
+
+  .pillar.leaf-pillar {
+    background: linear-gradient(165deg, #f3f7ea 0%, var(--paper-soft) 100%);
+    border-color: var(--leaf-soft);
+  }
+
+  .pillar-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+  }
+
+  .pillar-label {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .pillar-title {
+    font-size: clamp(20px, 2.2vw, 24px);
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .accent-pillar .pillar-title { color: var(--accent-deep); }
+  .leaf-pillar .pillar-title { color: var(--leaf); }
+
+  .pillar-body {
+    font-size: 15px;
+    line-height: 2.1;
+    color: var(--ink-soft);
+  }
+
+  .bridge {
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-weight: 500;
+    text-align: center;
+    margin-top: 56px;
+    padding: 36px 24px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  /* =========================================================
+     PREP — 準備
+  ========================================================= */
+  .prep {
+    background: var(--paper-soft);
+  }
+
+  .prep-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .prep-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .prep-card {
+    padding: 40px 36px;
+    background: var(--paper);
+    border-radius: 18px;
+    box-shadow: 0 4px 20px var(--shadow);
+    position: relative;
+  }
+
+  .prep-card-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+  }
+
+  .prep-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+
+  .prep-card ul { list-style: none; }
+
+  .prep-card li {
+    font-size: 15px;
+    padding: 12px 0 12px 24px;
+    position: relative;
+    color: var(--ink-soft);
+    line-height: 1.85;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .prep-card li:last-child { border-bottom: none; }
+
+  .prep-card li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 22px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .prep-card.leaf li::before { background: var(--leaf); }
+
+  /* =========================================================
+     CLOSING — 最後に
+  ========================================================= */
+  .closing {
+    background:
+      radial-gradient(ellipse 70% 50% at 20% 30%, rgba(228, 165, 46, 0.15), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 70%, rgba(212, 88, 42, 0.12), transparent 60%),
+      var(--paper-warm);
+    text-align: center;
+    padding: 140px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closing::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(60, 50, 30, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(60, 50, 30, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 80% 80% at center, black 30%, transparent 90%);
+    pointer-events: none;
+  }
+
+  .closing .container { position: relative; z-index: 1; }
+
+  .closing-title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    color: var(--ink);
+  }
+
+  .closing-body {
+    font-size: 16px;
+    line-height: 2.25;
+    color: var(--ink-soft);
+    max-width: 580px;
+    margin: 0 auto 56px;
+  }
+
+  .closing-quote {
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 600;
+    color: var(--accent-deep);
+    margin: 64px auto;
+    padding: 56px 40px;
+    letter-spacing: 0.05em;
+    position: relative;
+    max-width: 640px;
+    line-height: 1.75;
+    background: var(--paper-soft);
+    border-radius: 4px;
+    box-shadow:
+      0 1px 0 var(--rule-soft) inset,
+      0 -1px 0 var(--rule-soft) inset,
+      0 12px 36px rgba(60, 45, 25, 0.12),
+      0 2px 0 var(--shadow);
+  }
+
+  .closing-quote-mark {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 24px;
+  }
+
+  /* 図面のタイトルブロック風 角の刻印 */
+  .closing-quote::before,
+  .closing-quote::after {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--accent);
+    background: var(--paper-soft);
+  }
+  .closing-quote::before {
+    top: -8px;
+    left: -8px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .closing-quote::after {
+    bottom: -8px;
+    right: -8px;
+    border-left: none;
+    border-top: none;
+  }
+
+  /* 印鑑風スタンプ */
+  .closing-stamp {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--accent);
+    font-family: 'Klee One', sans-serif;
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    line-height: 1.2;
+    transform: rotate(-12deg);
+    opacity: 0.85;
+    background: var(--paper-soft);
+  }
+  .closing-stamp::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .closing-stamp span:first-child {
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    margin-bottom: 2px;
+    opacity: 0.7;
+  }
+  .closing-stamp span:last-child {
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* =========================================================
+     CTA
+  ========================================================= */
+  .cta-section {
+    background: linear-gradient(165deg, #fff5e6 0%, var(--paper-deep) 100%);
+    padding: 120px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    left: -120px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, var(--sun-soft) 0%, transparent 70%);
+    opacity: 0.5;
+    border-radius: 50%;
+  }
+
+  .cta-section::after {
+    content: "";
+    position: absolute;
+    bottom: -120px;
+    right: -120px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+    opacity: 0.4;
+    border-radius: 50%;
+  }
+
+  .cta-section .container { position: relative; z-index: 1; }
+
+  .cta-section h2 {
+    font-size: clamp(26px, 3.6vw, 38px);
+    font-weight: 600;
+    line-height: 1.7;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .cta-section > .container > p {
+    font-size: 16px;
+    line-height: 2.1;
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin: 0 auto 56px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 48px 22px 44px;
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    border: none;
+    border-radius: 100px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    position: relative;
+    box-shadow: 0 6px 0 var(--accent-deep), 0 12px 32px rgba(154, 61, 24, 0.25);
+    cursor: pointer;
+  }
+
+  .cta-btn > span:first-child {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  .cta-btn-label {
+    display: inline-block;
+  }
+
+  .cta-btn-arrow {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .cta-btn[aria-expanded="true"] .cta-btn-arrow {
+    transform: rotate(90deg);
+  }
+  .cta-btn:hover .cta-btn-arrow {
+    transform: translateX(4px);
+  }
+  .cta-btn[aria-expanded="true"]:hover .cta-btn-arrow {
+    transform: rotate(90deg) translateY(-4px);
+  }
+
+  /* ===== 4択相談パネル ===== */
+  .contact-panel {
+    margin: 32px auto 0;
+    max-width: 640px;
+    padding: 28px 24px 20px;
+    border-radius: 24px;
+    background: var(--paper-soft);
+    border: 1.5px solid var(--rule-soft);
+    box-shadow: 0 12px 36px rgba(60, 45, 25, 0.1);
+    animation: panelIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: left;
+  }
+  .contact-panel[hidden] { display: none; }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media (min-width: 540px) {
+    .contact-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 20px 12px 18px;
+    border-radius: 16px;
+    background: var(--paper);
+    border: 1.5px solid var(--rule-soft);
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    text-align: center;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  .contact-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(154, 61, 24, 0.12);
+    border-color: var(--accent-soft);
+    background: #fff8ed;
+  }
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--accent);
+  }
+  .contact-label {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent-deep);
+    letter-spacing: 0.02em;
+  }
+  .contact-desc {
+    font-size: 11px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+  }
+  .contact-close {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-mute);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .contact-close:hover {
+    background: var(--paper-warm);
+    color: var(--ink-soft);
+  }
+  .contact-note {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 1.8;
+    text-align: center;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .cta-btn:hover {
+    background: var(--accent-deep);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--accent-deep), 0 16px 40px rgba(154, 61, 24, 0.3);
+  }
+
+  .cta-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--accent-deep), 0 6px 16px rgba(154, 61, 24, 0.2);
+  }
+
+  .cta-btn-arrow {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+  }
+
+  .cta-btn:hover .cta-btn-arrow {
+    transform: translateX(6px);
+  }
+
+  .cta-note {
+    margin-top: 32px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    line-height: 1.9;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .cta-meta {
+    margin-top: 56px;
+    padding-top: 36px;
+    border-top: 1px dashed var(--rule);
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .cta-meta-item span:first-child {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-bottom: 6px;
+    color: var(--accent-deep);
+  }
+
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+  footer {
+    background: var(--paper);
+    padding: 72px 24px 36px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  .footer-name {
+    font-size: 18px;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .footer-name-en {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    color: var(--ink-mute);
+    margin-bottom: 36px;
+  }
+
+  .footer-info {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 13px;
+    color: var(--ink-mute);
+    line-height: 2;
+    margin-bottom: 32px;
+  }
+
+  .footer-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-soft);
+    padding-bottom: 1px;
+    transition: opacity 0.2s ease;
+  }
+
+  .footer-link:hover { opacity: 0.7; }
+
+  .footer-copy {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+    letter-spacing: 0.15em;
+  }
+
+  /* =========================================================
+     FADE-IN
+  ========================================================= */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 640px) {
+    section { padding: 88px 20px; }
+    .seed-emphasis { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">MADORI DIAGNOSIS — 間取り診断</div>
+      <h1 class="hero-title">
+        自分で描いた間取りを、<br>
+        <span class="line2"><span class="accent-mark">家にする。</span>
+          <svg class="hand-underline" viewBox="0 0 360 14" preserveAspectRatio="none">
+            <path d="M4,9 C70,3 140,12 210,6 C270,2 320,10 356,5"/>
+          </svg>
+        </span>
+      </h1>
+      <p class="hero-sub">
+        手描きの一枚も、アプリで何度も組み直した一枚も、<br>
+        まだ図面ではないかもしれません。<br>
+        けれどそこには、あなたと家族の暮らしの本音が詰まっています。
+      </p>
+    </div>
+
+    <!-- 手描きの間取り図 -->
+    <div class="hero-sketch">
+      <div class="tape"></div>
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- 紙の背景 -->
+        <rect class="sk-paper" x="10" y="10" width="380" height="380" rx="3"/>
+
+        <!-- 方眼 -->
+        <g class="sk-grid">
+          <line x1="10" y1="50" x2="390" y2="50"/>
+          <line x1="10" y1="90" x2="390" y2="90"/>
+          <line x1="10" y1="130" x2="390" y2="130"/>
+          <line x1="10" y1="170" x2="390" y2="170"/>
+          <line x1="10" y1="210" x2="390" y2="210"/>
+          <line x1="10" y1="250" x2="390" y2="250"/>
+          <line x1="10" y1="290" x2="390" y2="290"/>
+          <line x1="10" y1="330" x2="390" y2="330"/>
+          <line x1="10" y1="370" x2="390" y2="370"/>
+          <line x1="50" y1="10" x2="50" y2="390"/>
+          <line x1="90" y1="10" x2="90" y2="390"/>
+          <line x1="130" y1="10" x2="130" y2="390"/>
+          <line x1="170" y1="10" x2="170" y2="390"/>
+          <line x1="210" y1="10" x2="210" y2="390"/>
+          <line x1="250" y1="10" x2="250" y2="390"/>
+          <line x1="290" y1="10" x2="290" y2="390"/>
+          <line x1="330" y1="10" x2="330" y2="390"/>
+          <line x1="370" y1="10" x2="370" y2="390"/>
+        </g>
+
+        <!-- 間取りの外形（少しブレを入れる） -->
+        <path class="sk-line" d="M50,70 L350,68 L352,330 L48,332 Z"/>
+
+        <!-- 内壁 -->
+        <path class="sk-line sk-line-2" d="M50,200 L210,202 L212,330"/>
+        <path class="sk-line sk-line-2" d="M210,68 L212,200"/>
+
+        <!-- ドア・開口部 -->
+        <path class="sk-line sk-line-3" d="M150,200 L150,180 M180,200 L180,180" />
+        <path class="sk-line sk-line-3" d="M210,260 L230,260 M210,290 L230,290" />
+
+        <!-- 強調の○（accent） -->
+        <circle class="sk-accent-soft" cx="120" cy="270" r="26" opacity="0.35"/>
+
+        <!-- 太陽マーク -->
+        <g class="sk-accent delay-1">
+          <circle cx="330" cy="50" r="14" fill="var(--sun)"/>
+          <circle cx="330" cy="50" r="6" fill="var(--sun-soft)"/>
+        </g>
+
+        <!-- ラベル -->
+        <text class="sk-label delay-1" x="105" y="140">リビング</text>
+        <text class="sk-label delay-2" x="265" y="135">キッチン</text>
+        <text class="sk-label delay-3" x="100" y="280">寝室</text>
+        <text class="sk-label delay-4" x="270" y="285">子供部屋</text>
+
+        <!-- 手描きメモ -->
+        <text class="sk-note delay-5" x="60" y="44">★ ここに窓がほしい</text>
+        <text class="sk-note delay-6" x="220" y="375">→ ここに本棚?</text>
+
+        <!-- 矢印 -->
+        <path class="sk-line sk-line-3" d="M270,355 Q290,345 305,330" stroke="var(--accent)"/>
+        <path class="sk-line sk-line-3" d="M305,330 L300,335 M305,330 L298,326" stroke="var(--accent)"/>
+      </svg>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- =========================================================
+     01 — 種
+========================================================= -->
+<section class="seed">
+  <div class="container fade-in">
+    <span class="section-num">01 — 出発点</span>
+    <h2 class="section-title">それは、家づくりの種です。</h2>
+
+    <div class="seed-thumbs">
+      <div class="seed-thumb">
+        <svg viewBox="0 0 100 100">
+          <rect x="10" y="10" width="80" height="80" fill="none" stroke="#4a3f33" stroke-width="2"/>
+          <line x1="10" y1="50" x2="90" y2="50" stroke="#4a3f33" stroke-width="2"/>
+          <line x1="50" y1="10" x2="50" y2="90" stroke="#4a3f33" stroke-width="2"/>
+        </svg>
+        <div class="stamp">手描き</div>
+      </div>
+      <div class="seed-thumb">
+        <svg viewBox="0 0 100 100">
+          <rect x="10" y="10" width="80" height="50" fill="none" stroke="#4a3f33" stroke-width="2"/>
+          <rect x="10" y="60" width="50" height="30" fill="none" stroke="#4a3f33" stroke-width="2"/>
+          <rect x="60" y="60" width="30" height="30" fill="none" stroke="#4a3f33" stroke-width="2"/>
+        </svg>
+        <div class="stamp">アプリ</div>
+      </div>
+      <div class="seed-thumb">
+        <svg viewBox="0 0 100 100">
+          <path d="M50 8 L92 50 L80 50 L80 92 L20 92 L20 50 L8 50 Z" fill="none" stroke="#4a3f33" stroke-width="2"/>
+          <rect x="40" y="65" width="20" height="27" fill="none" stroke="#4a3f33" stroke-width="2"/>
+        </svg>
+        <div class="stamp">メモ</div>
+      </div>
+      <div class="seed-thumb">
+        <svg viewBox="0 0 100 100">
+          <rect x="15" y="20" width="70" height="60" fill="none" stroke="#4a3f33" stroke-width="2"/>
+          <line x1="15" y1="50" x2="50" y2="50" stroke="#4a3f33" stroke-width="2"/>
+          <line x1="50" y1="20" x2="50" y2="80" stroke="#4a3f33" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="70" cy="35" r="8" fill="none" stroke="#d4582a" stroke-width="2"/>
+        </svg>
+        <div class="stamp">途中</div>
+      </div>
+    </div>
+
+    <p class="section-lead">
+      方眼紙に描いた間取り。スマートフォンのアプリでつくった間取り。<br>
+      寸法が合っていない間取り。構造的には、まだ成り立っていない間取り。
+    </p>
+    <p class="section-lead">
+      プロから見れば、直すところはたくさんあるかもしれません。<br>
+      けれど私たちは、それを「ダメな図面」だとは考えません。
+    </p>
+
+    <div class="seed-emphasis">
+      <svg class="seed-emphasis-mark" viewBox="0 0 56 56">
+        <path d="M28 8 C20 16, 18 26, 28 36 C38 26, 36 16, 28 8 Z" fill="var(--leaf)" opacity="0.85"/>
+        <path d="M28 36 L28 50" stroke="var(--leaf)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M20 44 Q24 42, 28 44" fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M28 44 Q32 42, 36 44" fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      その一枚は、<br>家づくりの種です。
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     02 — 人気の間取り
+========================================================= -->
+<section>
+  <div class="container fade-in">
+    <span class="section-num">02 — 問い</span>
+    <h2 class="section-title">人気の間取りが、<br>あなたの正解とは限りません。</h2>
+
+    <div class="theory-tags">
+      <div class="theory-tag crossed">奥様支持率90%</div>
+      <div class="theory-tag crossed">失敗しない間取り</div>
+      <div class="theory-tag crossed">人気の家事動線</div>
+      <div class="theory-tag crossed">収納たっぷりの間取り</div>
+    </div>
+
+    <p class="section-lead">
+      家づくりには、たくさんのセオリーがあります。<br>
+      もちろん、それらは役に立ちます。多くの人が失敗しにくい考え方もあります。
+    </p>
+    <p class="section-lead">
+      でも、もしあなたが残りの10%側なら。<br>
+      そのセオリーは、あなたにとっての正解ではないかもしれません。
+    </p>
+
+    <ul class="lifestyle-list">
+      <li>家族の人数</li>
+      <li>仕事の時間</li>
+      <li>料理の仕方</li>
+      <li>洗濯の流れ</li>
+      <li>片付けの得意・不得意</li>
+      <li>子どもとの距離感</li>
+      <li>夫婦それぞれの居場所</li>
+    </ul>
+
+    <p class="section-lead">
+      暮らし方は、家族ごとに違います。<br>
+      だから家づくりは、「みんなに人気の間取り」を選ぶことではなく、<br>
+      「自分たちに合う間取り」を見つけることだと思います。
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     03 — 不安
+========================================================= -->
+<section class="worries">
+  <div class="container fade-in">
+    <span class="section-num">03 — 安心</span>
+    <h2 class="section-title">自分で間取りを描くことは、<br>わがままではありません。</h2>
+
+    <p class="section-lead">
+      自分で間取りを考えると、こんな不安が出てくるかもしれません。
+    </p>
+
+    <div class="worry-bubbles">
+      <div class="worry-bubble">素人が描いた間取りなんて、見てもらっていいのかな</div>
+      <div class="worry-bubble">変な図面だと思われないかな</div>
+      <div class="worry-bubble">プロに嫌がられないかな</div>
+      <div class="worry-bubble">最初から任せた方がいいのかな</div>
+    </div>
+
+    <div class="reassure-block">
+      <svg class="reassure-circle" viewBox="0 0 96 96">
+        <circle cx="48" cy="48" r="40" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="240" stroke-dashoffset="0" transform="rotate(-20 48 48)"/>
+        <path d="M30 50 L43 62 L66 36" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p class="reassure">大丈夫です。</p>
+    </div>
+
+    <p class="section-lead">
+      むしろ、自分で描いた間取りには、<br>
+      言葉だけでは出てこない希望が表れます。
+    </p>
+    <p class="section-lead">
+      なぜ、ここを広くしたかったのか。<br>
+      なぜ、ここに収納がほしかったのか。<br>
+      なぜ、玄関からこの動線にしたかったのか。<br>
+      なぜ、この部屋を家族の中心にしたかったのか。
+    </p>
+    <p class="section-lead">
+      その理由を一つずつ読み解いていくと、<br>
+      家族にとって大切なことが見えてきます。
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     04 — まず否定しない
+========================================================= -->
+<section class="stance">
+  <div class="stance-margin" aria-hidden="true">
+    <svg viewBox="0 0 320 320">
+      <!-- 小さな間取りのスケッチ -->
+      <path class="sm-line" d="M40,80 L240,82 L242,240 L42,242 Z"/>
+      <path class="sm-line" d="M40,160 L160,162"/>
+      <path class="sm-line" d="M160,80 L162,242"/>
+      <!-- 取り消し線 -->
+      <path class="sm-cross" d="M48,90 L232,232"/>
+      <path class="sm-cross" d="M232,90 L50,232"/>
+      <!-- 横の○印 -->
+      <path class="sm-accent" d="M280,140 a 32 32 0 1 0 0.1 0"/>
+      <!-- 矢印 -->
+      <path class="sm-accent" d="M260,170 Q230,200 200,220"/>
+      <path class="sm-accent" d="M200,220 L208,215 M200,220 L205,228"/>
+    </svg>
+  </div>
+  <div class="container fade-in">
+    <span class="section-num">04 — 姿勢</span>
+    <h2 class="section-title">まず、否定しません。</h2>
+    <p class="section-lead">
+      この「自分で描いた間取り診断」では、<br>
+      最初から図面の間違い探しはしません。
+    </p>
+    <p class="section-lead" style="font-size: 1.15em; color: var(--accent-deep); font-weight: 500;">
+      まず見るのは、正しさではなく、<span style="border-bottom: 3px solid var(--sun); padding-bottom: 2px;">意図</span>です。
+    </p>
+    <p class="section-lead">
+      どうして、この形になったのか。<br>
+      何を大切にしたかったのか。<br>
+      どこに不安があるのか。<br>
+      どこは絶対に残したいのか。
+    </p>
+    <p class="section-lead">
+      そこを確認したうえで、<br>
+      建築として成り立たせるために必要なことを整理します。
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     05 — 診断の流れ
+========================================================= -->
+<section class="process">
+  <div class="container fade-in">
+    <span class="section-num">05 — 診断の流れ</span>
+    <h2 class="section-title">この診断で行うこと</h2>
+
+    <div class="process-track">
+      <div class="step">
+        <div class="step-num"><span>STEP 01</span>01</div>
+        <div class="step-content">
+          <h3>間取りに込めた想いを読み解く</h3>
+          <p>まず、描いていただいた間取りを見ながら、「なぜ、この形にしたのか」を整理します。うまく説明できなくても大丈夫です。図面の中に出ている希望を、こちらから一緒に言葉にしていきます。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"><span>STEP 02</span>02</div>
+        <div class="step-content">
+          <h3>活かすべき発想を見つける</h3>
+          <p>素人の間取りだからこそ、プロのセオリーに縛られていない発想が入っていることがあります。家族だけが知っている暮らしのクセ。普通の間取り集には出てこない優先順位。本当は大切にしたい居場所。それらを見つけて、できるだけ活かします。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"><span>STEP 03</span>03</div>
+        <div class="step-content">
+          <h3>成り立っていない部分を整理する</h3>
+          <p>もちろん、そのまま建てられない部分もあります。柱や壁の位置、階段の寸法、窓の大きさ、耐力壁のバランス、水まわりの納まり、建物の大きさと予算の関係。そうした部分は、ただ「ダメです」と言うのではなく、なぜ難しいのか、どう直せば近づけるのかをお伝えします。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"><span>STEP 04</span>04</div>
+        <div class="step-content">
+          <h3>方向性を整える</h3>
+          <p>最終的には、その間取りをそのまま進めるべきか、一部を直して育てるべきか、考え方だけを残して大きく組み直すべきかを整理します。大切なのは、せっかく描いた間取りを消すことではありません。その間取りに込めた想いを、家として成立する形に近づけることです。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     06 — 対象者
+========================================================= -->
+<section>
+  <div class="container fade-in">
+    <span class="section-num">06 — 対象</span>
+    <h2 class="section-title">こんな方におすすめです</h2>
+    <div class="audience-cols">
+      <div class="audience-col">
+        <svg class="audience-col-icon" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="20" fill="var(--accent-soft)" opacity="0.4"/>
+          <path d="M12 22 L19 29 L33 15" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>向いている方</h3>
+        <ul>
+          <li>自分で間取りを描いてみた方</li>
+          <li>間取りアプリで何度も家を考えている方</li>
+          <li>家族で考えた間取りを、できるだけ活かしたい方</li>
+          <li>「普通はこうです」と言われて、少しモヤモヤしたことがある方</li>
+          <li>自分たちの暮らし方に合った家を、納得して考えたい方</li>
+        </ul>
+      </div>
+      <div class="audience-col alt">
+        <svg class="audience-col-icon" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="20" fill="var(--leaf-soft)" opacity="0.5"/>
+          <line x1="13" y1="22" x2="31" y2="22" stroke="var(--leaf)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <h3>向いていないかもしれない方</h3>
+        <ul>
+          <li>最初からすべてプロに任せたい方</li>
+          <li>間取りを自分で考えることに、あまり興味がない方</li>
+          <li>とにかく早く、一般的なプランを出してほしい方</li>
+          <li>人気の間取りや定番の形を、そのまま選びたい方</li>
+        </ul>
+        <p class="audience-col-note">
+          そういう家づくりも、もちろん正解です。<br>
+          ただ、この相談は「自分でも考えてみたい」という方に向けたものです。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     07 — 二つの軸
+========================================================= -->
+<section class="pillars">
+  <div class="container fade-in">
+    <span class="section-num">07 — 二つの知</span>
+    <h2 class="section-title">家づくりの確かな知恵と、<br>あなたの中にある正解。</h2>
+    <p class="section-lead">家づくりには、プロが知っているノウハウがあります。</p>
+
+    <div class="pillars-grid">
+      <div class="pillar accent-pillar">
+        <svg class="pillar-icon" viewBox="0 0 56 56">
+          <rect x="8" y="14" width="40" height="34" fill="none" stroke="var(--accent)" stroke-width="2.5" rx="2"/>
+          <path d="M8 22 L48 22" stroke="var(--accent)" stroke-width="2.5"/>
+          <circle cx="14" cy="18" r="1.5" fill="var(--accent)"/>
+          <circle cx="20" cy="18" r="1.5" fill="var(--accent)"/>
+          <circle cx="26" cy="18" r="1.5" fill="var(--accent)"/>
+          <path d="M16 32 L24 32 M16 38 L36 38 M16 44 L30 44" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="pillar-label">PROFESSIONAL</div>
+        <h3 class="pillar-title">私たちの中にあるもの</h3>
+        <div class="pillar-body">
+          使いやすい寸法。構造的に無理のない形。予算がふくらみにくい考え方。断熱や耐震で不利になりにくい設計。長く暮らしても困りにくい基本。
+        </div>
+      </div>
+
+      <div class="pillars-divider">+</div>
+
+      <div class="pillar leaf-pillar">
+        <svg class="pillar-icon" viewBox="0 0 56 56">
+          <path d="M28 8 L48 28 L42 28 L42 48 L34 48 L34 36 L22 36 L22 48 L14 48 L14 28 L8 28 Z" fill="none" stroke="var(--leaf)" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="28" cy="20" r="3" fill="var(--leaf)"/>
+        </svg>
+        <div class="pillar-label">YOUR FAMILY</div>
+        <h3 class="pillar-title">あなたの中にあるもの</h3>
+        <div class="pillar-body">
+          家族が本当に満足するためのヒント。普通の間取り集には出てこない優先順位。家族だけが知っている暮らしのクセ。本当は大切にしたい居場所。
+        </div>
+      </div>
+    </div>
+
+    <p class="bridge">私たちの仕事は、その二つをつなぐことです。</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     08 — 準備
+========================================================= -->
+<section class="prep">
+  <div class="container fade-in">
+    <span class="section-num">08 — ご相談の準備</span>
+    <h2 class="section-title">完璧な図面は必要ありません。</h2>
+    <p class="section-lead">
+      手描きでも、アプリでも、メモでも。<br>
+      部屋の名前だけでも。寸法が合っていなくても。<br>
+      そこに、あなたの暮らしへの考えがあるなら、家づくりはそこから始められます。
+    </p>
+
+    <div class="prep-grid">
+      <div class="prep-card">
+        <svg class="prep-card-icon" viewBox="0 0 48 48">
+          <rect x="8" y="6" width="32" height="38" rx="2" fill="var(--sun-soft)" opacity="0.4"/>
+          <rect x="8" y="6" width="32" height="38" rx="2" fill="none" stroke="var(--sun)" stroke-width="2"/>
+          <line x1="14" y1="16" x2="30" y2="16" stroke="var(--sun)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="14" y1="22" x2="34" y2="22" stroke="var(--sun)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="14" y1="28" x2="26" y2="28" stroke="var(--sun)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h3>ご用意いただくもの</h3>
+        <ul>
+          <li>手描きの間取り、または間取りアプリの画像</li>
+          <li>土地の資料（あれば）</li>
+          <li>家族構成</li>
+          <li>希望する部屋数</li>
+          <li>今の暮らしで困っていること</li>
+          <li>新しい家で大切にしたいこと</li>
+        </ul>
+      </div>
+
+      <div class="prep-card leaf">
+        <svg class="prep-card-icon" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="18" fill="var(--leaf-soft)" opacity="0.4"/>
+          <circle cx="24" cy="24" r="18" fill="none" stroke="var(--leaf)" stroke-width="2"/>
+          <path d="M16 24 L22 30 L34 18" fill="none" stroke="var(--leaf)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>診断後にわかること</h3>
+        <ul>
+          <li>その間取りの良いところ</li>
+          <li>そのまま活かせそうなところ</li>
+          <li>直した方がよいところ</li>
+          <li>建築上、注意が必要なところ</li>
+          <li>予算や構造に影響しそうなところ</li>
+          <li>今後、何を優先して考えるべきか</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="audience-note" style="margin-top: 56px;">
+      「この間取りで進めてよいのか」ではなく、<br>
+      「この間取りを<strong style="color: var(--accent-deep);">どう育てればよいのか</strong>」が見えてきます。
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     09 — 最後に
+========================================================= -->
+<section class="closing">
+  <div class="container fade-in">
+    <span class="section-num">09 — 最後に</span>
+    <h2 class="closing-title">その間取り、見せてください。</h2>
+    <p class="closing-body">
+      うまく描けていなくても大丈夫です。<br>
+      寸法が合っていなくても大丈夫です。<br>
+      まだ家族の意見がまとまっていなくても大丈夫です。<br>
+      そこから一緒に整理していきます。
+    </p>
+
+    <div class="closing-quote">
+      <svg class="closing-quote-mark" viewBox="0 0 40 40">
+        <path d="M20 6 L34 20 L30 20 L30 34 L24 34 L24 24 L16 24 L16 34 L10 34 L10 20 L6 20 Z" fill="var(--accent)" opacity="0.85"/>
+        <circle cx="20" cy="17" r="2" fill="var(--paper-soft)"/>
+      </svg>
+      自分で描いた間取りを、<br>家にする。
+    </div>
+
+    <p class="closing-body">
+      人気の間取りではなく、あなたの家族に合う間取りへ。<br>
+      自分で描いたその一枚を、家づくりの種として育てていきましょう。
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <h2>自分で描いた一枚から</h2>
+    <p>
+      人気の間取りではなく、あなたの家族に合う間取りへ。<br>
+      自分で描いたその一枚を、家づくりの種として育てていく。<br>
+      YKTラボは、その間取りの育て方を研究しています。
+    </p>
+    <p style="margin-top:32px;">
+      <a href="../index.html" style="color:inherit;text-decoration:underline;text-underline-offset:4px;">← YKTラボ トップへ</a>
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+<footer>
+  <div class="footer-name">YKTラボ</div>
+  <div class="footer-name-en">YKT LAB</div>
+  <div class="footer-copy">
+    © 荻野 尚志 / says@o-h.co.jp
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  const progressBar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progressBar.style.width = scrolled + '%';
+  }, { passive: true });
+</script>
+
+</body>
+</html>
