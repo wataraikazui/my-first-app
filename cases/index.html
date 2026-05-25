@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+  サービス展開事例｜占い館の診断ツールを実際の工務店サイトで運用している事例
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サービス展開事例｜YKTラボ</title>
+<meta name="description" content="YKTラボの診断ツールを、実際の工務店サイトで運用しているサービスの展開事例。">
+<meta property="og:title" content="サービス展開事例｜YKTラボ">
+<meta property="og:description" content="診断ツールを実際の工務店サイトで運用しているサービスの展開事例。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤝</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0;
+  --card:#ffffff;
+  --case:#b07d4b;
+  --case-light:#f3eae0;
+  --case-dark:#8a5f33;
+  --accent:#d4956a;
+  --text:#3a3a3a;
+  --text-light:#8a8a8a;
+  --border:#e0dcd4;
+  --disabled:#c8c5c0;
+  --fd:'Zen Maru Gothic',sans-serif;
+  --fb:'Noto Sans JP',sans-serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.8;min-height:100dvh;display:flex;flex-direction:column}
+main{flex:1}
+.top-link{display:inline-flex;align-items:center;gap:6px;margin:20px 0 0 20px;font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
+.top-link:hover{color:var(--case)}
+.hero{text-align:center;padding:32px 20px 36px}
+.hero-icon{font-size:2.8rem;margin-bottom:6px}
+.hero h1{font-family:var(--fd);font-size:1.7rem;font-weight:700;color:var(--case);margin-bottom:4px}
+.hero .subtitle{font-size:.9rem;color:var(--accent);font-weight:500;margin-bottom:14px}
+.hero .desc{font-size:.85rem;color:var(--text-light);max-width:460px;margin:0 auto;line-height:1.9}
+.container{max-width:680px;margin:0 auto;padding:0 20px 40px;width:100%}
+.card-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.card{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;text-decoration:none;color:var(--text);transition:all .2s}
+a.card:hover{border-color:var(--case);transform:translateY(-2px);box-shadow:0 4px 14px rgba(176,125,75,.12)}
+.card-icon{width:44px;height:44px;border-radius:10px;background:var(--case-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.card-body{flex:1;min-width:0}
+.card-title{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--case-dark);margin-bottom:4px;line-height:1.5}
+.card-desc{font-size:.8rem;color:var(--text-light);line-height:1.7;margin-bottom:6px}
+.card-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 10px;border-radius:20px;background:var(--case);color:#fff;margin-top:4px}
+.note{font-size:.8rem;color:var(--text-light);line-height:1.9;margin:0 0 18px}
+.footer{text-align:center;padding:24px 20px 32px;font-size:.75rem;color:var(--text-light);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
+.footer a{color:var(--case);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+@media(max-width:480px){
+  .hero{padding:24px 20px 28px}
+  .hero h1{font-size:1.45rem}
+  .card{padding:16px 18px}
+  .card-icon{width:40px;height:40px;font-size:1.15rem}
+  .card-title{font-size:.92rem}
+}
+</style>
+</head>
+<body>
+<main>
+<a href="../index.html" class="top-link">&#8592; YKTラボ トップへ</a>
+<div class="hero">
+  <div class="hero-icon">🤝</div>
+  <h1>サービス展開事例</h1>
+  <p class="subtitle">実際の工務店サイトで運用中</p>
+  <p class="desc">YKTラボの診断ツールを、実際の工務店のサイトに組み込んで運用しているサービスの展開事例です。</p>
+</div>
+<div class="container">
+  <p class="note">各カードのリンク先は、運用中のページ（外部サイト）に移動します。</p>
+  <div class="card-grid">
+
+    <a href="https://www.hagimori-kensetsu.com/lp/kozo-q/" target="_blank" rel="noopener" class="card">
+      <div class="card-icon">🪵</div>
+      <div class="card-body">
+        <div class="card-title">構造診断シート（在来工法）</div>
+        <p class="card-desc">在来工法の住まいで、同じ予算の中でどこまで強くできるかを考えるための診断シート。</p>
+        <span class="card-tag">実運用</span>
+      </div>
+    </a>
+
+    <a href="https://www.hagimori-kensetsu.com/lp/SEkohoa/" target="_blank" rel="noopener" class="card">
+      <div class="card-icon">💪</div>
+      <div class="card-body">
+        <div class="card-title">最強構造診断（SE構法）</div>
+        <p class="card-desc">大空間や自由な間取りを、その間取りのままどこまで強くできるかを見る構造診断。</p>
+        <span class="card-tag">実運用</span>
+      </div>
+    </a>
+
+    <a href="https://www.hagimori-kensetsu.com/lp/shikinn-q/" target="_blank" rel="noopener" class="card">
+      <div class="card-icon">🧾</div>
+      <div class="card-body">
+        <div class="card-title">資金計画整理シート</div>
+        <p class="card-desc">「借りられる額」ではなく「無理なく暮らせる額」で予算を組み立てるための整理シート。</p>
+        <span class="card-tag">実運用</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+</main>
+<footer class="footer">
+  新しい事例の公開は<a href="https://www.instagram.com/ohisasi/" target="_blank" rel="noopener">Instagram @ohisasi</a>でお知らせしています<br>
+  &copy; YKTラボ / 荻野 尚志 | says@o-h.co.jp
+</footer>
+</body>
+</html>
