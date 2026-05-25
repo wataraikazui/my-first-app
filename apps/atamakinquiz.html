@@ -1,0 +1,944 @@
+<!doctype html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>頭金より、返し続けられる安心を｜論理と科学の家づくり占い館</title>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {pointer-events:none;
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .feedback p { margin: 0; line-height: 1.95; }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    /* 5つの視点ボックス（結果画面の見出し直下） */
+    .takeaways {
+      margin-top: 22px;
+      padding: clamp(22px, 4vw, 30px);
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .takeaways h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--accent-dark);
+    }
+    .takeaways ol {
+      margin: 0;
+      padding-left: 1.5em;
+      counter-reset: tk;
+    }
+    .takeaways ol li {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .takeaways ol li:last-child { margin-bottom: 0; }
+    .takeaways .takeaways-note {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* 個別の振り返り（各問の詳しい解説） */
+    .review-block {
+      margin-top: 24px;
+    }
+    .review-block h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--accent-dark);
+      letter-spacing: .02em;
+    }
+    .result-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row .q-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .result-row .q-meta .q-num {
+      display: block;
+      font-size: 18px;
+      color: var(--accent-dark);
+      margin-bottom: 2px;
+    }
+    .result-row .q-meta .q-status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+    .result-row .q-question {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+    .result-row .q-headline {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .result-row .q-summary {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.95;
+    }
+
+    /* 最後のまとめ（CTAボックス直前） */
+    .closing {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 22px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .closing h3 {
+      margin: 0 0 14px;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+    .closing p {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+    .closing p:last-child { margin-bottom: 0; }
+    .closing-points {
+      margin: 0 0 16px;
+      padding: 16px 20px 16px 36px;
+      background: var(--accent-soft);
+      border-radius: 14px;
+      list-style: disc;
+    }
+    .closing-points li {
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .closing-points li:last-child { margin-bottom: 0; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+
+    /* 4択相談パネル */
+    .contact-panel { margin-top:18px; animation:panelFade .22s ease; }
+    @keyframes panelFade { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+    .contact-card { display:flex; flex-direction:column; align-items:center; gap:5px; padding:15px 10px; border-radius:16px; background:#fff; color:var(--ink); border:1px solid var(--line); text-decoration:none; transition:transform .18s ease,box-shadow .18s ease; }
+    .contact-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(68,45,26,.10); }
+    .contact-icon  { font-size:26px; line-height:1; }
+    .contact-label { font-size:13px; font-weight:900; color:var(--accent-dark); letter-spacing:.04em; }
+    .contact-desc  { font-size:11px; color:var(--muted); text-align:center; line-height:1.55; }
+    .contact-close { display:block; width:100%; padding:11px; border:1px solid var(--line); border-radius:999px; background:transparent; color:var(--muted); font:inherit; font-size:12.5px; cursor:pointer; transition:background .18s; }
+    .contact-close:hover { background:var(--accent-soft); }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+    /* ===== 萩森の自己開示 1行 ===== */
+    .self-note { margin-top: 22px; padding: 16px 20px; border-radius: 18px; background: var(--accent-soft); border: 1px solid rgba(111,127,99,0.22); border-left: 4px solid var(--accent); }
+    .self-note-label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+    .self-note p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.8; }
+    /* ===== 次のクイズ誘導 ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(255,253,248,0.94); border: 1px solid rgba(111,127,99,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 16px; color: var(--accent-dark); margin-bottom: 14px; text-align: center; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(68,45,26,0.10); border-color: rgba(111,127,99,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 15px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    @media (max-width: 720px) { .next-quiz-grid { grid-template-columns: 1fr; } }
+  </style>
+
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">お金のきほんクイズ</div>
+      <h1>頭金より、<br>返し続けられる安心を</h1>
+      <p class="lead">5問でわかる、頭金の決め方</p>
+      <div class="note-box">
+        住宅ローンを組むとき、「頭金は多く入れた方が安心」とよく言われます。<br><br>
+        でも、本当に大切なのは、借入を減らすことよりも、何があっても返し続けられること。そのためには、頭金にいくら入れるか、手元にいくら残すかを考えることです。<br>
+        <strong>三択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>三択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="takeaways">
+        <h3>覚えておきたい、5つの視点</h3>
+        <ol>
+          <li>借入を減らすことより、安心して返し続けること</li>
+          <li>借入額の差より、手元資金の厚さが効く</li>
+          <li>返済額の6ヶ月分を、生活費とは別に残す</li>
+          <li>2年あれば、損なく次の手を選べる</li>
+          <li>身の丈は、数字を参考にしつつ、最後は暮らしで見る</li>
+        </ol>
+        <p class="takeaways-note">
+          年収倍率や借入上限の数字は、判断の出発点として役立ちます。しかし、その数字だけで決めると、自分の暮らしから離れた判断になりがちです。<br>
+          家づくりでは、いくら借りられるかと同じくらい、その暮らしが自分に見合っているか、何があっても返し続けられるかが大切です。
+        </p>
+      </div>
+
+      <div class="review-block">
+        <h3>各問のふりかえり</h3>
+        <div class="result-list" id="resultList"></div>
+      </div>
+
+      <div class="closing">
+        <h3>「返し続けられる」には、2つの意味がある</h3>
+        <p>銀行の審査が通れば、借りられる金額がわかります。でも、それは「返し続けられる金額」とは違います。</p>
+        <p>そして「返し続けられる」には、2つの意味があります。</p>
+        <p>ひとつは、<strong>今の想定の範囲で、毎月返していけること</strong>。これは、借入額そのものが、自分の暮らしに見合っているかどうかの問題です。年収倍率や月々の返済比率などの目安が、この判断に役立ちます。</p>
+        <p>もうひとつは、<strong>想定外の事態が起きても、返し続けられること</strong>。収入の急減、病気、家族の事情──こうした事態に耐えるのは、借入額ではなく、手元資金の厚さです。</p>
+        <p>借入額だけを見て「借りられるから返せる」と判断すると、二つ目の視点が抜け落ちます。借入額を抑えるだけでも、手元資金を貯めるだけでも足りない。<strong>両方が揃って、はじめて「返し続けられる」が成立します</strong>。</p>
+        <p>だからこそ大切なのは、契約前にお金の流れを整理しておくことです。</p>
+        <ul class="closing-points">
+          <li><strong>借入額</strong>：そもそも、その物件が自分の暮らしに見合っているか</li>
+          <li><strong>頭金と手元</strong>：頭金にいくら入れて、手元にいくら残すか</li>
+          <li><strong>予備資金</strong>：返済額の6ヶ月分を、生活費とは別に確保する</li>
+          <li><strong>積立目標</strong>：少しずつ積み立てて、最終的に1〜2年分の予備を持つ</li>
+        </ul>
+        <p>借りられる金額を信じるだけでなく、この2層の備えがあって、はじめて家計と暮らしを守る力になります。</p>
+      </div>
+
+      
+
+      <div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、頭金と返済の考え方をやさしく知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+
+    const questions = [
+      {
+        title: "住宅ローンを組むとき、自己資金の使い方として、いちばん安心につながるのは？",
+        choices: {
+          A: "自己資金はできるだけ頭金に入れて、借入を最小化する",
+          B: "入居後にかかる家具・家電・保険などの費用は手元に残す",
+          C: "入居後の費用に加えて、余裕資金も手元に残す"
+        },
+        correct: "C",
+        explanation: "Aの「借入を最小化する」は一般的な考え方として正しい面があります。Bの「当面の出費を手元に残す」も大切な視点で、住み始めには家具・家電・保険などまとまった出費が続きます。<br><br>ただ、自己資金の役割はそれだけではありません。返済は30年前後続きます。当面の出費に加えて、長く返し続けるための余裕資金まで手元に残しておく。それでも自己資金に余裕があれば、頭金に入れるのは合理的です。<br><br>大切なのは、頭金を抑えるか入れるかではなく、<strong>まず手元に十分な余裕資金を残すこと</strong>。借入を減らすこと以上に、安心して返し続けられること。それが自己資金を残す本当の理由です。",
+        remember: "借入を減らすことより、安心して返し続けること。"
+      },
+      {
+        title: "自己資金300万円を持つ、同じ年収・同じ家族構成の人が2人います。2人は5000万円の物件を購入します。どちらの方が、安心して住宅ローンを返し続けられますか？",
+        choices: {
+          A: "300万円を頭金に入れず、借入5000万円・手元に300万円",
+          B: "300万円を全額頭金に入れて、借入4700万円・手元に0円",
+          C: "どちらも同じ"
+        },
+        correct: "A",
+        explanation: "Bは300万円を頭金に入れて借入を減らしました。確かに借入額は少なくなり、数字だけ見ると安心に見えます。<br><br>でも、もし急な収入減や病気で返済が苦しくなったとき、Bは1ヶ月も返済を続けられません。Aには300万円があるので、1年以上の余裕が生まれます。<br><br>同じ300万円。「借入を減らす」に使うか「手元に残す」に使うか。その選び方で、いざというときの安心がまったく違います。",
+        remember: "借入額の差より、手元資金の厚さが効く。"
+      },
+      {
+        title: "返済が始まる時点で、住宅ローン専用の予備資金として手元に残したい最低額の目安は？　※毎月の生活費の貯金とは別に",
+        choices: {
+          A: "月々の返済額の3ヶ月分",
+          B: "月々の返済額の6ヶ月分",
+          C: "借入額の1割"
+        },
+        correct: "B",
+        explanation: "スタート時点の目安は、返済額の6ヶ月分です。たとえば月々の返済が10万円なら、60万円。生活費の貯金とは別に、住宅ローン専用の予備として確保します。<br><br>なぜ別にするのか。生活費の貯金は普段の出費でじわじわ減ります。住宅ローン専用の予備を独立させておくことで、いざというときに「この資金で何ヶ月返せるか」が一目でわかり、判断が早くなります。<br><br>6ヶ月分はあくまでスタート地点。ここから少しずつ積み立てて、勤め先の安定度に応じて1〜2年分まで増やしていくのが、長期的な安心につながります。",
+        remember: "返済額の6ヶ月分を、生活費とは別に残す。"
+      },
+      {
+        title: "収入が大きく減るような事態が起きたとき、返済額の2年分の予備資金が手元にあると、何ができますか？",
+        choices: {
+          A: "2年間、何もせず返済を続けられる",
+          B: "売却を含めて、落ち着いて次の手を選ぶ時間が生まれる",
+          C: "借入額を2年分減らせる"
+        },
+        correct: "B",
+        explanation: "2年分の予備があると、ただ「返済が続けられる」というだけではありません。重要なのは、<strong>時間が生まれること</strong>です。<br><br>たとえば住宅を売却するときに焦って売ると、相場より安く買い叩かれます。2年あれば、相場を見ながら納得できるタイミングで売れます。あるいは、転職活動、家計の見直し、家族との話し合い、行政の支援制度の確認──どれも時間がかかる対応です。<br><br>2年は「何もせずに済む期間」ではなく、「損なく次の手を選べる時間」です。",
+        remember: "2年あれば、損なく次の手を選べる。"
+      },
+      {
+        title: "借りすぎかどうかを判断するとき、最終的に頼りになる物差しは？",
+        choices: {
+          A: "年収の○倍までという基準",
+          B: "借入額の絶対値（例: 5000万円まで、など）",
+          C: "その物件が、自分や家族の暮らしに見合っているかの肌感覚"
+        },
+        correct: "C",
+        explanation: "年収倍率や借入上限の目安は、判断の出発点としては役立ちます。実際、銀行が貸せる金額の上限を知るには欠かせない情報です。<br><br>ただ、その数字だけで決めてしまうと、自分の暮らしから離れた判断になりがちです。最後に効くのは「その物件が、自分の暮らしに見合っているか」という肌感覚です。<br><br>日常では、無理をすれば手が届くものでも、暮らしに見合わないと感じれば自然に選びません。それは普通の判断です。家でも、その判断軸を借入額の数字だけに置き換えてしまうと、暮らしとの距離感が見えにくくなります。違和感があるなら、それは身の丈を超えているサインかもしれません。",
+        remember: "身の丈は、数字を参考にしつつ、最後は暮らしで見る。"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.textContent = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.innerHTML = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+      var tierLabel = "";
+
+      if (score === 5) {
+        resultTitle.textContent = "返し続ける視点が、しっかり整っています";
+        tierLabel = "返し続ける視点が、しっかり整っています";
+        resultLead.textContent = "頭金を入れるか抑えるかではなく、まず手元にどれだけ余裕を残すか。借入額の大小ではなく、何があっても返し続けられるか。その軸が、ぶれずに整理できています。あとは、契約前に、頭金と手元資金の配分を実際の数字で一度組み立ててみてください。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "大事な視点は、見えてきました";
+        tierLabel = "大事な視点は、見えてきました";
+        resultLead.textContent = "返し続けるための考え方が、少しずつ整理されてきています。特に「返済額の6ヶ月分を生活費とは別に残す」と「借入額の差より、手元資金の厚さが効く」、この2点を覚えておくと、頭金をいくら入れるかの判断がしやすくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        tierLabel = "まずはここからで大丈夫です";
+        resultLead.textContent = "頭金や返済の話は、専門用語や年収倍率の数字のなかに埋もれがちです。まずは「借入を減らすことより、安心して返し続けること」「返済額の6ヶ月分を、生活費とは別に残す」、この2点を覚えておきましょう。気になることがあれば、契約前に話しかけてみてください。";
+      }
+
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div class="q-meta">
+              <span class="q-num">Q${index + 1}</span>
+              <span class="q-status">${status}</span>
+            </div>
+            <div>
+              <p class="q-question">${q.title}</p>
+              <b class="q-headline">${q.remember}</b>
+              <p class="q-summary">${q.explanation}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      try{if(window.saveUranaiJourney)saveUranaiJourney('atamakinquiz','頭金より、返し続けられる安心を',questions.length+'問中'+score+'問正解',{score:score});}catch(e){}
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+
+  </body>
+</html>

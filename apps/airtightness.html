@@ -1,0 +1,989 @@
+<!doctype html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>高気密は、どこまで必要？｜論理と科学の家づくり占い館</title>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {pointer-events:none;
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .feedback p { margin: 0; line-height: 1.95; }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    /* 5つの視点ボックス（結果画面の見出し直下） */
+    .takeaways {
+      margin-top: 22px;
+      padding: clamp(22px, 4vw, 30px);
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .takeaways h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--accent-dark);
+    }
+    .takeaways ol {
+      margin: 0;
+      padding-left: 1.5em;
+      counter-reset: tk;
+    }
+    .takeaways ol li {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .takeaways ol li:last-child { margin-bottom: 0; }
+    .takeaways .takeaways-note {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* C値レベルの早見表 */
+    .ctable-wrap { margin-top: 24px; }
+    .ctable-wrap h3 { margin: 0 0 12px; font-size: 18px; color: var(--accent-dark); letter-spacing: .02em; }
+    .ctable-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+    .ctable {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .ctable th, .ctable td {
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      line-height: 1.7;
+    }
+    .ctable tbody tr:last-child td { border-bottom: none; }
+    .ctable thead th {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 800;
+      font-size: 12.5px;
+    }
+    .ctable td.lv { font-weight: 900; color: var(--accent-dark); white-space: nowrap; }
+    .ctable tbody tr.row-ok td.lv { color: var(--ok); }
+    .ctable-note { margin: 12px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.8; }
+
+    /* 個別の振り返り（各問の詳しい解説） */
+    .review-block {
+      margin-top: 24px;
+    }
+    .review-block h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--accent-dark);
+      letter-spacing: .02em;
+    }
+    .result-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row .q-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .result-row .q-meta .q-num {
+      display: block;
+      font-size: 18px;
+      color: var(--accent-dark);
+      margin-bottom: 2px;
+    }
+    .result-row .q-meta .q-status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+    .result-row .q-question {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+    .result-row .q-headline {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .result-row .q-summary {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.95;
+    }
+
+    /* 最後のまとめ（CTAボックス直前） */
+    .closing {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 22px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .closing h3 {
+      margin: 0 0 14px;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+    .closing p {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+    .closing p:last-child { margin-bottom: 0; }
+    .closing-points {
+      margin: 0 0 16px;
+      padding: 16px 20px 16px 36px;
+      background: var(--accent-soft);
+      border-radius: 14px;
+      list-style: disc;
+    }
+    .closing-points li {
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .closing-points li:last-child { margin-bottom: 0; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+
+    /* 4択相談パネル */
+    .contact-panel { margin-top:18px; animation:panelFade .22s ease; }
+    @keyframes panelFade { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+    .contact-card { display:flex; flex-direction:column; align-items:center; gap:5px; padding:15px 10px; border-radius:16px; background:#fff; color:var(--ink); border:1px solid var(--line); text-decoration:none; transition:transform .18s ease,box-shadow .18s ease; }
+    .contact-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(68,45,26,.10); }
+    .contact-icon  { font-size:26px; line-height:1; }
+    .contact-label { font-size:13px; font-weight:900; color:var(--accent-dark); letter-spacing:.04em; }
+    .contact-desc  { font-size:11px; color:var(--muted); text-align:center; line-height:1.55; }
+    .contact-close { display:block; width:100%; padding:11px; border:1px solid var(--line); border-radius:999px; background:transparent; color:var(--muted); font:inherit; font-size:12.5px; cursor:pointer; transition:background .18s; }
+    .contact-close:hover { background:var(--accent-soft); }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+    /* ===== 萩森の自己開示 1行 ===== */
+    .self-note { margin-top: 22px; padding: 16px 20px; border-radius: 18px; background: var(--accent-soft); border: 1px solid rgba(111,127,99,0.22); border-left: 4px solid var(--accent); }
+    .self-note-label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+    .self-note p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.8; }
+    /* ===== 次のクイズ誘導 ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(255,253,248,0.94); border: 1px solid rgba(111,127,99,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 16px; color: var(--accent-dark); margin-bottom: 14px; text-align: center; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(68,45,26,0.10); border-color: rgba(111,127,99,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 15px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    @media (max-width: 720px) { .next-quiz-grid { grid-template-columns: 1fr; } }
+  </style>
+
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">気密のきほんクイズ</div>
+      <h1>高気密は、<br>どこまで必要？</h1>
+      <p class="lead">5問でわかる、気密（C値）のホント</p>
+      <div class="note-box">
+        家づくりで「高気密・高断熱」と聞くと、つい「気密は高いほどいい、省エネになる」と思いがちです。<br><br>
+        でも、気密で省エネになる効きめは、思うほど大きくありません。今のまともな新築なら、気密はもう十分なラインに達しています。本当に効くのは、どこなのか。<br>
+        <strong>三択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>三択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="takeaways">
+        <h3>覚えておきたい、5つの視点</h3>
+        <ol>
+          <li>C値は小さいほど高気密。気密を測る会社なら、2.0以下はふつうに届く</li>
+          <li>高気密は省エネに「なる」が、効果は小さく、かけたお金は光熱費では取り返せない</li>
+          <li>寒さ・暑さの主役は、気密ではなく断熱</li>
+          <li>気密と防湿は別もの。壁内結露を防ぐ本丸は防湿</li>
+          <li>超高気密（C値0.5以下）が本領を発揮するのは、花粉・PM2.5対策や、熱交換換気の効率を上げたいとき</li>
+        </ol>
+        <p class="takeaways-note">
+          気密（C値）の数字は、判断の出発点として役立ちます。でも、その数字を追うだけだと、本当に効くところを見落としがちです。<br>
+          家の快適さと長持ちは、気密の数字よりも、断熱・防湿とのバランスで決まります。
+        </p>
+      </div>
+
+      <div class="ctable-wrap">
+        <h3>気密（C値）レベルの早見表</h3>
+        <div class="ctable-scroll">
+          <table class="ctable">
+            <thead><tr><th>C値レベル</th><th>位置づけ</th><th>向いている人</th><th>おさえどころ</th></tr></thead>
+            <tbody>
+              <tr><td class="lv">C値 2.0超</td><td>気密の議論より前</td><td>—</td><td>数字が大きいのは、施工のていねいさの話</td></tr>
+              <tr class="row-ok"><td class="lv">C値 2.0以下</td><td>合格ライン</td><td>多くの人はここで十分</td><td>次は断熱・防湿に力を回す</td></tr>
+              <tr><td class="lv">C値 1.0前後</td><td>もう一段の超高気密</td><td>第三種換気を確実に効かせたい人</td><td>2.0からは緩やかな改善</td></tr>
+              <tr><td class="lv">C値 0.5以下</td><td>究極の超高気密</td><td>花粉・PM2.5対策／熱交換換気／全館冷暖房</td><td>設計・施工の精度が命</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ctable-note">※必要な気密は、地域・建物の形・換気方式・暮らし方で変わります。ここでは考え方の目安として整理しています。</p>
+      </div>
+
+      <div class="review-block">
+        <h3>各問のふりかえり</h3>
+        <div class="result-list" id="resultList"></div>
+      </div>
+
+      <div class="closing">
+        <h3>結局、気密はどこまで？　断熱・防湿との関係</h3>
+        <p>気密（C値）は、まず2.0以下が合格ライン。気密を測る会社なら、たいていここに収まります。そこから先（1.0・0.5以下）まで攻める意味があるのは、第三種換気で全館冷暖房をしたい、重い花粉症で空気の入り口を絞りたい、熱交換換気を採用したい──といった特殊なケースだけです。</p>
+        <p>多くの人にとっては、気密にこれ以上お金をかけるより、断熱と防湿に力を回す方が、暮らしに効きます。3つの役割を分けて考えると、迷いません。</p>
+        <ul class="closing-points">
+          <li><strong>断熱</strong>：強いほど良い。寒さ・暑さの主役で、迷わなくていい部分</li>
+          <li><strong>防湿</strong>：特殊な例を除き、強いほど良い。層を連続させてこそ効く、壁内結露を防ぐ本丸</li>
+          <li><strong>気密</strong>：一定以上は必要だが、その先は限定的。まず2.0以下、特殊なケースだけ0.5以下</li>
+        </ul>
+        <p>そして気密を上げるほど、残ったわずかな漏気は一か所に集中します。集中した漏気は、そこで結露の被害を大きくしがち。だから高気密ほど、設計と施工の精度がものを言います。漏気は施工で決まり、その施工精度は設計で決まる。</p>
+        <p>「高気密にすれば省エネ」とよく言われます。たしかに高めれば省エネには「なります」。でも、その効果は小さく、よく考えないと、かけたコストやほかのデメリットの方が上回って相殺されてしまう。<strong>気密は、断熱と防湿を活かすための土台</strong>、と考えると判断を誤りません。</p>
+      </div>
+
+      
+
+      <div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、気密の見方をやさしく知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+
+    const questions = [
+      {
+        title: "「C値」は、家のすき間の量を表す数字です。数字が大きいほど、気密が高い？",
+        choices: {
+          A: "大きいほど高気密",
+          B: "小さいほど高気密",
+          C: "数字は気密と関係ない"
+        },
+        correct: "B",
+        explanation: "C値は、家ぜんたいの“すき間の量”。<strong>小さいほどすき間が少なく、気密が高い</strong>です。0に近いほど、すき間のない家になります。<br><br>「小さいほど、すごい」と覚えてください。これだけで、この先の話がぜんぶ読めるようになります。",
+        remember: "C値は、小さいほど高気密。0に近いほど、すき間のない家。"
+      },
+      {
+        title: "気密を意識して建てる新築だと、C値はだいたいどのくらいに収まる？",
+        choices: {
+          A: "C値5.0前後が普通",
+          B: "C値2.0以下がふつう",
+          C: "測ってみないと、まったく分からない"
+        },
+        correct: "B",
+        explanation: "気密を測る会社なら、<strong>C値2.0以下はふつうに届く水準</strong>です（もっと小さい数字も珍しくありません）。<br><br>もしC値2.0を超えるとしたら、それは「気密」以前の、施工のていねいさの問題。気密の良し悪しとは別の話です。<br><br>だからこのクイズの本題は「気密を取るかどうか」ではなく、<strong>「2.0から、さらに攻める意味があるか」</strong>です。",
+        remember: "気密を測る会社なら、2.0以下はふつう。2.0超は、気密より前に施工の話。"
+      },
+      {
+        title: "C値2.0以下の家で、そこからさらに気密を高めると、光熱費は大きく下がる？",
+        choices: {
+          A: "はい、気密＝省エネ",
+          B: "いいえ、大きくは変わらない",
+          C: "むしろ上がってしまう"
+        },
+        correct: "B",
+        explanation: "C値2.0以下であれば、台風や強風のときを除いて、<strong>建物から屋外に出ていく空気の量は、換気設備の能力で決まります</strong>。換気で出した分が入ってくるので、多少、吸気口以外のすき間から入ってきたとしても、合計の空気量は変わりません。C値が良いからといって、空調した空気が逃げていく量を減らす効果はありません。<br><br>だから、熱交換換気などを使う場合を除けば、ここからさらにC値を下げても、<strong>光熱費にはほぼ影響しません</strong>（あくまでC値2.0以下が前提の話です）。<br><br>※風の強い日などの漏気はゼロではないので、C値を下げれば“わずかに”省エネにはなります。",
+        remember: "C値2.0以下なら、屋外に出ていく空気の量は換気設備の能力しだい。さらにC値を下げても光熱費はほぼ変わらない。"
+      },
+      {
+        title: "気密（C値）と、壁の中の湿気を防ぐ「防湿」は、同じもの？",
+        choices: {
+          A: "ほぼ同じもの",
+          B: "共通点は多いが、別もの",
+          C: "まったく無関係"
+        },
+        correct: "B",
+        explanation: "別ものです。共通する施工があるので混同されがちですが、目的が明確に違います。<br><br><strong>防湿</strong>の目的は、断熱材に湿気を入れないこと。一方<strong>気密</strong>は、建物の内外の漏気（意図した吸気・排気口以外の、空気の通り道）を塞ぐことが目的です。<br><br>共通する部分はありますが、C値が良くても防湿が完璧とは限らないし、その逆もあります。",
+        remember: "気密と防湿は別もの。防湿は断熱材を湿気から守り、気密は漏気を塞ぐ。"
+      },
+      {
+        title: "C値0.5以下の「超高気密」。次のうち、超高気密のメリットでは“ない”のは？",
+        choices: {
+          A: "花粉やPM2.5を、フィルター付きの吸気口でまとめて防ぎやすくなる",
+          B: "第三種換気で、窓をあちこち開けても、計画どおりに換気できる",
+          C: "熱交換（第一種）換気を入れたとき、その効率が上がる"
+        },
+        correct: "B",
+        explanation: "正解はB。窓を開けてしまえば、空気はその窓から出入りするので、気密の高さは関係なくなります。計画どおりの換気は、窓を閉めて、決められた吸気・排気口に空気を通すことで成り立ちます。<br><br>AとCは、超高気密の本当のメリットです。すき間がほぼ無いと、外気は<strong>フィルター付きの吸気口に集まる</strong>ので花粉やPM2.5を防ぎやすく、漏気で逃げる空気が減るぶん<strong>熱交換換気の効率も上がります</strong>。ここまで来ると、気密はしっかり効きます。<br><br>ただし超高気密ほど、設計と施工の精度が命。<strong>漏気は施工で決まり、その施工精度は設計（納まり・ディテール）で決まる</strong>。気密測定は、その答え合わせです。",
+        remember: "C値0.5以下が活きるのは、花粉・PM2.5対策と熱交換換気。窓を開けたら気密は関係ない。"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.textContent = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.innerHTML = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+      var tierLabel = "";
+
+      if (score === 5) {
+        resultTitle.textContent = "気密の見方、しっかり整っています";
+        tierLabel = "気密の見方、しっかり整っています";
+        resultLead.textContent = "「高気密＝省エネ」という思い込みから離れて、まず2.0で合格・その先は特殊なケースだけ、という軸が、ぶれずに整理できています。あとは、気密の数字を追うより、断熱と防湿に力を回す方向で、計画を組み立ててみてください。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "大事なところは、見えてきました";
+        tierLabel = "大事なところは、見えてきました";
+        resultLead.textContent = "気密の見方が、少しずつ整理されてきています。特に「気密を測る会社なら2.0以下がふつう」「気密化のお金は光熱費で取り返せない」、この2点を覚えておくと、気密にどこまでお金をかけるかの判断がしやすくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        tierLabel = "まずはここからで大丈夫です";
+        resultLead.textContent = "気密の話は、C値や換気の専門用語に埋もれがちです。まずは「C値は小さいほど高気密」「高気密にしても省エネ効果は小さい」、この2点を覚えておきましょう。気になることがあれば、断熱・防湿とあわせて、話しかけてみてください。";
+      }
+
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div class="q-meta">
+              <span class="q-num">Q${index + 1}</span>
+              <span class="q-status">${status}</span>
+            </div>
+            <div>
+              <p class="q-question">${q.title}</p>
+              <b class="q-headline">${q.remember}</b>
+              <p class="q-summary">${q.explanation}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      try{if(window.saveUranaiJourney)saveUranaiJourney('airtightness','高気密は、どこまで必要？',questions.length+'問中'+score+'問正解',{score:score});}catch(e){}
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+
+  </body>
+</html>

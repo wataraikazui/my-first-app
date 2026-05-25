@@ -1,0 +1,878 @@
+<!doctype html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>土地購入「やっぱりやめた」はいつまで？｜論理と科学の家づくり占い館</title>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    .result-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row b { color: var(--accent-dark); }
+    .result-row p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+
+    /* ===== 4択相談パネル ===== */
+    .contact-panel {
+      margin-top: 20px;
+      padding: 20px 18px 16px;
+      border-radius: 20px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111,127,99,0.22);
+      box-shadow: 0 8px 24px rgba(68,45,26,0.09);
+      animation: panelIn 0.22s ease;
+    }
+    @keyframes panelIn {
+      from { opacity:0; transform:translateY(-6px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 15px 10px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(111,127,99,0.16);
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+    }
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(68,45,26,0.11);
+      border-color: rgba(111,127,99,0.35);
+    }
+    .contact-icon { font-size: 28px; line-height: 1; }
+    .contact-label { font-weight: 900; font-size: 14px; color: var(--accent-dark); letter-spacing: .02em; }
+    .contact-desc  { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.55; }
+    .contact-close {
+      display: block; width: 100%;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px; cursor: pointer; font: inherit;
+      transition: background .18s;
+    }
+    .contact-close:hover { background: var(--accent-soft); }
+
+    /* ===== 解説内の表・リスト・注釈 ===== */
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .price-table thead th {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 700;
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      letter-spacing: 0.02em;
+    }
+    .price-table tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #efe7d8;
+      color: var(--ink);
+    }
+    .price-table tbody tr:last-child td { border-bottom: none; }
+    .price-table tbody tr:nth-child(even) td { background: #fbf6ec; }
+
+    .q-list {
+      margin: 10px 0 12px;
+      padding-left: 22px;
+      color: var(--ink);
+      font-size: 13.5px;
+      line-height: 1.85;
+    }
+    .q-list li {
+      margin-bottom: 3px;
+      list-style: disc;
+    }
+
+    .price-note {
+      display: block;
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: var(--brown-soft);
+      border-left: 3px solid var(--brown);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 480px) {
+      .price-table { font-size: 12px; }
+      .price-table thead th,
+      .price-table tbody td { padding: 6px 7px; }
+    }
+    /* ===== 萩森の自己開示 1行 ===== */
+    .self-note { margin-top: 22px; padding: 16px 20px; border-radius: 18px; background: var(--accent-soft); border: 1px solid rgba(111,127,99,0.22); border-left: 4px solid var(--accent); }
+    .self-note-label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+    .self-note p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.8; }
+    /* ===== 次のクイズ誘導 ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(255,253,248,0.94); border: 1px solid rgba(111,127,99,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 16px; color: var(--accent-dark); margin-bottom: 14px; text-align: center; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(68,45,26,0.10); border-color: rgba(111,127,99,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 15px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    @media (max-width: 720px) { .next-quiz-grid { grid-template-columns: 1fr; } }
+  </style>
+
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">きほんクイズ</div>
+      <h1>土地購入「やっぱりやめた」は<br>いつまで？</h1>
+      <p class="lead">5問でわかる、買付・契約・引渡しのきほん</p>
+      <div class="note-box">
+        「この土地、いいかも」「とりあえず押さえておきたい」と思う場面があります。でも土地購入は、進む段階によって "やっぱりやめたい" の重みが変わります。<br>
+        <strong>二択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>二択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="result-list" id="resultList"></div>
+
+      
+
+      <div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このクイズは、土地購入の一般的な流れを理解するためのものです。実際の契約内容、特約、売主・買主の合意状況、交渉経緯によって判断は変わります。</p>
+  </main>
+
+  <script>
+
+    
+    const questions = [
+      {
+        title: "「この土地、気になります。少し押さえておいてもらえますか？」と口頭で頼みました。やめたらどうなるでしょう？",
+        choices: {
+          A: "基本的には、マナーの問題にとどまる",
+          B: "必ず違約金がかかる"
+        },
+        correct: "A",
+        explanation: "口頭で「少し押さえておいてください」と伝えた段階では、まだ話の入口です。<br><br>この時点では、土地を買う条件をきちんと決めて、書面で進めている段階ではないことが多いです。そのため、すぐに違約金が発生するような場面ではありません。<br><br>ここで知っておきたいのは、<strong>買主と売主の責任の重さは対等</strong>だということです。買主が「やっぱりやめます」と取り下げてもマナーの段階にとどまります。同じように、売主側が別の方に話を進めてその土地が売れてしまった場合も、基本的にはマナーの段階にとどまります。自分の責任が軽い段階では、相手の責任も軽い ── この感覚を持っておくと、「押さえてもらっている」という安心の重みが見えてきます。<br><br>不動産会社や売主さんは、「この人は前向きに検討しているのだな」と受け止めることがあります。まだ迷いが強いなら、「購入を前向きに検討したいです」「確認したいことがあります」という言い方の方が安心です。",
+        remember: "口頭の段階は、まだマナーの重み。軽く「買います」と言わず、前向きな検討として伝えます。"
+      },
+      {
+        title: "買付証明書を書きました。やめたら違約金がかかるでしょうか？",
+        choices: {
+          A: "買付証明書だけなら、違約金はかからない",
+          B: "必ず違約金がかかる"
+        },
+        correct: "A",
+        explanation: "買付証明書は、「この条件で購入したいです」という意思を、売主さんに伝えるための書類です。土地の売買契約書そのものではありません。<br><br>そのため、買付証明書を書いただけで、土地代を支払う義務が発生したり、違約金がかかったりするわけではありません。<br><br>ここでも<strong>買主と売主の責任の重さは対等</strong>です。買付証明書を出すと、売主側は一段重い「優先交渉」を約束してくれることが多くなります。他の希望者の対応を一旦止めて、こちらとの話を優先する、といった形です。ただし、その約束を売主側が破棄した場合（別の希望者と話が進んでしまった、価格交渉が折り合わず取り下げになった等）にも、買付証明書の段階では、売主側に特別なペナルティはありません。<br><br>とはいえ、買付証明書は軽い書類ではありません。売主さんや不動産会社は、買付証明書を見て、他の希望者への対応を止めたり、契約に向けた準備を進めたりすることがあります。理由なく取り下げると、「この人は本当に買う気があるのかな」と思われることがあります。次に買付証明書を出すときに、意思をよりしっかり確認されることもあるかもしれません。<br><br>目安としては、<strong>「迷っている」より「買いたい」の方が強くなった段階で出す書類</strong>と考えるとわかりやすいです。",
+        remember: "買付は、信用の段階。違約金はなくても、口頭より一段重い「本気度を示す書類」です。"
+      },
+      {
+        title: "不動産会社と媒介契約を交わしました。もう土地を買ったことになるでしょうか？",
+        choices: {
+          A: "土地を買ったことにはならない",
+          B: "土地を買ったのと同じ"
+        },
+        correct: "A",
+        explanation: "媒介契約は、不動産会社に仲介をお願いするための契約です。つまり、土地そのものを買う契約ではありません。<br><br>ただし、媒介契約をしたうえで土地の売買契約が成立すると、仲介手数料の話が出てきます。不動産業者の仲介により取引の契約が成立した場合、仲介手数料の上限額が法令で定められています。<br><br>媒介契約は「土地を買う契約」ではなく、<strong>仲介手数料の入口</strong>と考えるとわかりやすいです。",
+        remember: "媒介契約だけでは、土地購入ではない。ただし、売買契約が成立すると仲介手数料の重みが出ます。"
+      },
+      {
+        title: "売主さんと土地の売買契約を交わし、手付金を払いました。やっぱりやめたい場合はどうなるでしょう?",
+        choices: {
+          A: "手付金や違約金など、契約上のペナルティが出ることがある",
+          B: "いつでも無料でやめられる"
+        },
+        correct: "A",
+        explanation: "売買契約を交わした後は、かなり重い段階です。ここからは「気が変わったのでやめます」では済みにくくなります。<br><br>ここで知っておきたいのは、<strong>買主と売主は、同じ重さのペナルティを負う</strong>ということです。買主が手付金を放棄して解除するなら、売主側からの解除には、手付金の倍額返還（手付倍返し）という形で同額のペナルティが発生します。違約金の取り決めも、買主・売主のどちらの違反に対しても同じ条件で適用されることが一般的です。重みは、対称的です。<br><br>契約内容によって、解除の扱いは次のように変わります。<ul class=\"q-list\"><li>手付金を放棄して解除する（買主側）／手付倍返しで解除する（売主側）</li><li>契約で決められた違約金が発生する</li><li>ローン特約などで白紙解除になる</li></ul>このうち <strong>ローン特約</strong> は、土地取引で特に大切な仕組みです。土地と建物の家づくりでは、土地の売買契約を先に交わし、その後に住宅ローンの本審査を進めるケースが多くあります。もし審査で承認が下りなかった場合、ローン特約があれば、買主は手付金を放棄せず、違約金も払わずに、契約を白紙解除することができます。買主にとっての大切な救済措置です。<br><br>ただし、ローン特約には、いくつか注意点があります。<ul class=\"q-list\"><li>白紙解除できる期限が決まっている（例：契約から1か月以内など）</li><li>申し込む金融機関やローンの金額が、契約書に書き込まれていることが多い</li><li>買主が誠実にローン申込を進めることが前提になる</li><li>特約の条件をはずれた場合は、ローン特約での解除が認められないことがある</li></ul>契約を交わすときは、ローン特約の期限と条件を、その場でひとつずつ確認しておくと安心です。<br><br>民法では、手付を交付した場合、相手方が契約の履行に着手するまでは、買主は手付を放棄して契約を解除できるとされています。つまり、売買契約後は「いつでも無料でやめられる」段階ではありません。",
+        remember: "売買契約後は、手付金・違約金の段階。ここから「やめる」は一気に重くなります。"
+      },
+      {
+        title: "土地代を支払い、引渡しを受けた後に問題が見つかりました。「やっぱりやめた」はできるでしょうか？",
+        choices: {
+          A: "原則として「やっぱりやめた」はできない。問題があれば別の対応を考える",
+          B: "問題があれば、いつでも簡単に契約をなかったことにできる"
+        },
+        correct: "A",
+        explanation: "土地代を支払い、引渡しを受けた後は、土地購入が完了した段階です。この段階では、「気が変わったのでやめたい」という意味での解約は、原則としてできません。<br><br>もし引渡し後に土地の問題が見つかった場合は、「やっぱりやめた」ではなく、<ul class=\"q-list\"><li>契約内容と違う問題があったか</li><li>売主に対応を求められるか</li></ul>という話になります。民法では、引き渡された目的物が契約内容に適合しない場合、買主が追完請求をできる場合があります。<br><br>ただし、不動産売買では契約書の内容、免責特約、売主の説明、問題の内容によって扱いが変わります。場合によっては、専門家への相談や裁判での判断が必要になることもあります。",
+        remember: "引渡し後は、もう「やっぱりやめた」の段階ではない。問題があれば契約不適合などとして対応を考えます。"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.textContent = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.innerHTML = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+
+      let tierLabel;
+      if (score === 5) {
+        resultTitle.textContent = "土地購入の流れ、しっかりつかめています";
+        resultLead.textContent = "口頭・買付・媒介契約・売買契約・引渡しと、段階ごとに重みが変わっていくこと、そして引渡し後は「やめた」では済まないこと ── ここまでの流れを、しっかりつかめています。気になる土地が出てきたら、自分が今どの段階にいるのか、契約前に建てられる家・総額・土地の状態が確認できているかを、落ち着いて見ていきましょう。";
+        tierLabel = "土地購入の流れ、しっかりつかめています";
+      } else if (score >= 3) {
+        resultTitle.textContent = "流れの見え方が、整ってきました";
+        resultLead.textContent = "土地購入は、進むほど戻りにくくなります。買付証明書までは違約金がかからないこと、売買契約と手付金で重みが一気に増すこと、この2点を覚えておくと、気になる土地が出てきたときに「今、どの段階にいるのか」を冷静に確認できます。";
+        tierLabel = "流れの見え方が、整ってきました";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "土地購入は、口頭・買付・契約・引渡しと、似たような場面が続くため、最初は重みの違いが見えにくいものです。まずは「買付証明書だけなら違約金はかからない」「売買契約と手付金から一気に重くなる」、この2つを覚えておくと、気になる土地が出てきたときの落ち着き方が変わってきます。";
+        tierLabel = "まずはここからで大丈夫です";
+      }
+
+
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div><b>Q${index + 1}</b><br>${status}</div>
+            <div>
+              <b>${q.remember}</b>
+              <p>${q.title}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+
+  </body>
+</html>

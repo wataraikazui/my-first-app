@@ -1,0 +1,883 @@
+<!doctype html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>セオリーは守るべき？｜論理と科学の家づくり占い館</title>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    .result-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row b { color: var(--accent-dark); }
+    .result-row p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+
+    /* ===== 4択相談パネル ===== */
+    .contact-panel {
+      margin-top: 20px;
+      padding: 20px 18px 16px;
+      border-radius: 20px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111,127,99,0.22);
+      box-shadow: 0 8px 24px rgba(68,45,26,0.09);
+      animation: panelIn 0.22s ease;
+    }
+    @keyframes panelIn {
+      from { opacity:0; transform:translateY(-6px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 15px 10px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(111,127,99,0.16);
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+    }
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(68,45,26,0.11);
+      border-color: rgba(111,127,99,0.35);
+    }
+    .contact-icon { font-size: 28px; line-height: 1; }
+    .contact-label { font-weight: 900; font-size: 14px; color: var(--accent-dark); letter-spacing: .02em; }
+    .contact-desc  { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.55; }
+    .contact-close {
+      display: block; width: 100%;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px; cursor: pointer; font: inherit;
+      transition: background .18s;
+    }
+    .contact-close:hover { background: var(--accent-soft); }
+
+    /* ===== 解説内の表・リスト・注釈 ===== */
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .price-table thead th {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 700;
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      letter-spacing: 0.02em;
+    }
+    .price-table tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #efe7d8;
+      color: var(--ink);
+    }
+    .price-table tbody tr:last-child td { border-bottom: none; }
+    .price-table tbody tr:nth-child(even) td { background: #fbf6ec; }
+
+    .q-list {
+      margin: 10px 0 12px;
+      padding-left: 22px;
+      color: var(--ink);
+      font-size: 13.5px;
+      line-height: 1.85;
+    }
+    .q-list li {
+      margin-bottom: 3px;
+      list-style: disc;
+    }
+
+    .price-note {
+      display: block;
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: var(--brown-soft);
+      border-left: 3px solid var(--brown);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 480px) {
+      .price-table { font-size: 12px; }
+      .price-table thead th,
+      .price-table tbody td { padding: 6px 7px; }
+    }
+    /* ===== 萩森の自己開示 1行 ===== */
+    .self-note { margin-top: 22px; padding: 16px 20px; border-radius: 18px; background: var(--accent-soft); border: 1px solid rgba(111,127,99,0.22); border-left: 4px solid var(--accent); }
+    .self-note-label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+    .self-note p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.8; }
+    /* ===== 次のクイズ誘導 ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(255,253,248,0.94); border: 1px solid rgba(111,127,99,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 16px; color: var(--accent-dark); margin-bottom: 14px; text-align: center; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(68,45,26,0.10); border-color: rgba(111,127,99,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 15px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    @media (max-width: 720px) { .next-quiz-grid { grid-template-columns: 1fr; } }
+  </style>
+
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">きほんクイズ</div>
+      <h1>セオリーは<br>守るべき？</h1>
+      <p class="lead">5問でわかる、間取りのセオリーとの付き合い方</p>
+      <div class="note-box">
+        間取りには「水回りは近い方がよい」「収納は使う場所の近くに」「家の形はシンプルに」といった、いろいろなセオリーがあります。これは法律のような絶対の決まりではありません。でも、プロの設計はこうしたセオリーを踏まえて間取りを考えます。それはなぜなのか。そして、守らないと何が起きるのか。<br>
+        <strong>三択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>三択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="result-list" id="resultList"></div>
+
+      
+
+      <div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このクイズは、間取りのセオリーとの付き合い方を一般的に理解するためのものです。最適な間取りは、ご家族の暮らし方、敷地条件、構造、性能、予算によって変わります。</p>
+  </main>
+
+  <script>
+
+    
+    const questions = [
+      {
+        title: "間取りのセオリーとは、どんなもの？",
+        choices: {
+          A: "法律や規制のように、必ず守らなければならない決まり",
+          B: "家づくりの失敗を減らすために積み重ねられた知恵",
+          C: "SNSや住宅雑誌で流行している間取りのこと"
+        },
+        correct: "B",
+        explanation: "間取りのセオリーは、法律や規制のような絶対の決まりではありません。<br><br>たとえば、建ぺい率、容積率、採光、換気、構造に関わる基準などは、法律や性能基準として守るべきものです。<br><br>一方で、セオリーは、これまでの家づくりの中で積み重ねられてきた、<strong>「こうしておくと失敗しにくい」ための考え方</strong>です。<br><br>また、流行している間取りが、必ずしもセオリーとは限りません。見た目がよくても、敷地や暮らし方によっては合わないこともあります。<br><br>セオリーは、流行よりも少し地味で、でも家づくりの土台になっている知恵だと考えると分かりやすいです。",
+        remember: "セオリーは絶対のルールではなく、失敗を減らすために積み重ねられた知恵です。"
+      },
+      {
+        title: "プロの設計で、セオリーを踏まえる理由は？",
+        choices: {
+          A: "施主の希望よりも、無難な間取りを優先するため",
+          B: "コスト・快適性・性能・施工性を安定させやすくするため",
+          C: "どの家も同じような間取りにするため"
+        },
+        correct: "B",
+        explanation: "プロがセオリーを踏まえるのは、施主の希望を否定するためではありません。<br><br>むしろ、希望を形にするときに、後から困りにくいようにするためです。<br><br>たとえば、家の形を複雑にしすぎないことは、コストや施工性に関わります。水回りを極端に離しすぎないことは、配管やメンテナンスに関わります。窓の取り方を考えることは、明るさ、断熱、耐震、外観、プライバシーに関わります。<br><br>セオリーは、家をつまらなくするためのものではなく、<strong>暮らしやすさや性能を安定させるための下支え</strong>です。<br><br>だからプロは、自由な間取りを考えるときにも、その裏側でセオリーを確認しています。",
+        remember: "セオリーは希望を否定するものではなく、後から困りにくくするための下支えです。"
+      },
+      {
+        title: "セオリーには、どんな種類がある？",
+        choices: {
+          A: "どの会社でも完全に同じ、ひとつの正解がある",
+          B: "多くのプロが守りがちなセオリーと、会社や設計者の考え方が反映されたセオリーがある",
+          C: "家相や方位のような考え方だけが、セオリーと呼ばれる"
+        },
+        correct: "B",
+        explanation: "セオリーには、いろいろな種類があります。<br><br>たとえば、構造的に無理をしすぎない。雨仕舞いを複雑にしすぎない。水回りを極端に離しすぎない。収納を使う場所の近くに考える。── こうしたものは、多くのプロが共通して気にしやすいセオリーです。<br><br>一方で、家事動線をとても重視する。南向きリビングを重視する。家族の気配がつながる間取りを大切にする。個室の落ち着きを大切にする。将来の可変性を重視する。家相や方位をある程度考慮する。── こうしたものは、その会社や設計者の考え方が反映されやすいセオリーです。<br><br>つまり、セオリーには、多くのプロが共通して大切にするものもあれば、その設計者や会社のポリシーに近いものもあります。<br><br>どちらも、単なる正解・不正解ではなく、<strong>何を大切にして間取りを考えるか</strong>に関わるものです。",
+        remember: "セオリーには共通のものと、会社や設計者の考え方が反映されたものがあります。"
+      },
+      {
+        title: "セオリーから外れた間取りは、どう考えるべき？",
+        choices: {
+          A: "セオリーから外れているなら、必ず失敗する",
+          B: "理由とデメリットを理解したうえで、選択肢になることもある",
+          C: "自分たちが気に入っていれば、デメリットは考えなくてよい"
+        },
+        correct: "B",
+        explanation: "セオリーから外れているからといって、その間取りがすぐに失敗というわけではありません。<br><br>たとえば、南向きリビングではない。回遊動線がない。洗面と脱衣を分けていない。廊下が少し長い。収納の量よりも部屋の広さを優先している。── こうしたことは、暮らし方や敷地条件によっては、十分に成立することがあります。<br><br>一方で、構造的に無理がある。雨仕舞いが複雑すぎる。メンテナンスしにくい。性能を損ないやすい。コストが大きく増えやすい。── こうした場合は、単なる好みでは済まないこともあります。<br><br>大切なのは、セオリーを外すこと自体ではありません。<strong>なぜ外すのか。外すことで、どんなデメリットがあるのか。それでも優先したい理由があるのか。</strong>そこを確認したうえで選ぶことです。<br><br>セオリー破りは、悪いことではありません。ただし、理由のないセオリー破りは、後悔につながりやすいことがあります。",
+        remember: "セオリー破りは悪くない。ただし理由とデメリットを理解したうえで選ぶことが大切です。"
+      },
+      {
+        title: "間取りのセオリーと付き合うとき、一番大切なのは？",
+        choices: {
+          A: "セオリーはできるだけすべて守ること",
+          B: "自分たちが気に入っていれば、セオリーは気にしないこと",
+          C: "セオリーの理由と、自分たちの暮らしを照らし合わせること"
+        },
+        correct: "C",
+        explanation: "セオリーには、理由があります。コストを増やしにくくするため。暮らしを快適にするため。性能を損ないにくくするため。施工やメンテナンスをしやすくするため。だから、セオリーをまったく気にしないまま間取りを考えるのは、あまりおすすめできません。<br><br>一方で、セオリーは法律のような絶対ルールではありません。すべてを守ろうとすると、自分たちの暮らしに合わない間取りになることもあります。<br><br>SNSなどで間取りへの指摘を見ると、「この動線はよくない」「この収納位置は使いにくい」「この配置はもったいない」といった批判が目に入ることがあります。ただ、その多くは、法律違反や明確な欠陥というより、<strong>一般的なセオリーから外れていることへの指摘</strong>として語られている場合があります。<br><br>もちろん、その指摘には参考になる部分もあります。でも大切なのは、「批判されているからダメ」と受け取ることではありません。その指摘が何を心配しているのか。どんなデメリットを避けようとしているのか。自分たちはそのデメリットを受け入れられるのか。それでも優先したい理由があるのか。そこまで考えることです。<br><br>セオリーを理解すると、SNSの批判に必要以上に振り回されず、指摘の中身を落ち着いて見られるようになります。大切なのは、ただ守ることでも、ただ破ることでもなく、<strong>セオリーの理由を知ったうえで、自分たちの暮らしに合うかを考えること</strong>です。",
+        remember: "セオリーの理由を知ったうえで、自分たちの暮らしに合うかを考えるのが一番大切です。"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.textContent = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.innerHTML = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+
+      let tierLabel;
+      if (score === 5) {
+        resultTitle.textContent = "セオリーとの付き合い方、しっかりつかめています";
+        resultLead.textContent = "セオリーは絶対のルールではないこと、でもプロが踏まえるのには理由があること。そして、ただ守るのでも、ただ破るのでもなく、その理由と自分たちの暮らしを照らし合わせること ── ここまでしっかりつかめています。気になる間取りやSNSの指摘に出会っても、振り回されず、中身を落ち着いて見られるはずです。";
+        tierLabel = "セオリーとの付き合い方、しっかりつかめています";
+      } else if (score >= 3) {
+        resultTitle.textContent = "見え方が、整ってきました";
+        resultLead.textContent = "間取りのセオリーは、ただ守るものでも、ただ破るものでもありません。「セオリーには理由がある」「外すなら、その理由とデメリットを知ったうえで」── この2つを覚えておくと、SNSの批判や人の意見に振り回されにくくなります。";
+        tierLabel = "見え方が、整ってきました";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "セオリーは便利な目安ですが、絶対のルールではありません。まずは「セオリーには理由がある」「自分たちの暮らしに合うかを考える」、この2つを覚えておくと、間取りの話を聞くときの落ち着き方が変わってきます。";
+        tierLabel = "まずはここからで大丈夫です";
+      }
+
+
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div><b>Q${index + 1}</b><br>${status}</div>
+            <div>
+              <b>${q.remember}</b>
+              <p>${q.title}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,998 @@
+<!doctype html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>断熱材こだわり度診断｜論理と科学の家づくり占い館</title>
+  <meta name="description" content="断熱材は「種類」よりも「見方」が大切。5問でわかる、あなたが断熱材をどこまで気にした方がよいか。論理と科学の家づくり占い館シリーズ。">
+  <style>
+    :root {
+      --bg: #f3eef8;
+      --paper: #fbf8fc;
+      --ink: #2e2935;
+      --muted: #786f82;
+      --line: #d8cfe2;
+      --accent: #8a6fb3;
+      --accent-dark: #5e4882;
+      --accent-soft: #ebe3f3;
+      --shadow: 0 16px 40px rgba(70, 45, 100, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.95), rgba(255,255,255,0) 38%),
+        radial-gradient(circle at 80% 90%, rgba(232,215,245,0.55), rgba(232,215,245,0) 50%),
+        linear-gradient(135deg, #f5edf8 0%, #f3eef8 46%, #ebe3f3 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header { text-align: center; padding: 12px 0 24px; margin-bottom: 8px; }
+    .hall-name { font-size: 13px; letter-spacing: 0.18em; color: var(--accent-dark); font-weight: 700; margin-bottom: 2px; }
+    .hall-name a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    .hall-name a:hover { opacity: 0.7; }
+    .hall-sub { font-size: 11px; letter-spacing: 0.2em; color: var(--muted); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,255,0.96), rgba(235,227,243,0.78));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(138, 111, 179, 0.16);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(213,189,235,0.30), rgba(213,189,235,0) 70%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(138, 111, 179, 0.14);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(32px, 6.4vw, 58px);
+      line-height: 1.16;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #46414f;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(138, 111, 179, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box p { margin: 0 0 10px; }
+    .note-box p:last-child { margin: 0; }
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+      box-shadow: 0 10px 22px rgba(94, 72, 130, 0.22);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(94, 72, 130, 0.28);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext { color: var(--muted); font-size: 13px; }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(251,248,252,0.92);
+      border: 1px solid rgba(138, 111, 179, 0.12);
+      box-shadow: 0 10px 26px rgba(70, 45, 100, 0.06);
+    }
+
+    .section h2 { margin: 0 0 12px; font-size: clamp(24px, 4vw, 34px); line-height: 1.35; }
+    .section p { margin: 0 0 12px; }
+
+    #questionsRoot { display: grid; gap: 24px; margin-top: 22px; }
+
+    .question-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fdfafc;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(70, 45, 100, 0.05);
+    }
+
+    .question-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(138,111,179,0.12), rgba(245,238,248,0.5));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .question-index {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: .08em;
+    }
+
+    .question-title { margin: 0 0 6px; font-size: clamp(19px, 2.6vw, 26px); line-height: 1.5; }
+    .question-prompt { margin: 0; color: var(--muted); font-size: 14px; }
+    .question-note {
+      margin: 12px 0 0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(138,111,179,0.08);
+      border: 1px dashed rgba(138,111,179,0.32);
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.7;
+    }
+
+    .choices { display: grid; gap: 14px; padding: 18px; }
+
+    .choice {
+      display: block;
+      position: relative;
+      border: 1px solid #e0d6ec;
+      border-radius: 18px;
+      background: #fff;
+      cursor: pointer;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+      overflow: hidden;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      border-color: rgba(138,111,179,0.42);
+      box-shadow: 0 10px 22px rgba(70,45,100,0.08);
+    }
+
+    .choice input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .choice-inner {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      padding: 17px;
+      align-items: center;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice-title {
+      display: block;
+      font-weight: 700;
+      font-size: 15.5px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    .choice input:checked + .choice-inner {
+      background: linear-gradient(135deg, rgba(138,111,179,0.14), rgba(253,251,254,0.94));
+    }
+
+    .choice input:checked + .choice-inner .mark {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+    }
+
+    .choice input:checked + .choice-inner .choice-title {
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .error {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fbeef0;
+      color: #8d3651;
+      border: 1px solid #ecc5cf;
+      font-weight: 700;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fbf8fc, #ebe3f3 70%, #ddc9ef);
+      border: 1px solid rgba(138,111,179,0.2);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker { color: var(--accent-dark); font-weight: 900; letter-spacing: .05em; }
+    .result-title { margin: 6px 0 12px; font-size: clamp(28px, 5vw, 46px); line-height: 1.25; }
+    #resultLead { margin: 0; color: #46414f; }
+
+    .result-block {
+      margin-top: 22px;
+      padding: clamp(20px, 4vw, 30px);
+      border-radius: 20px;
+      background: #fbf8fc;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(70, 45, 100, 0.05);
+    }
+
+    .result-block h3 {
+      margin: 0 0 14px;
+      font-size: clamp(19px, 3vw, 23px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+
+    .result-block h4 {
+      margin: 22px 0 10px;
+      font-size: clamp(16px, 2.4vw, 19px);
+      color: var(--accent-dark);
+      line-height: 1.55;
+    }
+    .result-block h4:first-of-type { margin-top: 0; }
+
+    .result-block p { margin: 0 0 14px; font-size: 15px; line-height: 1.95; color: var(--ink); }
+    .result-block p:last-child { margin-bottom: 0; }
+
+    .summary-block { background: linear-gradient(135deg, #efe6f7, #fbf8fc); border-color: rgba(138,111,179,0.22); }
+
+    .sheet-grid { display: grid; gap: 12px; margin-top: 4px; }
+    .sheet-row {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      align-items: start;
+    }
+    .sheet-side {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 14px;
+    }
+    .sheet-scene { font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 4px; letter-spacing: .03em; }
+    .sheet-text { color: var(--ink); font-size: 14.5px; line-height: 1.8; }
+
+    /* ===== 断熱材ごとの順位表（動的ハイライト） ===== */
+    .rank-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .rank-caption {
+      margin: 0 0 14px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.85;
+      font-weight: 700;
+    }
+    .rank-q4 {
+      margin: 0 0 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(138,111,179,0.06);
+      border: 1px dashed rgba(138,111,179,0.30);
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.85;
+    }
+    .rank-q4 strong { color: var(--accent-dark); }
+    .rank-toggle {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--accent-dark);
+      font: inherit;
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: background .18s, border-color .18s;
+      white-space: nowrap;
+    }
+    .rank-toggle:hover { background: var(--accent-soft); border-color: rgba(138,111,179,0.4); }
+
+    .rank-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+    .rank-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13.5px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .rank-table th, .rank-table td {
+      padding: 12px 12px;
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid rgba(216,207,226,0.6);
+      transition: background .25s ease, color .25s ease;
+    }
+    .rank-table th:last-child, .rank-table td:last-child { border-right: none; }
+    .rank-table tbody tr:last-child td { border-bottom: none; }
+    .rank-table thead th {
+      background: linear-gradient(135deg, rgba(138,111,179,0.14), rgba(245,238,248,0.6));
+      color: var(--accent-dark);
+      font-weight: 800;
+      font-size: 12.5px;
+      line-height: 1.5;
+      position: sticky;
+      top: 0;
+    }
+    .rank-table td.cell-name {
+      text-align: left;
+      font-weight: 900;
+      color: var(--accent-dark);
+      background: rgba(245,238,248,0.5);
+      white-space: nowrap;
+    }
+    .rank-table td.cell-key { text-align: left; color: var(--muted); font-size: 12.5px; line-height: 1.65; }
+    .rank-rank { font-weight: 900; }
+    .rank-rank.is-top { color: var(--accent-dark); }
+    .rank-mark-na { color: #c8bcd6; }
+
+    /* ハイライト（結果タイプに連動） */
+    .rank-table.show-focus tr.is-focus-row td { background: rgba(138,111,179,0.12); }
+    .rank-table.show-focus tr.is-focus-row td.cell-name {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+    }
+    .rank-table.show-focus thead th.is-focus-col {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+    }
+    .rank-table.show-focus td.is-focus-col { background: rgba(138,111,179,0.16); font-weight: 800; }
+    .rank-table.show-focus tr.is-focus-row td.is-focus-col { background: rgba(138,111,179,0.26); }
+    .rank-table.show-focus tr.is-focus-row td.cell-name.is-focus-col { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); }
+
+    .rank-note { margin: 14px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.8; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #efe2f6, #fbf8fc);
+      border: 1px solid rgba(138,111,179,0.2);
+      text-align: center;
+    }
+    .cta-box h3 { margin: 0 0 14px; font-size: clamp(20px,3.4vw,25px); line-height: 1.45; }
+    .cta-box > p { margin: 0 auto 14px; max-width: 680px; color: var(--ink); font-size: 15px; line-height: 1.95; text-align: left; }
+    .cta-box > p:last-child { margin-bottom: 0; }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(70,45,100,0.10); }
+    .link-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; }
+    .link-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    .back-to-hall { margin-top: 18px; text-align: center; }
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+    .back-to-hall a:hover { background: rgba(255,255,255,0.6); color: var(--accent-dark); }
+
+    .footer-note { margin-top: 22px; color: var(--muted); font-size: 13px; text-align: center; line-height: 1.85; }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice-inner { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .sheet-row { grid-template-columns: 1fr; gap: 8px; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+
+      /* 表をカード型に組み替え */
+      .rank-scroll { overflow-x: visible; }
+      .rank-table { min-width: 0; border: none; background: transparent; }
+      .rank-table thead { display: none; }
+      .rank-table tbody, .rank-table tr, .rank-table td { display: block; width: 100%; }
+      .rank-table tr {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: #fff;
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+      .rank-table td {
+        display: grid;
+        grid-template-columns: 11.5em 1fr;
+        gap: 10px;
+        text-align: left;
+        padding: 11px 16px;
+        border-right: none;
+        border-bottom: 1px solid rgba(216,207,226,0.6);
+      }
+      .rank-table td::before {
+        content: attr(data-label);
+        font-weight: 800;
+        color: var(--accent-dark);
+        font-size: 12px;
+        line-height: 1.55;
+      }
+      .rank-table td.cell-name {
+        grid-template-columns: 1fr;
+        font-size: 16px;
+        white-space: normal;
+        background: var(--accent-soft);
+        padding: 13px 16px;
+      }
+      .rank-table td.cell-name::before { display: none; }
+      .rank-table.show-focus tr.is-focus-row { border-color: var(--accent); box-shadow: 0 8px 20px rgba(94,72,130,0.16); }
+    }
+
+    /* ===== 4択相談パネル ===== */
+    .contact-panel {
+      margin-top: 20px;
+      padding: 20px 18px 16px;
+      border-radius: 20px;
+      background: rgba(251,248,252,0.96);
+      border: 1px solid rgba(138,111,179,0.22);
+      box-shadow: 0 8px 24px rgba(94,72,130,0.10);
+      animation: panelIn 0.22s ease;
+    }
+    @keyframes panelIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .contact-card {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      padding: 15px 10px; border-radius: 16px; background: #fff;
+      border: 1px solid rgba(138,111,179,0.16); text-decoration: none; color: var(--ink);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+    }
+    .contact-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,72,130,0.13); border-color: rgba(138,111,179,0.35); }
+    .contact-icon { font-size: 28px; line-height: 1; }
+    .contact-label { font-weight: 900; font-size: 14px; color: var(--accent-dark); letter-spacing: .02em; }
+    .contact-desc  { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.55; }
+    .contact-close {
+      display: block; width: 100%; padding: 10px;
+      border: 1px solid var(--line); border-radius: 999px; background: transparent;
+      color: var(--muted); font-size: 13px; cursor: pointer; font: inherit; transition: background .18s;
+    }
+    .contact-close:hover { background: var(--accent-soft); }
+    /* ===== 萩森の自己開示 1行 ===== */
+    .self-note { margin-top: 22px; padding: 16px 20px; border-radius: 18px; background: var(--accent-soft); border: 1px solid rgba(138,111,179,0.22); border-left: 4px solid var(--accent); }
+    .self-note-label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+    .self-note p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.8; }
+    /* ===== 次のクイズ誘導 ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(253,251,254,0.92); border: 1px solid rgba(138,111,179,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 16px; color: var(--accent-dark); margin-bottom: 14px; text-align: center; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(70,45,100,0.10); border-color: rgba(138,111,179,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 15px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    @media (max-width: 720px) { .next-quiz-grid { grid-template-columns: 1fr; } }
+  </style>
+
+  <meta property="og:title" content="断熱材こだわり度診断｜論理と科学の家づくり占い館">
+  <meta property="og:description" content="断熱材は「種類」よりも「見方」が大切。5問でわかる、あなたが断熱材をどこまで気にした方がよいか。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">断熱のタイプ占い</div>
+      <h1>断熱材<br>こだわり度診断</h1>
+      <p class="lead">断熱材は「種類」よりも「見方」が大切です</p>
+      <div class="note-box">
+        <p>家づくりで断熱の話になると、つい「どの断熱材が一番いいの？」と考えたくなります。でも、<strong>断熱性能と、断熱材の種類は、いったん分けて考える</strong>必要があります。</p>
+        <p>同じ断熱性能を目指すとしても、たどり着く方法は一つではありません。この診断では、あなたが断熱材をどこまで気にした方がよいかを占います。</p>
+      </div>
+      <div class="start-area">
+        <a class="button" href="#diagnosis">診断をはじめる</a>
+        <span class="subtext">5問・1分ほどで結果が出ます</span>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <h2>この診断について</h2>
+      <p>断熱性能は、どんな断熱材でも確保することができます。断熱材を入れるスペースと、費用があればよいのです。</p>
+      <p>むしろ大切なのは、その断熱材の断熱性能以外の特徴が、建物の形・間取り・予算・暮らし方に合っているかどうかです。</p>
+      <p>この診断では、あなたが断熱材をどこまで気にした方がよいかを、5つの質問でゆるく整理します。正解や不正解はありません。</p>
+    </section>
+
+    <section class="section" id="diagnosis">
+      <h2>5つの質問</h2>
+      <p>今の気持ちに近いものを選んでください。迷ったら、直感で大丈夫です。</p>
+
+      <form id="diagnosisForm">
+        <div id="questionsRoot"></div>
+
+        <div class="actions">
+          <button class="button" type="submit">診断結果を見る</button>
+          <button class="button secondary" type="button" id="resetButton">選び直す</button>
+        </div>
+        <div class="error" id="errorMessage">未回答の質問があります。5つすべて選んでください。</div>
+      </form>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">あなたと断熱材との付き合い方を整理しました</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="result-block">
+        <h3>あなたのタイプ</h3>
+        <div id="typeBody"></div>
+      </div>
+
+      <div class="result-block">
+        <h3>あなたの選択シート</h3>
+        <p>今回の選び方をまとめると、次のような傾向がありそうです。</p>
+        <div class="sheet-grid" id="sheetGrid"></div>
+      </div>
+
+      <div class="result-block">
+        <div class="rank-head">
+          <h3 style="margin:0;">断熱材ごとの順位表 ── 目安としての相対比較</h3>
+          <button type="button" class="rank-toggle" id="rankToggle">ハイライトを消す</button>
+        </div>
+        <p class="rank-caption" id="rankCaption"></p>
+        <p class="rank-q4" id="rankQ4"></p>
+        <div class="rank-scroll">
+          <table class="rank-table show-focus" id="rankTable"></table>
+        </div>
+        <p class="rank-note">※実際の性能・費用は、商品グレード、厚み、施工方法、地域、採用部位によって変わります。ここでは、一般的な家づくりでの「考え方の目安」として整理しています。順位は相対的な傾向で、絶対的な優劣ではありません。</p>
+      </div>
+
+      <div class="result-block summary-block">
+        <h3>共通解説</h3>
+        <h4>断熱材の種類と断熱性能は、別の話です</h4>
+        <p>この診断で一番伝えたいことは、断熱材の種類と、断熱性能は、同じ話ではないということです。「この断熱材だから高性能」「この断熱材だから性能が低い」と単純に決まるわけではありません。</p>
+        <p>断熱性能は、どんな断熱材でも確保することができます。断熱材を入れるスペースと、費用があればよいのです。ただし、どの断熱材を使うかによって、その性能をクリアするための方法が少し変わります。厚みを多く取ることで性能を出す断熱材もあれば、少ない厚みで性能を出しやすい断熱材もあります。専門業者による施工の確実性を活かしやすい断熱材も、水に近い場所や音が気になる部屋で特徴を活かしやすい断熱材もあります。</p>
+        <p>つまり、断熱材選びで大切なのは、「一番断熱性能が高い断熱材」を探すことではありません。目標とする断熱性能を、どの方法で無理なく確保するか。そのうえで、断熱性能以外の特徴が、建物に合っているかを見ることです。</p>
+        <h4>断熱材は、自由に選べるとは限りません</h4>
+        <p>実際の家づくりでは、断熱材は住宅会社の標準仕様として、あらかじめ決まっていることが多いです。そのため、施主が自由に断熱材を選べるケースばかりではありません。でも、標準仕様だから悪いということではありません。むしろ大切なのは、その標準仕様の断熱材に合った設計・施工になっているかどうかです。</p>
+        <p>一方で、屋根、基礎まわり、外張り、音が気になる部屋など、場所によっては断熱材の使い分けを相談した方がよい場合もあります。ただし、断熱材の種類を分けすぎると、材料の手配や施工の切り替えが増え、かえって割高になることもあります。</p>
+        <p>断熱材は、一種類にこだわりすぎなくてもよい。でも、分ければ分けるほどよいわけでもない。家全体の計画の中で、どこにどの性能が必要かを整理することが大切です。</p>
+      </div>
+
+      
+
+      <div class="actions">
+        <button class="button secondary" type="button" id="backButton">↻ もう一度診断する</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜この診断は、断熱材の見方の傾向を見るための簡易チェックです。実際の断熱計画は、地域・建物の形・目標性能・施工方法・予算まで含めて確認してください。</p>
+  </main>
+
+  <script>
+
+    // A/B/C の表示色（選択シート用）
+    const sideMeta = {
+      A: { label: 'A', color: '#7a6aa8' },
+      B: { label: 'B', color: '#b0568f' },
+      C: { label: 'C', color: '#5a8079' }
+    };
+
+    const questions = [
+      {
+        id: "q1",
+        scene: "断熱性能の見方",
+        title: "断熱性能を比べるなら、まず気になるのは？",
+        choices: {
+          A: "同じ金額で、どれだけ暖かくできるか",
+          B: "同じ厚さで、どれだけ暖かくできるか"
+        }
+      },
+      {
+        id: "q2",
+        scene: "お金のかけ方",
+        title: "断熱材にお金をかけるなら、どちらが近いですか？",
+        choices: {
+          A: "家全体で無理なく性能を上げたい",
+          B: "必要な場所にメリハリをつけて、性能を上げたい"
+        }
+      },
+      {
+        id: "q3",
+        scene: "断熱性能の目標",
+        title: "断熱性能の目標として、近いのは？",
+        choices: {
+          A: "省エネ等級やGXなど、基準をしっかりクリアしたい",
+          B: "基準を超える・超えないより、自分の暮らし方に合うことを重視したい",
+          C: "数字だけでなく、音や湿気などの快適さも気になる"
+        }
+      },
+      {
+        id: "q4",
+        scene: "性能の出し方",
+        title: "断熱材の性能を発揮するうえで、気になるのは？",
+        note: "この質問は、診断結果への影響は少なめです。断熱材は材料だけでなく、施工・設計・専門施工との相性で性能の出方が変わる、という気づきのための質問です。",
+        choices: {
+          A: "現場できちんと施工されるか",
+          B: "継ぎ目や納まりまで考えた設計になっているか",
+          C: "断熱専門業者による施工かどうか"
+        }
+      },
+      {
+        id: "q5",
+        scene: "どこまで考えたいか",
+        title: "断熱材について、どこまで考えたいですか？",
+        choices: {
+          A: "標準仕様でよいので、その断熱材に合った設計をしてほしい",
+          B: "間取りや建物の形に合わせて、断熱材の使い分けも相談したい",
+          C: "ピアノ室・寝室・道路側の部屋など、音や湿気への効果も活かしたい"
+        }
+      }
+    ];
+
+    const types = {
+      a: {
+        name: "標準仕様活用タイプ",
+        lead: "Aが多いあなたは、断熱材そのものを細かく選ぶよりも、住宅会社の標準仕様を前提に、家全体で無理なく性能を確保したいタイプです。",
+        body: [
+          "このタイプにとって大切なのは、「特殊な断熱材を使っているか」ではなく、標準仕様の断熱材に合わせて、きちんと設計・施工されているかです。",
+          "たとえば高性能グラスウール系は、同じ金額で断熱性能を確保しやすい選択肢のひとつです。ただし、性能を発揮するには、隙間なく丁寧に施工することが大切です。",
+          "高発泡の吹付系は、断熱専門業者による施工で、細かな部分まで断熱材を入れやすい特徴があります。標準仕様として採用されている場合は、施工の確実性も含めて考えやすい断熱材です。",
+          "あなたの場合は、断熱材を変更することよりも、その会社の標準仕様で、どの断熱性能を目指しているのか、その仕様に合った設計になっているのかを確認するのがおすすめです。"
+        ]
+      },
+      b: {
+        name: "メリハリ性能タイプ",
+        lead: "Bが多いあなたは、家全体を同じように考えるよりも、場所ごとに必要な性能を見極めたいタイプです。",
+        body: [
+          "壁、屋根、基礎まわり、外張り、開口部まわりなど、家の中には断熱材に求められる条件が少しずつ違う場所があります。",
+          "たとえば、厚みが取りにくい場所では、厚さ当たりの断熱性能が高い断熱材が有利になることがあります。ネオマフォーム系のようなボード系断熱材は、薄くても断熱性能を出しやすい選択肢です。",
+          "スタイロフォーム系は、水に近い場所や基礎まわりなどで検討されやすい断熱材です。",
+          "一方で、ボード系断熱材は、材料そのものの性能だけでなく、継ぎ目や納まり、固定方法など、設計上の考え方が重要になります。",
+          "あなたの場合は、「どの断熱材が一番よいか」よりも、「この建物のどの場所に、どの性能が必要か」を整理することが大切です。"
+        ]
+      },
+      c: {
+        name: "断熱プラスα重視タイプ",
+        lead: "Cが多いあなたは、断熱性能だけでなく、音、湿気、部屋ごとの快適さまで気になるタイプです。",
+        body: [
+          "たとえば、道路側の寝室、子ども部屋、ピアノ室、趣味室などは、単に暖かい・涼しいだけでなく、音への配慮も大切になる場合があります。",
+          "このような視点では、セルロース断熱材が候補に入りやすくなります。セルロース断熱材は、防音・吸音面で特徴を出しやすい断熱材です。",
+          "また、グラスウール系も、断熱材としてだけでなく、音への配慮という面で検討されることがあります。",
+          "ただし、ここでも大切なのは、断熱材の種類だけで断熱性能が決まるわけではないということです。音や湿気への配慮を重視する場合は、断熱材だけでなく、壁の構成、換気、仕上げ材、部屋の配置まで含めて考える必要があります。",
+          "あなたの場合は、断熱材を「暖かさのための材料」としてだけでなく、家の使い方に合わせて特徴を活かす材料として見るとよさそうです。"
+        ]
+      }
+    };
+
+    // 断熱材ごとの順位表データ
+    const tableCols = [
+      { key: "name",  label: "断熱材" },
+      { key: "thick", label: "同じ厚さでの断熱性能" },
+      { key: "cost",  label: "同じ金額での断熱性能" },
+      { key: "fire",  label: "防火面" },
+      { key: "sound", label: "防音・吸音面" },
+      { key: "water", label: "水・湿気まわり" },
+      { key: "note",  label: "性能を出すうえで大切なこと" }
+    ];
+    const materials = [
+      { name: "高性能グラスウール系", thick: "4位", cost: "1位", fire: "1位", sound: "2位", water: "—", note: "丁寧な施工" },
+      { name: "高発泡の吹付系",       thick: "5位", cost: "2位", fire: "—",  sound: "—",  water: "—", note: "断熱専門業者による施工の確実性" },
+      { name: "低発泡の吹付系",       thick: "2位", cost: "4位", fire: "—",  sound: "—",  water: "○", note: "断熱専門業者による施工の確実性" },
+      { name: "スタイロフォーム系",   thick: "3位", cost: "3位", fire: "—",  sound: "—",  water: "1位", note: "設計・納まり" },
+      { name: "ネオマフォーム系",     thick: "1位", cost: "3位", fire: "3位", sound: "—",  water: "○", note: "設計・納まり" },
+      { name: "セルロース断熱材",     thick: "6位", cost: "5位", fire: "1位", sound: "1位", water: "○", note: "専門施工・湿気設計" }
+    ];
+    const typeTableFocus = {
+      a: {
+        rows: ["高性能グラスウール系", "高発泡の吹付系"],
+        cols: ["cost"],
+        caption: "あなたのタイプは、標準仕様を前提に「同じ金額でどれだけ性能を確保できるか」を見るのがおすすめ。グラスウール系・吹付系の行を中心に表を読むと、考えやすくなります。"
+      },
+      b: {
+        rows: ["ネオマフォーム系", "スタイロフォーム系"],
+        cols: ["thick"],
+        caption: "あなたのタイプは「同じ厚さでどれだけ性能が出るか」が手がかり。薄くても効くボード系の行を、場所ごとに見比べると、使い分けの判断がしやすくなります。"
+      },
+      c: {
+        rows: ["セルロース断熱材", "高性能グラスウール系"],
+        cols: ["sound", "water"],
+        caption: "あなたのタイプは、断熱性能の列だけでなく「防音・吸音面」「水・湿気まわり」も合わせて見たいタイプ。セルロース・グラスウール系の行と一緒に確認すると、暮らしに効く違いが見えてきます。"
+      }
+    };
+
+    // Q4 は判定には使わないが、選んだ視点を表の右端「性能を出すうえで大切なこと」列に結びつけて解説する
+    const q4note = {
+      A: "Q4で「現場できちんと施工されるか」を選んだあなたへ。表のいちばん右<strong>「性能を出すうえで大切なこと」</strong>を合わせて見てください。断熱材は、現場で隙間なく丁寧に入れられて初めて、表どおりの性能に近づきます。",
+      B: "Q4で「継ぎ目や納まりまで考えた設計か」を選んだあなたへ。表のいちばん右<strong>「性能を出すうえで大切なこと」</strong>を合わせて見てください。とくにボード系は、設計・納まりの考え方しだいで性能の出方が変わります。",
+      C: "Q4で「断熱専門業者による施工か」を選んだあなたへ。表のいちばん右<strong>「性能を出すうえで大切なこと」</strong>を合わせて見てください。吹付系やセルロースは、断熱専門業者による施工の確実性が効いてきます。"
+    };
+
+    const questionsRoot = document.getElementById("questionsRoot");
+    const form = document.getElementById("diagnosisForm");
+    const result = document.getElementById("result");
+    const errorMessage = document.getElementById("errorMessage");
+    const resetButton = document.getElementById("resetButton");
+    const backButton = document.getElementById("backButton");
+    const rankTable = document.getElementById("rankTable");
+    const rankToggle = document.getElementById("rankToggle");
+
+    function renderQuestions() {
+      questionsRoot.innerHTML = questions.map((q, index) => {
+        const choicesHtml = Object.entries(q.choices).map(([key, label]) => `
+          <label class="choice">
+            <input type="radio" name="${q.id}" value="${key}" />
+            <span class="choice-inner">
+              <span class="mark">${key}</span>
+              <span class="choice-title">${label}</span>
+            </span>
+          </label>
+        `).join("");
+
+        const noteHtml = q.note ? `<p class="question-note">※ ${q.note}</p>` : "";
+
+        return `
+          <article class="question-card">
+            <div class="question-head">
+              <span class="question-index">Q${index + 1}</span>
+              <h3 class="question-title">${q.title}</h3>
+              <p class="question-prompt">${q.scene}</p>
+              ${noteHtml}
+            </div>
+            <div class="choices">${choicesHtml}</div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function getAnswers() {
+      const answers = {};
+      for (const q of questions) {
+        const checked = form.querySelector(`input[name="${q.id}"]:checked`);
+        if (!checked) return null;
+        answers[q.id] = checked.value;
+      }
+      return answers;
+    }
+
+    // Q4 は「診断結果への影響は少なめ」（原稿指定）。Q1・Q2・Q3・Q5 の A/B/C を集計し、
+    // 最多の文字をタイプとする。同数のときは C > B > A の順で、より具体的な見方を優先。
+    function pickType(answers) {
+      const tally = { A: 0, B: 0, C: 0 };
+      ["q1", "q2", "q3", "q5"].forEach(id => { tally[answers[id]]++; });
+      const order = ["C", "B", "A"];
+      let best = "A", bestN = -1;
+      order.forEach(k => { if (tally[k] > bestN) { bestN = tally[k]; best = k; } });
+      return { A: "a", B: "b", C: "c" }[best];
+    }
+
+    function renderParagraphs(arr) {
+      return arr.map(t => `<p>${t}</p>`).join("");
+    }
+
+    function renderTable(typeKey) {
+      const focus = typeTableFocus[typeKey] || { rows: [], cols: [], caption: "" };
+      const focusRows = focus.rows;
+      const focusCols = focus.cols;
+
+      const thead = `<thead><tr>${tableCols.map(c =>
+        `<th class="${focusCols.indexOf(c.key) > -1 ? 'is-focus-col' : ''}">${c.label}</th>`
+      ).join("")}</tr></thead>`;
+
+      const tbody = `<tbody>${materials.map(m => {
+        const isFocusRow = focusRows.indexOf(m.name) > -1;
+        const cells = tableCols.map(c => {
+          const val = m[c.key];
+          const colFocus = focusCols.indexOf(c.key) > -1 ? " is-focus-col" : "";
+          if (c.key === "name") {
+            return `<td class="cell-name${colFocus}" data-label="${c.label}">${val}</td>`;
+          }
+          if (c.key === "note") {
+            return `<td class="cell-key${colFocus}" data-label="${c.label}">${val}</td>`;
+          }
+          let inner = val;
+          if (/^[0-9]+位$/.test(val)) {
+            inner = `<span class="rank-rank${val === '1位' ? ' is-top' : ''}">${val}</span>`;
+          } else if (val === "—") {
+            inner = `<span class="rank-mark-na">—</span>`;
+          }
+          return `<td class="${colFocus.trim()}" data-label="${c.label}">${inner}</td>`;
+        }).join("");
+        return `<tr class="${isFocusRow ? 'is-focus-row' : ''}">${cells}</tr>`;
+      }).join("")}</tbody>`;
+
+      rankTable.innerHTML = thead + tbody;
+      document.getElementById("rankCaption").textContent = focus.caption;
+      rankTable.classList.add("show-focus");
+      rankToggle.textContent = "ハイライトを消す";
+    }
+
+    rankToggle.addEventListener("click", () => {
+      const on = rankTable.classList.toggle("show-focus");
+      rankToggle.textContent = on ? "ハイライトを消す" : "あなたに合わせて表示";
+    });
+
+    function renderResult(answers) {
+      const typeKey = pickType(answers);
+      const t = types[typeKey];
+
+      document.getElementById("resultTitle").textContent = `あなたは「${t.name}」`;
+      document.getElementById("resultLead").textContent = t.lead;
+      document.getElementById("typeBody").innerHTML = renderParagraphs(t.body);
+
+      const sheetGrid = document.getElementById("sheetGrid");
+      sheetGrid.innerHTML = questions.map(q => {
+        const ans = answers[q.id];
+        const meta = sideMeta[ans];
+        return `
+          <div class="sheet-row" style="border-left-color:${meta.color}">
+            <div><span class="sheet-side" style="background:${meta.color}">${meta.label}</span></div>
+            <div>
+              <div class="sheet-scene">${q.scene}</div>
+              <div class="sheet-text">${q.choices[ans]}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      renderTable(typeKey);
+      document.getElementById("rankQ4").innerHTML = q4note[answers.q4] || "";
+
+
+      result.style.display = "block";
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const answers = getAnswers();
+      if (!answers) {
+        errorMessage.style.display = "block";
+        return;
+      }
+      errorMessage.style.display = "none";
+      renderResult(answers);
+    });
+
+    function resetDiagnosis() {
+      form.reset();
+      result.style.display = "none";
+      errorMessage.style.display = "none";
+      document.getElementById("diagnosis").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    resetButton.addEventListener("click", resetDiagnosis);
+    backButton.addEventListener("click", resetDiagnosis);
+
+    renderQuestions();
+  </script>
+  </body>
+</html>

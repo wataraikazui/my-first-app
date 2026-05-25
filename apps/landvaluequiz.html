@@ -1,0 +1,790 @@
+<!doctype html>
+<!--
+  本ページのHTML・CSS・JavaScript等の著作権は、有限会社 萩森建設・荻野 が保有します。
+  利用は制限しませんが、使用される際は says@o-h.co.jp までご連絡ください。
+  ── © 萩森建設 / 論理と科学の家づくり占い館
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>あなたにとって“得する土地”診断｜論理と科学の家づくり占い館</title>
+  <meta name="description" content="世間の評価と、自分の評価を分けて考える。5問でわかる、あなたにとって得する土地の見方。論理と科学の家づくり占い館シリーズ。">
+  <style>
+    :root {
+      --bg: #f3eef8;
+      --paper: #fbf8fc;
+      --ink: #2e2935;
+      --muted: #786f82;
+      --line: #d8cfe2;
+      --accent: #8a6fb3;
+      --accent-dark: #5e4882;
+      --accent-soft: #ebe3f3;
+      --brown: #5e4882;
+      --brown-soft: #ece1f5;
+      --jibun: #b0568f;
+      --souba: #6d5aa6;
+      --ok: #6d5aa6;
+      --ng: #9b4a6a;
+      --shadow: 0 16px 40px rgba(70, 45, 100, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.95), rgba(255,255,255,0) 38%),
+        radial-gradient(circle at 80% 90%, rgba(232,215,245,0.55), rgba(232,215,245,0) 50%),
+        linear-gradient(135deg, #f5edf8 0%, #f3eef8 46%, #ebe3f3 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header { text-align: center; padding: 12px 0 24px; margin-bottom: 8px; }
+    .hall-name { font-size: 13px; letter-spacing: 0.18em; color: var(--accent-dark); font-weight: 700; margin-bottom: 2px; }
+    .hall-name a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    .hall-name a:hover { opacity: 0.7; }
+    .hall-sub { font-size: 11px; letter-spacing: 0.2em; color: var(--muted); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,255,0.96), rgba(235,227,243,0.78));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(138, 111, 179, 0.16);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(213,189,235,0.30), rgba(213,189,235,0) 70%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(138, 111, 179, 0.14);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(32px, 6.4vw, 58px);
+      line-height: 1.16;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #46414f;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(138, 111, 179, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box p { margin: 0 0 10px; }
+    .note-box p:last-child { margin: 0; }
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+      box-shadow: 0 10px 22px rgba(94, 72, 130, 0.22);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(94, 72, 130, 0.28);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext { color: var(--muted); font-size: 13px; }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(251,248,252,0.92);
+      border: 1px solid rgba(138, 111, 179, 0.12);
+      box-shadow: 0 10px 26px rgba(70, 45, 100, 0.06);
+    }
+
+    .section h2 { margin: 0 0 12px; font-size: clamp(24px, 4vw, 34px); line-height: 1.35; }
+    .section p { margin: 0 0 12px; }
+
+    #questionsRoot { display: grid; gap: 24px; margin-top: 22px; }
+
+    .question-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fdfafc;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(70, 45, 100, 0.05);
+    }
+
+    .question-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(138,111,179,0.12), rgba(245,238,248,0.5));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .question-index {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: .08em;
+    }
+
+    .question-title { margin: 0 0 6px; font-size: clamp(19px, 2.6vw, 26px); line-height: 1.5; }
+    .question-prompt { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .choices { display: grid; gap: 14px; padding: 18px; }
+
+    .choice {
+      display: block;
+      position: relative;
+      border: 1px solid #e0d6ec;
+      border-radius: 18px;
+      background: #fff;
+      cursor: pointer;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+      overflow: hidden;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      border-color: rgba(138,111,179,0.42);
+      box-shadow: 0 10px 22px rgba(70,45,100,0.08);
+    }
+
+    .choice input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .choice-inner {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      padding: 17px;
+      align-items: center;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice-title {
+      display: block;
+      font-weight: 700;
+      font-size: 15.5px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    .choice input:checked + .choice-inner {
+      background: linear-gradient(135deg, rgba(138,111,179,0.14), rgba(253,251,254,0.94));
+    }
+
+    .choice input:checked + .choice-inner .mark {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+    }
+
+    .choice input:checked + .choice-inner .choice-title {
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .error {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fbeef0;
+      color: #8d3651;
+      border: 1px solid #ecc5cf;
+      font-weight: 700;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fbf8fc, #ebe3f3 70%, #ddc9ef);
+      border: 1px solid rgba(138,111,179,0.2);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker { color: var(--accent-dark); font-weight: 900; letter-spacing: .05em; }
+    .result-title { margin: 6px 0 12px; font-size: clamp(28px, 5vw, 46px); line-height: 1.25; }
+    #resultLead { margin: 0; color: #46414f; }
+
+    .result-block {
+      margin-top: 22px;
+      padding: clamp(20px, 4vw, 30px);
+      border-radius: 20px;
+      background: #fbf8fc;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(70, 45, 100, 0.05);
+    }
+
+    .result-block h3 {
+      margin: 0 0 14px;
+      font-size: clamp(19px, 3vw, 23px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+
+    .result-block p { margin: 0 0 14px; font-size: 15px; line-height: 1.95; color: var(--ink); }
+    .result-block p:last-child { margin-bottom: 0; }
+
+    .caution-block { background: #f6eefb; border-color: rgba(138,111,179,0.28); }
+
+    .steps-list { margin: 0; padding: 0; list-style: none; counter-reset: step; }
+    .steps-list li {
+      position: relative;
+      padding: 12px 0 12px 40px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1px solid var(--line);
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+    }
+
+    .summary-block { background: linear-gradient(135deg, #efe6f7, #fbf8fc); border-color: rgba(138,111,179,0.22); }
+
+    .sheet-grid { display: grid; gap: 12px; margin-top: 4px; }
+    .sheet-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      align-items: start;
+    }
+    .sheet-side {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+    .sheet-scene { font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 4px; letter-spacing: .03em; }
+    .sheet-text { color: var(--ink); font-size: 14.5px; line-height: 1.8; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #efe2f6, #fbf8fc);
+      border: 1px solid rgba(138,111,179,0.2);
+      text-align: center;
+    }
+    .cta-box h3 { margin: 0 0 14px; font-size: clamp(20px,3.4vw,25px); line-height: 1.45; }
+    .cta-box > p { margin: 0 auto 14px; max-width: 680px; color: var(--ink); font-size: 15px; line-height: 1.95; text-align: left; }
+    .cta-box > p:last-child { margin-bottom: 0; }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(70,45,100,0.10); }
+    .link-card b { display: block; color: var(--brown); margin-bottom: 5px; }
+    .link-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    .back-to-hall { margin-top: 18px; text-align: center; }
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+    .back-to-hall a:hover { background: rgba(255,255,255,0.6); color: var(--accent-dark); }
+
+    .footer-note { margin-top: 22px; color: var(--muted); font-size: 13px; text-align: center; line-height: 1.85; }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice-inner { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .sheet-row { grid-template-columns: 1fr; gap: 8px; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+
+    /* ===== 4択相談パネル ===== */
+    .contact-panel {
+      margin-top: 20px;
+      padding: 20px 18px 16px;
+      border-radius: 20px;
+      background: rgba(251,248,252,0.96);
+      border: 1px solid rgba(138,111,179,0.22);
+      box-shadow: 0 8px 24px rgba(94,72,130,0.10);
+      animation: panelIn 0.22s ease;
+    }
+    @keyframes panelIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .contact-card {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      padding: 15px 10px; border-radius: 16px; background: #fff;
+      border: 1px solid rgba(138,111,179,0.16); text-decoration: none; color: var(--ink);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+    }
+    .contact-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,72,130,0.13); border-color: rgba(138,111,179,0.35); }
+    .contact-icon { font-size: 28px; line-height: 1; }
+    .contact-label { font-weight: 900; font-size: 14px; color: var(--accent-dark); letter-spacing: .02em; }
+    .contact-desc  { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.55; }
+    .contact-close {
+      display: block; width: 100%; padding: 10px;
+      border: 1px solid var(--line); border-radius: 999px; background: transparent;
+      color: var(--muted); font-size: 13px; cursor: pointer; font: inherit; transition: background .18s;
+    }
+    .contact-close:hover { background: var(--accent-soft); }
+    /* ===== 萩森の自己開示 1行 ===== */
+    .self-note { margin-top: 22px; padding: 16px 20px; border-radius: 18px; background: var(--accent-soft); border: 1px solid rgba(111,127,99,0.22); border-left: 4px solid var(--accent); }
+    .self-note-label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+    .self-note p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.8; }
+    /* ===== 次のクイズ誘導 ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(255,253,248,0.94); border: 1px solid rgba(111,127,99,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 16px; color: var(--accent-dark); margin-bottom: 14px; text-align: center; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(68,45,26,0.10); border-color: rgba(111,127,99,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 15px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    @media (max-width: 720px) { .next-quiz-grid { grid-template-columns: 1fr; } }
+  </style>
+
+  <meta property="og:title" content="あなたにとって“得する土地”診断｜論理と科学の家づくり占い館">
+  <meta property="og:description" content="世間の評価と、自分の評価を分けて考える。5問でわかる、あなたにとって得する土地の見方。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">土地・敷地のタイプ占い</div>
+      <h1>あなたにとって<br>“得する土地”診断</h1>
+      <p class="lead">世間の評価と、自分の評価を分けて考える</p>
+      <div class="note-box">
+        <p>土地のお得さは、<strong>価格の安さだけ</strong>では決まりません。土地の相場は、多くの人が「この条件なら買ってもよい」と思う価格に近づいていきます。</p>
+        <p>でも、金銭的に得しやすい土地選びは、単に安い土地を探すことではありません。大切なのは、<strong>世間の評価より、自分にとっての評価が高い土地</strong>を見つけることです。</p>
+        <p>一般的には少し評価が下がる条件でも、自分には気にならない。むしろ、自分にとってはプラスになる。そんな土地は、自分にとって“得する土地”になる可能性があります。この診断では、あなたがどんな視点で土地を見るとよいかを占います。</p>
+      </div>
+      <div class="start-area">
+        <a class="button" href="#diagnosis">診断をはじめる</a>
+        <span class="subtext">5問・1分ほどで結果が出ます</span>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <h2>この診断について</h2>
+      <p>土地の相場は、多くの人の評価が集まってできています。だから、人気の条件は価格が高くなり、人気の低い条件は価格が下がります。</p>
+      <p>ここで大切なのは、世間の評価が下がる条件でも、自分には気にならないことがある、ということです。反対に、世間で価値が高い条件でも、自分には必要ないこともあります。</p>
+      <p>この診断では、あなたが土地を「世間の評価」で見るタイプか、「自分の評価」で見るタイプかを、5つの場面から占います。正解や不正解はありません。</p>
+    </section>
+
+    <section class="section" id="diagnosis">
+      <h2>5つの質問</h2>
+      <p>今の気持ちに近いものを選んでください。迷ったら、直感で大丈夫です。</p>
+
+      <form id="diagnosisForm">
+        <div id="questionsRoot"></div>
+
+        <div class="actions">
+          <button class="button" type="submit">診断結果を見る</button>
+          <button class="button secondary" type="button" id="resetButton">選び直す</button>
+        </div>
+        <div class="error" id="errorMessage">未回答の質問があります。5つすべて選んでください。</div>
+      </form>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">あなたの土地の見方を整理しました</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="result-block">
+        <h3>あなたのタイプ</h3>
+        <div id="typeBody"></div>
+      </div>
+
+      <div class="result-block caution-block">
+        <h3>注意したいこと</h3>
+        <div id="cautionBody"></div>
+      </div>
+
+      <div class="result-block">
+        <h3>あなたの選択シート</h3>
+        <p>今回の選び方をまとめると、次のような傾向がありそうです。</p>
+        <div class="sheet-grid" id="sheetGrid"></div>
+      </div>
+
+      <div class="result-block summary-block">
+        <h3>得する土地は、ただ安い土地ではありません</h3>
+        <p>土地のお得さは、価格の安さだけでは決まりません。世間の評価が低くても、自分には気にならない土地。世間の評価が高くても、自分には必要ない価値が価格に乗っている土地。その違いを見分けることが、納得できる土地選びにつながります。</p>
+        <p>大切なのは、世間の評価と、自分の評価を分けて考えることです。そのうえで、建物が建つか。総額が成り立つか。暮らしに合うか。将来困らないか。資産価値をどのくらい重視するか。そこまで見て、自分たちにとって本当に価値のある土地を選んでいきましょう。</p>
+      </div>
+
+      <div class="result-block">
+        <h3>次の一歩</h3>
+        <ol class="steps-list" id="stepsBody"></ol>
+      </div>
+
+      
+
+      <div class="actions">
+        <button class="button secondary" type="button" id="backButton">↻ もう一度診断する</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜この診断は、土地の見方の傾向を見るための簡易チェックです。実際の土地は、建築上の制約・追加費用・周辺環境・総額・将来の資産価値まで含めて確認してください。</p>
+  </main>
+
+  <script>
+
+    const sideMeta = {
+      A: { label: '自分の評価', color: '#b0568f' },
+      B: { label: '世間の評価', color: '#6d5aa6' }
+    };
+
+    const questions = [
+      {
+        id: "q1",
+        scene: "土地・敷地のきほん",
+        title: "少しクセのある土地を見つけたら？",
+        choices: {
+          A: "自分の暮らしに支障がないなら、前向きに考えたい",
+          B: "一般的に評価が下がる条件なら、できれば避けたい"
+        }
+      },
+      {
+        id: "q2",
+        scene: "公園の隣の土地",
+        title: "公園の隣で、少し安い土地がありました。",
+        choices: {
+          A: "公園が近いのは、自分にとってはむしろ魅力",
+          B: "音や人通りが気になるので、慎重に考えたい"
+        }
+      },
+      {
+        id: "q3",
+        scene: "便利な道路沿いの土地",
+        title: "便利な道路沿いで、商売にも向きそうな土地があります。",
+        choices: {
+          A: "自分は住宅用なので、便利さに見合う価格か慎重に見たい",
+          B: "便利な場所なら、高くても価値があると思う"
+        }
+      },
+      {
+        id: "q4",
+        scene: "世間の人気と、自分の相性",
+        title: "世間では人気が低そうでも、自分には合いそうな土地がある。",
+        choices: {
+          A: "自分に合う理由がはっきりしていれば検討したい",
+          B: "将来売ることも考えると、一般的な人気も気になる"
+        }
+      },
+      {
+        id: "q5",
+        scene: "最後の決め手",
+        title: "土地選びで、最後に気になるのは？",
+        choices: {
+          A: "自分たちの暮らしに合っているか",
+          B: "資産価値が維持されやすいか"
+        }
+      }
+    ];
+
+    const types = {
+      jibun: {
+        name: "自分評価発見型",
+        lead: "Aが多いあなたは、世間の評価よりも、自分たちの暮らしに合うかを大切にできるタイプです。",
+        body: [
+          "一般的には少し評価が下がる土地でも、自分にとって気にならない。むしろ、暮らし方に合っている。そんな土地は、価格とのバランスがよい選択肢になることがあります。",
+          "たとえば、公園の隣をにぎやかと感じる人もいれば、子どもと遊びやすい魅力と感じる人もいます。道路沿いの便利さを騒がしいと感じる人もいれば、移動しやすさとして評価する人もいます。",
+          "土地選びで大切なのは、一般的な評価だけでなく、自分たちの暮らしにとってどうかを見ることです。"
+        ],
+        caution: [
+          "自分にとって気にならない条件でも、建築上の問題や追加費用が隠れていることがあります。",
+          "「自分は気にしないから大丈夫」と決める前に、その土地で希望の家が建つか、総額が成り立つかは確認しておきましょう。"
+        ],
+        steps: [
+          "気になる土地の「安い理由」を確認する。",
+          "自分にとって気にならない条件か考える。",
+          "建物・外構・総額まで含めて確認する。"
+        ]
+      },
+      souba: {
+        name: "安心相場重視型",
+        lead: "Bが多いあなたは、一般的に評価されやすい土地条件を大切にするタイプです。",
+        body: [
+          "土地のクセや、好みが分かれる周辺環境よりも、多くの人が納得しやすい条件の土地を選ぶ方が安心しやすいかもしれません。",
+          "このタイプは、土地選びで大きな失敗を避けやすい一方、人気条件の土地を選びやすいため、価格が高くなったり、競争が出やすくなったりします。",
+          "駅や学校に近い。形が整っている。日当たりがよい。周辺環境にクセが少ない。将来売るときにも説明しやすい。こうした土地は、多くの人にとって魅力的なので、価格も下がりにくくなります。"
+        ],
+        caution: [
+          "安心できる土地ほど、土地代が高くなり、建物に使える予算が少なくなることがあります。",
+          "資産価値を重視することは大切ですが、自分たちの暮らしに必要な建物や外構を削りすぎると、家づくり全体の満足度が下がることもあります。",
+          "土地だけで判断せず、建物、外構、諸費用を含めた総額で見ていくことが大切です。"
+        ],
+        steps: [
+          "希望条件の優先順位を整理する。",
+          "人気土地を見つけたときに早く判断できる準備をする。",
+          "土地代と建物代のバランスを確認する。"
+        ]
+      },
+      balance: {
+        name: "バランス確認型",
+        lead: "AとBが分かれたあなたは、世間の評価と自分の評価の両方を見ながら土地を選びたいタイプです。",
+        body: [
+          "このタイプは、土地選びで迷いやすい一方、きちんと整理できると、納得感のある選び方ができます。",
+          "大切なのは、世間ではどう評価されるか、と、自分たちの暮らしにはどう影響するか、を分けて考えることです。一般的には少し評価が下がる条件でも、自分には気にならないなら、前向きに考えられます。反対に、自分には必要ない条件に高い価格がついているなら、それは少し割高かもしれません。",
+          "また、資産価値を重視することと、自分たちの暮らしやすさを重視することは、いつも同じ方向を向くとは限りません。土地選びは、「良い土地か悪い土地か」だけではなく、自分たちにとって、価格と価値が合っているかを見ることが大切です。"
+        ],
+        caution: [
+          "迷いやすいタイプだからこそ、土地ごとに判断軸を持っておくと安心です。",
+          "世間ではどう評価される条件か。自分たちにはプラスかマイナスか。建築上の問題はないか。総額として無理がないか。将来の資産価値をどのくらい重視するか。",
+          "この5つを分けて見ると、判断しやすくなります。"
+        ],
+        steps: [
+          "土地条件を「世間の評価」と「自分の評価」に分ける。",
+          "気になる土地ごとに、価格と価値のズレを見る。",
+          "建築側から、家づくりに影響する条件を確認する。"
+        ]
+      }
+    };
+
+    const questionsRoot = document.getElementById("questionsRoot");
+    const form = document.getElementById("diagnosisForm");
+    const result = document.getElementById("result");
+    const errorMessage = document.getElementById("errorMessage");
+    const resetButton = document.getElementById("resetButton");
+    const backButton = document.getElementById("backButton");
+
+    function renderQuestions() {
+      questionsRoot.innerHTML = questions.map((q, index) => {
+        const choicesHtml = Object.entries(q.choices).map(([key, label]) => `
+          <label class="choice">
+            <input type="radio" name="${q.id}" value="${key}" />
+            <span class="choice-inner">
+              <span class="mark">${key}</span>
+              <span class="choice-title">${label}</span>
+            </span>
+          </label>
+        `).join("");
+
+        return `
+          <article class="question-card">
+            <div class="question-head">
+              <span class="question-index">Q${index + 1}</span>
+              <h3 class="question-title">${q.title}</h3>
+              <p class="question-prompt">${q.scene}</p>
+            </div>
+            <div class="choices">${choicesHtml}</div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function getAnswers() {
+      const answers = {};
+      for (const q of questions) {
+        const checked = form.querySelector(`input[name="${q.id}"]:checked`);
+        if (!checked) return null;
+        answers[q.id] = checked.value;
+      }
+      return answers;
+    }
+
+    // A の数で判定：A 4-5 → 自分評価発見型 ／ A 0-1 → 安心相場重視型 ／ A 2-3 → バランス確認型
+    function pickType(answers) {
+      const a = Object.values(answers).filter(v => v === "A").length;
+      if (a >= 4) return "jibun";
+      if (a <= 1) return "souba";
+      return "balance";
+    }
+
+    function renderParagraphs(arr) {
+      return arr.map(t => `<p>${t}</p>`).join("");
+    }
+
+    function renderResult(answers) {
+      const typeKey = pickType(answers);
+      const t = types[typeKey];
+
+      document.getElementById("resultTitle").textContent = `あなたは「${t.name}」`;
+      document.getElementById("resultLead").textContent = t.lead;
+      document.getElementById("typeBody").innerHTML = renderParagraphs(t.body);
+      document.getElementById("cautionBody").innerHTML = renderParagraphs(t.caution);
+      document.getElementById("stepsBody").innerHTML = t.steps.map(s => `<li>${s}</li>`).join("");
+
+      const sheetGrid = document.getElementById("sheetGrid");
+      sheetGrid.innerHTML = questions.map(q => {
+        const ans = answers[q.id];
+        const meta = sideMeta[ans];
+        return `
+          <div class="sheet-row" style="border-left-color:${meta.color}">
+            <div><span class="sheet-side" style="background:${meta.color}">${meta.label}</span></div>
+            <div>
+              <div class="sheet-scene">${q.scene}</div>
+              <div class="sheet-text">${q.choices[ans]}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+
+      result.style.display = "block";
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const answers = getAnswers();
+      if (!answers) {
+        errorMessage.style.display = "block";
+        return;
+      }
+      errorMessage.style.display = "none";
+      renderResult(answers);
+    });
+
+    function resetDiagnosis() {
+      form.reset();
+      result.style.display = "none";
+      errorMessage.style.display = "none";
+      document.getElementById("diagnosis").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    resetButton.addEventListener("click", resetDiagnosis);
+    backButton.addEventListener("click", resetDiagnosis);
+
+    renderQuestions();
+  </script>
+  </body>
+</html>
