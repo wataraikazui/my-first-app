@@ -1,0 +1,1030 @@
+<!doctype html>
+<!--
+  YKTラボ｜住宅ローンは、インフレに強い
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>住宅ローンは、インフレに強い｜YKTラボ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {pointer-events:none;
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .feedback p { margin: 0; line-height: 1.95; }
+
+    /* Q3 のように本文へブロック要素を入れる解説用コンテナ */
+    .fb-body { line-height: 1.95; }
+    .fb-body p { margin: 0 0 12px; line-height: 1.95; }
+    .fb-body p:last-child { margin-bottom: 0; }
+    .fb-body strong { color: var(--accent-dark); }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    /* Q3：インフレ vs デフレ 比較表とグラフ */
+    .q3-table-wrap { overflow-x: auto; margin: 16px 0; -webkit-overflow-scrolling: touch; }
+    .q3-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 440px; }
+    .q3-table caption { caption-side: top; text-align: left; font-weight: 900; color: var(--accent-dark); font-size: 14px; margin-bottom: 8px; }
+    .q3-table th, .q3-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: center; line-height: 1.5; }
+    .q3-table thead th { background: var(--accent-soft); color: var(--accent-dark); }
+    .q3-table tbody th { background: rgba(111,127,99,0.07); text-align: left; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .q3-table td.hl { font-weight: 900; color: #4d46a8; background: rgba(127,119,221,0.10); }
+    .q3-table td.flip { font-weight: 900; color: #4d46a8; background: rgba(127,119,221,0.18); }
+    .q3-table td.calm { font-weight: 900; color: #6f665b; background: rgba(136,135,128,0.13); }
+    .q3-chart { margin: 18px 0 6px; padding: 14px 10px 8px; background: #fff; border: 1px solid var(--line); border-radius: 16px; }
+    .q3-chart svg { display: block; width: 100%; height: auto; }
+    .q3-note { margin: 14px 0 0; padding: 12px 14px; border-left: 3px solid var(--line); background: rgba(255,255,255,0.6); color: var(--muted); font-size: 12.5px; line-height: 1.85; border-radius: 0 10px 10px 0; }
+    .q3-note p { margin: 0; }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    /* 5つの視点ボックス（結果画面の見出し直下） */
+    .takeaways {
+      margin-top: 22px;
+      padding: clamp(22px, 4vw, 30px);
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .takeaways h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--accent-dark);
+    }
+    .takeaways ol {
+      margin: 0;
+      padding-left: 1.5em;
+      counter-reset: tk;
+    }
+    .takeaways ol li {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .takeaways ol li:last-child { margin-bottom: 0; }
+    .takeaways .takeaways-note {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* 個別の振り返り（各問の詳しい解説） */
+    .review-block {
+      margin-top: 24px;
+    }
+    .review-block h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--accent-dark);
+      letter-spacing: .02em;
+    }
+    .result-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row .q-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .result-row .q-meta .q-num {
+      display: block;
+      font-size: 18px;
+      color: var(--accent-dark);
+      margin-bottom: 2px;
+    }
+    .result-row .q-meta .q-status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+    .result-row .q-question {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+    .result-row .q-headline {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .result-row .q-summary {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.95;
+    }
+    .result-row .q-summary p { margin: 0 0 10px; }
+    .result-row .q-summary p:last-child { margin-bottom: 0; }
+    .result-row .q-summary strong { color: var(--accent-dark); }
+
+    /* 最後のまとめ（CTAボックス直前） */
+    .closing {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 22px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .closing h3 {
+      margin: 0 0 14px;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+    .closing p {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+    .closing p:last-child { margin-bottom: 0; }
+    .closing-points {
+      margin: 0 0 16px;
+      padding: 16px 20px 16px 36px;
+      background: var(--accent-soft);
+      border-radius: 14px;
+      list-style: disc;
+    }
+    .closing-points li {
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .closing-points li:last-child { margin-bottom: 0; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+
+    /* 4択相談パネル */
+    .contact-panel { margin-top:18px; animation:panelFade .22s ease; }
+    @keyframes panelFade { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+    .contact-card { display:flex; flex-direction:column; align-items:center; gap:5px; padding:15px 10px; border-radius:16px; background:#fff; color:var(--ink); border:1px solid var(--line); text-decoration:none; transition:transform .18s ease,box-shadow .18s ease; }
+    .contact-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(68,45,26,.10); }
+    .contact-icon  { font-size:26px; line-height:1; }
+    .contact-label { font-size:13px; font-weight:900; color:var(--accent-dark); letter-spacing:.04em; }
+    .contact-desc  { font-size:11px; color:var(--muted); text-align:center; line-height:1.55; }
+    .contact-close { display:block; width:100%; padding:11px; border:1px solid var(--line); border-radius:999px; background:transparent; color:var(--muted); font:inherit; font-size:12.5px; cursor:pointer; transition:background .18s; }
+    .contact-close:hover { background:var(--accent-soft); }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+    /* ===== 次のクイズ誘導（第2部への導線） ===== */
+    .next-quiz { margin-top: 24px; padding: clamp(20px,4vw,28px); border-radius: 22px; background: rgba(255,253,248,0.94); border: 1px solid rgba(111,127,99,0.16); }
+    .next-quiz-label { font-weight: 900; font-size: 18px; color: var(--accent-dark); margin-bottom: 12px; text-align: center; }
+    .next-quiz p { margin: 0 0 12px; color: var(--ink); font-size: 15px; line-height: 1.95; }
+    .next-quiz p:last-of-type { margin-bottom: 16px; }
+    .next-quiz-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .next-quiz-card { display: block; padding: 18px; border-radius: 16px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease, border-color .18s; }
+    .next-quiz-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(68,45,26,0.10); border-color: rgba(111,127,99,0.35); }
+    .next-quiz-card b { display: block; color: var(--accent-dark); margin-bottom: 5px; font-size: 16px; }
+    .next-quiz-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">お金のきほんクイズ</div>
+      <h1>住宅ローンは、<br>インフレに強い</h1>
+      <p class="lead">5問でわかる、住宅ローンと物価の関係</p>
+      <div class="note-box">
+        住宅ローンは「借金＝避けるべきもの」というのが、昔からの考え方です。<br><br>
+        でも、物価が上がる時代では、住宅ローンは「時間を味方にする道具」として働きます。返済の重み（家計に占める割合）は、物価と給料の動きのなかで自然に下がっていく。<br>
+        <strong>三択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>三択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <div class="fb-body" id="feedbackText"></div>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="takeaways">
+        <h3>覚えておきたい、5つの視点</h3>
+        <ol>
+          <li>同じ名目の返済は、時間とともに「軽く」なっていく</li>
+          <li>物価上昇は、住宅ローンの実質負担を目減りさせる</li>
+          <li>分母（年収）が増えれば、住宅ローンの重みは自動的に小さくなる</li>
+          <li>物価が上がる時代、「待つこと」は買う力を捨てること</li>
+          <li>金利が物価を大幅に超えない限り、住宅ローンは時間の味方</li>
+        </ol>
+        <p class="takeaways-note">
+          住宅ローンは、デフレ時代の感覚では「重みが変わらない借金」でした。でも、物価が上がる時代では、返済の名目が大きく動かない範囲では、家計に占める割合は自然に下がっていきます。<br>
+          「待ってから買う」より「今、住宅ローンを組んで買う」方が、構造的に有利になりやすい時代です。<br><br>
+          ※本クイズは、インフレ率2%／ベースアップ＝インフレ率／金利水準＝インフレ率＋0.5%、という世界観での仮想シミュレーションです。この前提が崩れたときのリスクヘッジは、Q5の解説でふれています。
+        </p>
+      </div>
+
+      <div class="review-block">
+        <h3>各問のふりかえり</h3>
+        <div class="result-list" id="resultList"></div>
+      </div>
+
+      <div class="closing">
+        <h3>ローンは敵か、味方か</h3>
+        <p>「借金は避けるべきもの」というのは、デフレ時代に育った世代の体感です。物価が上がらない、給料も上がらない世界では、借金は重みが変わらないまま重く残り続けます。</p>
+        <p>でも、物価が上がる時代では、住宅ローンは構造的に<strong>借り手有利</strong>の側へ働く道具になります。返済の名目額が大きく動かない範囲では、家計の分母（年収）は増え、貯金の購買力は目減りする。「待つ」より「今買う」方が、相対的に合理的になります。</p>
+        <p>ただし、この構造が成立する条件は2つあります。</p>
+        <ul class="closing-points">
+          <li><strong>①金利の動きが、物価の動きに見合っていること</strong>（実質金利が大幅に上昇しない）</li>
+          <li><strong>②自分の収入が、物価上昇に追いつく形で増えること</strong>（ベースアップが効く）</li>
+        </ul>
+        <p>①は経済環境の問題で、現代の日本では基本的には成立する状況です。一方、<strong>②は職業・働き方による構造的な問題</strong>。あなたの収入は、物価上昇に追いつく形で増えていくでしょうか。</p>
+      </div>
+<div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、物価と住宅ローンの関係をやさしく知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+
+    var q3Explanation = [
+      '<p>まず、同じ5000万円の借入を、物価も給料も2%で上がる「インフレ世界」（金利2.5%）と、どちらも上がらない「デフレ世界」（金利0.5%）で並べてみます。</p>',
+      '<div class="q3-note"><p><strong>このクイズの世界観（前提）</strong>：インフレ（物価上昇率）＝ 2%／給料のベースアップ ＝ 物価上昇率と同じ／金利水準 ＝ 物価上昇率 ＋ 0.5%。インフレ世界では2.5%、デフレ世界（物価上昇0%）では0.5%が金利となります。本シミュレーションでは、月返済額は契約時の名目（インフレ164,900円／デフレ114,900円）で一定としています。</p></div>',
+      '<div class="q3-table-wrap"><table class="q3-table">',
+      '<caption>設定</caption>',
+      '<thead><tr><th>項目</th><th>インフレ世界</th><th>デフレ世界</th></tr></thead>',
+      '<tbody>',
+      '<tr><th>借入</th><td>5000万円</td><td>5000万円</td></tr>',
+      '<tr><th>金利</th><td>2.5%</td><td>0.5%</td></tr>',
+      '<tr><th>期間</th><td>40年</td><td>40年</td></tr>',
+      '<tr><th>月返済額</th><td>164,900円</td><td>114,900円</td></tr>',
+      '<tr><th>年収（初年度・30歳）</th><td>606万円</td><td>606万円</td></tr>',
+      '<tr><th>物価上昇率</th><td>2%</td><td>0%</td></tr>',
+      '<tr><th>ベースアップ</th><td>2%</td><td>0%</td></tr>',
+      '<tr><th>初年度返済負担率</th><td class="hl">32.7%</td><td class="calm">22.8%</td></tr>',
+      '</tbody></table></div>',
+      '<div class="q3-table-wrap"><table class="q3-table">',
+      '<caption>推移（10年ごと、40年完済まで）</caption>',
+      '<thead><tr><th>年齢</th><th>インフレ世界<br>年収 / 負担率</th><th>デフレ世界<br>年収 / 負担率</th></tr></thead>',
+      '<tbody>',
+      '<tr><th>30歳</th><td class="hl">606万円 / 32.7%</td><td>606万円 / 22.8%</td></tr>',
+      '<tr><th>40歳</th><td>739万円 / 26.8%</td><td>606万円 / 22.8%</td></tr>',
+      '<tr><th>50歳</th><td class="flip">900万円 / 22.0% ← 逆転</td><td class="calm">606万円 / 22.8%</td></tr>',
+      '<tr><th>60歳</th><td>1,097万円 / 18.0%</td><td>606万円 / 22.8%</td></tr>',
+      '<tr><th>70歳</th><td class="hl">1,338万円 / 14.8%</td><td class="calm">606万円 / 22.8%</td></tr>',
+      '</tbody></table></div>',
+      '<div class="q3-chart">',
+      '<svg viewBox="0 0 620 400" role="img" aria-label="返済負担率の推移グラフ。インフレ世界は30歳32.7%から70歳14.8%まで下がり、デフレ世界は22.8%で横ばい。50歳付近で逆転する。" xmlns="http://www.w3.org/2000/svg">',
+      '<text x="328" y="28" text-anchor="middle" font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="15" font-weight="800" fill="#43513c">返済負担率の推移：インフレ vs デフレ（20年で逆転）</text>',
+      // gridlines + y labels (0..35 step5)
+      '<g stroke="#e7dac9" stroke-width="1">',
+      '<line x1="60" y1="316" x2="596" y2="316"/><line x1="60" y1="280" x2="596" y2="280"/><line x1="60" y1="244" x2="596" y2="244"/><line x1="60" y1="208" x2="596" y2="208"/><line x1="60" y1="172" x2="596" y2="172"/><line x1="60" y1="136" x2="596" y2="136"/><line x1="60" y1="100" x2="596" y2="100"/><line x1="60" y1="64" x2="596" y2="64"/>',
+      '</g>',
+      '<g font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="11" fill="#9a8f7f" text-anchor="end">',
+      '<text x="52" y="320">0</text><text x="52" y="284">5</text><text x="52" y="248">10</text><text x="52" y="212">15</text><text x="52" y="176">20</text><text x="52" y="140">25</text><text x="52" y="104">30</text><text x="52" y="68">35</text>',
+      '</g>',
+      '<text x="22" y="190" transform="rotate(-90 22 190)" text-anchor="middle" font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="11" fill="#9a8f7f">返済負担率（%）</text>',
+      // axes
+      '<line x1="60" y1="64" x2="60" y2="316" stroke="#cbb89f" stroke-width="1.5"/>',
+      '<line x1="60" y1="316" x2="596" y2="316" stroke="#cbb89f" stroke-width="1.5"/>',
+      // crossover guide at 50歳 (x=328)
+      '<line x1="328" y1="64" x2="328" y2="316" stroke="#c9c0e6" stroke-width="1" stroke-dasharray="4,3"/>',
+      '<text x="328" y="52" text-anchor="middle" font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="11" font-weight="800" fill="#4d46a8">20年付近で逆転</text>',
+      // deflation line (gray, behind)
+      '<polyline points="60,151.8 194,151.8 328,151.8 462,151.8 596,151.8" fill="none" stroke="#888780" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+      // inflation line (blue)
+      '<polyline points="60,80.6 194,123 328,157.6 462,186.4 596,209.4" fill="none" stroke="#7F77DD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+      // deflation markers
+      '<g fill="#888780" stroke="#fff" stroke-width="1.5">',
+      '<circle cx="60" cy="151.8" r="4"/><circle cx="194" cy="151.8" r="4"/><circle cx="328" cy="151.8" r="4"/><circle cx="462" cy="151.8" r="4"/><circle cx="596" cy="151.8" r="4"/>',
+      '</g>',
+      // inflation markers
+      '<g fill="#7F77DD" stroke="#fff" stroke-width="1.5">',
+      '<circle cx="60" cy="80.6" r="4.5"/><circle cx="194" cy="123" r="4.5"/><circle cx="328" cy="157.6" r="4.5"/><circle cx="462" cy="186.4" r="4.5"/><circle cx="596" cy="209.4" r="4.5"/>',
+      '</g>',
+      // inflation data labels (above)
+      '<g font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="11.5" font-weight="800" fill="#4d46a8" text-anchor="middle">',
+      '<text x="66" y="70">32.7%</text><text x="194" y="112">26.8%</text><text x="334" y="147">22.0%</text><text x="462" y="176">18.0%</text><text x="590" y="199">14.8%</text>',
+      '</g>',
+      // deflation single label
+      '<text x="500" y="168" text-anchor="middle" font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="11.5" font-weight="800" fill="#6f665b">22.8%（変わらない）</text>',
+      // x labels
+      '<g font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="12" fill="#6f665b" text-anchor="middle">',
+      '<text x="60" y="338">30歳</text><text x="194" y="338">40歳</text><text x="328" y="338">50歳</text><text x="462" y="338">60歳</text><text x="596" y="338">70歳</text>',
+      '</g>',
+      // legend
+      '<rect x="120" y="360" width="14" height="14" rx="3" fill="#7F77DD"/>',
+      '<text x="140" y="371" font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="12" fill="#43513c">インフレ世界（金利2.5%・ベア2%）</text>',
+      '<rect x="120" y="382" width="14" height="14" rx="3" fill="#888780"/>',
+      '<text x="140" y="393" font-family="-apple-system,\'Hiragino Sans\',sans-serif" font-size="12" fill="#43513c">デフレ世界（金利0.5%・ベア0%）</text>',
+      '</svg>',
+      '</div>',
+      '<p>ポイントは、<strong>分母（年収）が大きくなる一方、分子（返済額）は前提のもとで一定であること</strong>。物価と給料が同じペースで上がる「インフレ世界」では、年収が40年で約2倍に増えます。本シミュレーションでは月返済額を164,900円で一定としているため、家計に占める割合は自動的に下がっていきます。</p>',
+      '<p>同じ164,900円の返済でも、年収606万円のときは家計の32.7%を占めますが、年収1,338万円になれば14.8%にすぎません。</p>',
+      '<p>一方、「デフレ世界」（過去30年の日本がこれに近い）では、給料が増えないので、住宅ローンの割合も変わりません。</p>',
+      '<p>そして注目すべきは、<strong>20年付近で「軽さ」が逆転すること</strong>。目先の金利の低さだけで見るか、時間とともに変わっていく重みも合わせて見るか。住宅ローンの本当の重さは、最初の数字だけでは測れません。</p>',
+      '<p><strong>ただし、この話は「ベースアップが効く」という前提に依存します。</strong>あなたの収入は、物価上昇に追いつく形で増えていくでしょうか。</p>',
+      '<div class="q3-note"><p>※ここでの「ベースアップ」は、物価上昇に応じた賃金水準の引き上げ部分のみ。実際の年収にはこれに加えて、定期昇給・昇進・転職などによる賃金アップも乗ります。本表はそれを除いた厳し目の前提なので、実際のインフレ世界では負担率がさらに下がる可能性もあります。</p></div>'
+    ].join("");
+
+    const questions = [
+      {
+        title: "物価が毎年2%上がる世界で、月10万円の住宅ローンを30年間払い続けると…",
+        choices: {
+          A: "30年後も同じ10万円の重みのまま",
+          B: "30年後にはもっと重く感じる",
+          C: "30年後には、今より軽く感じる"
+        },
+        correct: "C",
+        explanation: "<p>ここでは、月10万円という名目の返済額が変わらず続く前提です。物価が上がる時代では、お金の価値そのものが下がっていきます。</p><p>月10万円という金額が変わらなくても、その10万円の「重み」（購買力）は、時間とともに目減りしていきます。</p><p>※実際の返済額が金利の動き等でどう変わるかは別の論点で、Q3・Q5でもう一度ふれます。</p>",
+        remember: "同じ名目の返済は、時間とともに「軽く」なっていく。"
+      },
+      {
+        title: "4000万円を金利1.5%・35年で借りた人の名目総返済額は約5,144万円。物価が年2%上がる世界では、この5,144万円は「今のお金」で言うといくらに相当する？",
+        choices: {
+          A: "約5,144万円（変わらない）",
+          B: "約4,500万円",
+          C: "約3,686万円"
+        },
+        correct: "C",
+        explanation: "<p>名目では5,144万円ですが、これは銀行に「物価が上がっていく未来のお金で」返している額。今の購買力で換算すると約3,686万円相当にすぎません。</p><p>差額の約1,460万円は、<strong>インフレが借り手に渡している「実質値引き」</strong>と言えます。住宅ローンの利息1,144万円が、インフレによって実質的に吸収されている構造です。</p><div class=\"q3-note\"><p>※金利が1.5%のまま、インフレ率が2%のまま続いた場合の仮想シミュレーションです。実際は金利・物価ともに変動しますし、両者の関係も時代によって動きます。</p></div>",
+        remember: "物価上昇は、住宅ローンの実質負担を目減りさせる。"
+      },
+      {
+        title: "同じ借入を、物価と給料が上がる「インフレ世界」と、両方とも上がらない「デフレ世界」で比べると、住宅ローン返済の負担感（家計に占める割合）は時間とともにどう変わる？",
+        choices: {
+          A: "どちらの世界も、変わらないまま",
+          B: "デフレ世界の方が、ずっと軽いまま",
+          C: "最初はデフレ世界が軽いが、時間とともにインフレ世界の方が軽くなる"
+        },
+        correct: "C",
+        explanation: q3Explanation,
+        remember: "分母（年収）が増えれば、住宅ローンの重みは自動的に小さくなる。"
+      },
+      {
+        title: "物価が毎年2%上がる世界。今4000万円の家を、10年待ってから買おうとすると、いくら必要？",
+        choices: {
+          A: "4000万円のまま",
+          B: "約4,880万円",
+          C: "わからない"
+        },
+        correct: "B",
+        explanation: "<p>物価が年2%で10年続けば、家は約4,880万円に。さらに難しいのは貯金の側。利息なしで4,000万円を10年寝かせると、額は変わらなくても購買力は約3,281万円相当まで目減りします。</p><p>つまり「待つこと」には<strong>物件価格が上がるコスト</strong>と<strong>貯金の購買力が下がるコスト</strong>の二重の不利があります。デフレ時代には合理的だった「待ってから買う」戦略が、インフレ時代には構造的に分が悪い選択になります。</p>",
+        remember: "物価が上がる時代、「待つこと」は買う力を捨てること。"
+      },
+      {
+        title: "このように、インフレ世界では「住宅ローンは時間が味方になる」という構造。これが成立しなくなるのはどんなとき？",
+        choices: {
+          A: "変動金利で借りているとき",
+          B: "金利の上昇が、物価上昇を大きく上回ったとき",
+          C: "物価上昇率が高くなったとき"
+        },
+        correct: "B",
+        explanation: "<p>「変動金利だから危険」（A）、「物価上昇率が高いと負担が増える」（C）というのは、よくある誤解です。</p><p>「時間が味方になる」構造は、<strong>金利が物価の動きに見合っている限り</strong>（実質金利が安定している限り）、固定でも変動でも、物価上昇率の大小によらず、同じように成立します。</p><p>成立しなくなるのは、<strong>金利の上昇が物価上昇を大きく上回る</strong>特殊な局面です。たとえば1980年代の米国で、中央銀行がインフレ退治のために政策金利を大幅に引き上げたケース。このような局面でだけ、変動金利は不利になります。</p><p>今の日本では、物価上昇2%程度のニュースが続いていますが、金利が2%を大幅に超える局面はまだ現実味が薄い状況です。<strong>住宅ローンを組む現代の借り手にとって、「時間が味方になる」構造は、固定でも変動でも、基本的には成立する状況にあります。</strong></p><p><strong>ここまでの「世界観」を整理しておきます。</strong>このクイズの解説は、次の3点を前提にした仮想シミュレーションです。</p><ul class=\"closing-points\"><li>インフレ（物価上昇率）＝ 2%</li><li>給料のベースアップ ＝ 物価上昇率と同じ（＝ 2%）</li><li>金利水準 ＝ 物価上昇率 ＋ 0.5%</li></ul><p>もしこの世界観が崩れた場合は、それぞれリスクヘッジが必要になります。</p><ul class=\"closing-points\"><li><strong>インフレが続かず、デフレに戻る場合</strong>　⇒　借入額そのものを抑えておく。時間が味方にならない分、元本の絶対額で効いてきます。</li><li><strong>金利がインフレ率を大きく上回る場合</strong>　⇒　固定金利を選んでおく。返済額の上ぶれを契約時に閉じておきます。</li></ul><p>固定か変動か、借入額をどこに置くかは、これ単独で決める話ではありません。自分が想定する世界観、収入の安定度、家計のバッファとの組み合わせで、ケースごとに判断するものです。</p>",
+        remember: "金利が物価を大幅に超えない限り、住宅ローンは時間の味方。"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.innerHTML = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.innerHTML = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+
+      if (score === 5) {
+        resultTitle.textContent = "インフレと住宅ローンの構造が、はっきり見えています";
+        resultLead.textContent = "返済の名目額が大きく動かない範囲では、分母（年収）が増えれば家計に占める割合は自動的に下がる。「待つ」より「今買う」方が相対的に有利になる──その筋道が、ぶれずに整理できています。あとは、ご自身の借入額・金利タイプの選び方、収入が物価に追いつくかどうか、世界観が崩れたときのリスクヘッジを、具体的な数字で一度確かめてみてください。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "大事な視点は、見えてきました";
+        resultLead.textContent = "インフレと住宅ローンの関係が、少しずつ整理されてきています。特に「同じ名目の返済は時間とともに軽くなる」「分母（年収）が増えれば住宅ローンの重みは自動的に小さくなる」、この2点を覚えておくと、金利タイプや借入額、いつ買うかの判断がしやすくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "インフレと住宅ローンの話は、金利や物価の数字のなかに埋もれがちです。まずは「同じ名目の返済は、時間とともに軽くなっていく」「物価が上がる時代、待つことは買う力を捨てること」、この2点を覚えておきましょう。気になることがあれば、契約前に話しかけてみてください。";
+      }
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div class="q-meta">
+              <span class="q-num">Q${index + 1}</span>
+              <span class="q-status">${status}</span>
+            </div>
+            <div>
+              <p class="q-question">${q.title}</p>
+              <b class="q-headline">${q.remember}</b>
+              <div class="q-summary">${q.explanation}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+</body>
+</html>

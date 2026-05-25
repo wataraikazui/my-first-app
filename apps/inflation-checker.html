@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<!--
+  YKTラボ｜家計のインフレ耐性チェッカー
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家計のインフレ耐性チェッカー｜YKTラボ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+<style>
+:root {
+  --bg: #f8f5ee;
+  --surface: #ffffff;
+  --border: #e5dfd0;
+  --border-strong: #d4cdb6;
+  --text: #2a2a26;
+  --text-muted: #6b6b65;
+  --primary: #2d5f3f;
+  --primary-tint: rgba(45, 95, 63, 0.10);
+  --accent: #c97b50;
+  --accent-tint: rgba(201, 123, 80, 0.12);
+  --highlight-bg: #f3eddd;
+  --headline-bg: #ede4cd;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 760px; margin: 0 auto; }
+header { text-align: center; padding: 24px 0 14px; }
+h1 { font-size: 22px; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: var(--text-muted); }
+section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+/* インフレ率＝主役の特別枠 */
+.hero {
+  background: var(--headline-bg);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  padding: 22px 20px 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.hero-eyebrow { font-size: 11px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+.hero-label { font-size: 15px; font-weight: 600; color: var(--text); margin: 6px 0 14px; }
+.hero-input { display: inline-flex; align-items: baseline; gap: 6px; }
+.hero-input input {
+  width: 130px; font-size: 36px; font-weight: 700; text-align: center;
+  border: none; border-bottom: 2px solid var(--accent); background: transparent;
+  color: var(--primary); font-family: inherit; padding: 2px 4px;
+}
+.hero-input input:focus { outline: none; border-bottom-color: var(--primary); }
+.hero-unit { font-size: 18px; color: var(--text-muted); font-weight: 600; }
+.hero-note { font-size: 11.5px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+
+.inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.input-block { margin-bottom: 20px; }
+.input-block:last-child { margin-bottom: 0; }
+.input-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 12px;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+.chart-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.input-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.input-field .hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+.real-rate-tag {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-tint);
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.input-with-unit { position: relative; }
+.input-with-unit input {
+  width: 100%;
+  padding: 9px 38px 9px 11px;
+  font-size: 15px;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.input-with-unit input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-tint);
+}
+.input-with-unit input[readonly] {
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  border-style: dashed;
+  border-color: var(--border);
+}
+.input-with-unit input[readonly]:focus {
+  box-shadow: none;
+  border-color: var(--border);
+}
+.input-with-unit .unit {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* サマリー：借入可能金額をヘッドライン化 */
+.summary-headline {
+  background: var(--headline-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.summary-headline-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+.summary-headline-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.summary-headline-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+.summary-headline-sub strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.stat {
+  background: var(--highlight-bg);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.stat.accent { background: var(--accent-tint); }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.stat-value { font-size: 20px; font-weight: 600; color: var(--primary); line-height: 1.2; }
+.stat.accent .stat-value { color: var(--accent); }
+.stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+.chart-wrap { position: relative; width: 100%; height: 240px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td {
+  padding: 9px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+th:first-child, td:first-child { text-align: left; }
+th {
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+tr.highlight-row td {
+  background: var(--highlight-bg);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* 欄外の注記ボックス */
+.disclaimer-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 15px 17px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+.disclaimer-box strong { color: var(--text); font-weight: 600; }
+
+footer { padding: 24px 8px 8px; color: var(--text-muted); font-size: 12px; text-align: center; }
+footer p { margin: 6px 0; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.footer-divider { border-top: 1px solid var(--border); margin: 14px 0; }
+@media (max-width: 480px) {
+  h1 { font-size: 19px; }
+  section { padding: 14px; }
+  .stat-value { font-size: 18px; }
+  .summary-headline-value { font-size: 26px; }
+  .summary-headline { padding: 16px 14px; }
+  .hero-input input { width: 110px; font-size: 30px; }
+  table { font-size: 12px; }
+  th, td { padding: 7px 7px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>家計のインフレ耐性チェッカー</h1>
+    <p class="subtitle">物価が上がり続けたとき、住宅ローンの返済負担は家計のなかでどう変わっていくのか</p>
+  </header>
+
+  <!-- 主役：インフレ率 -->
+  <div class="hero">
+    <div class="hero-eyebrow">この試算の主役</div>
+    <div class="hero-label">物価上昇率（インフレ率）</div>
+    <div class="hero-input">
+      <input type="number" id="inflation" value="2.0" step="0.1">
+      <span class="hero-unit">％ / 年</span>
+    </div>
+    <div class="hero-note">物価がこのペースで上がり続けたら、家計に占める住宅ローン返済の割合はどう動くか――を見ます。</div>
+  </div>
+
+  <section>
+    <div class="section-title">条件を入力</div>
+
+    <div class="input-block">
+      <div class="input-subtitle">あなたについて</div>
+      <div class="inputs-grid">
+
+        <div class="input-field">
+          <label for="age">現在年齢</label>
+          <div class="input-with-unit"><input type="number" id="age" value="35"><span class="unit">歳</span></div>
+        </div>
+
+        <div class="input-field">
+          <label for="income">現在年収</label>
+          <div class="input-with-unit"><input type="number" id="income" value="600" step="50"><span class="unit">万円</span></div>
+          <div class="hint">いまの感覚（現在価値）で入力</div>
+        </div>
+
+        <div class="input-field">
+          <label for="income60">60歳の年収</label>
+          <div class="input-with-unit"><input type="number" id="income60" value="900" step="50"><span class="unit">万円</span></div>
+          <div class="hint">最高年収の予想を「いまの感覚」で。現在→60歳へ上昇、60〜65歳は横ばいとして計算</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="input-block">
+      <div class="input-subtitle">ローンと経済環境</div>
+      <div class="inputs-grid">
+
+        <div class="input-field">
+          <label for="rate">住宅ローン金利</label>
+          <div class="input-with-unit"><input type="number" id="rate" value="2.5" step="0.1"><span class="unit">%/年</span></div>
+          <div class="hint">デフォルトはインフレ率＋0.5%（インフレ率に追従、手入力後は固定）</div>
+        </div>
+
+        <div class="input-field">
+          <label for="years">ローン期間</label>
+          <div class="input-with-unit"><input type="number" id="years" value="40" readonly tabindex="-1"><span class="unit">年</span></div>
+          <div class="hint">75歳完済・上限40年（75−現在年齢、最長40年）として自動設定</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">サマリー</div>
+
+    <div class="summary-headline">
+      <div class="summary-headline-label">借入可能金額（返済負担率30%スタートで借りられる目安）</div>
+      <div class="summary-headline-value" id="loanable">—</div>
+      <div class="summary-headline-sub">毎月の返済は <strong id="mpay">—</strong>（名目で固定）</div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="stat">
+        <div class="stat-label">借入時の返済負担率</div>
+        <div class="stat-value" id="bstart">—</div>
+        <div class="stat-sub">スタート時の設定</div>
+      </div>
+      <div class="stat accent">
+        <div class="stat-label">一番低い返済負担率</div>
+        <div class="stat-value" id="bmin">—</div>
+        <div class="stat-sub" id="bminAge"></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">名目総返済額</div>
+        <div class="stat-value" id="ntot">—</div>
+        <div class="stat-sub">現在価値で <span id="rtot">—</span> 相当</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">5年ごとの推移</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>経過年</th>
+            <th>年齢</th>
+            <th>年収（名目）</th>
+            <th>年返済額</th>
+            <th>返済負担率</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">返済負担率の推移グラフ</div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    <div class="chart-note">※ 66歳以降は退職想定（収入なし）のため、返済負担率は計算対象外。65歳までは収入ありとして計算。</div>
+  </section>
+
+  <div class="disclaimer-box">
+    <strong>このツールの読み方</strong><br>
+    年収は、インフレ率と同じ率でベースアップ（名目で増加）していく前提を置いています。ただしこのベースアップは<strong>物価上昇に連動するだけ</strong>のもので、実質的な家計のゆとりが増えることを意味しません。<br>
+    本ツールが見ているのは「<strong>インフレ下で、家計に占める住宅ローン返済の負担割合がどう変わるか</strong>」の一点です。返済額は名目で固定されるため、物価と給与が上がるほど、返済は相対的に軽くなっていきます。
+  </div>
+
+  <footer>
+    <p>※このツールは試算の目安です。実際の借入可能額・返済額は金融機関の条件により異なります。具体的な検討は、信頼できる建築会社や金融機関にご確認ください。</p>
+    <div class="footer-divider"></div>
+    <p><a href="../index.html">← YKTラボ トップへ</a></p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const num = (id) => parseFloat($(id).value) || 0;
+  const fmt = (n) => n.toLocaleString("ja-JP");
+  let chart;
+  let rateTouched = false;
+
+  // 返済負担率スタート値（借入可能金額の算定基準）
+  const START_BURDEN = 0.30;
+
+  function loanTerm(age) {
+    return Math.max(1, Math.min(40, 75 - age));
+  }
+
+  function calc() {
+    const inflation = num("inflation") / 100;
+    const rate = num("rate") / 100;
+    const age = Math.round(num("age"));
+    const income = num("income");     // 万円・現在価値
+    const income60 = num("income60"); // 万円・現在価値（60歳=ピーク）
+    const wage = inflation;           // ベースアップ率＝インフレ率
+
+    // ローン期間（75歳完済・上限40年）
+    const years = loanTerm(age);
+    $("years").value = years;
+
+    const monthlyRate = rate / 12;
+    const totalMonths = years * 12;
+
+    // 年収カーブ（現在価値）：現在→60歳へ上昇、60〜65横ばい、66歳以降は退職
+    function getIncome(y) {
+      const a = age + y;
+      if (a >= 66) return { real: 0, nominal: 0, retired: true };
+      let real;
+      const span = 60 - age;
+      if (a <= 60) {
+        real = span <= 0 ? income60 : income + (income60 - income) * ((a - age) / span);
+      } else {
+        real = income60;
+      }
+      const nominal = real * Math.pow(1 + wage, y);
+      return { real, nominal, retired: false };
+    }
+
+    // 借入可能金額：初年度の名目年収に対し返済負担率30%となる元本
+    const income0 = getIncome(0).nominal * 10000; // 円
+    const annualPay = START_BURDEN * income0;
+    const monthlyPay = annualPay / 12;
+
+    // 月返済額から元本を逆算（元利均等の逆計算）
+    let principal;
+    if (Math.abs(monthlyRate) < 1e-12) {
+      principal = monthlyPay * totalMonths;
+    } else {
+      const pow = Math.pow(1 + monthlyRate, totalMonths);
+      principal = monthlyPay * (pow - 1) / (monthlyRate * pow);
+    }
+
+    // 総返済額（名目）と現在価値換算
+    const nominalTotal = monthlyPay * totalMonths;
+    let realTotal = 0;
+    const mInfl = inflation / 12;
+    for (let m = 0; m < totalMonths; m++) {
+      realTotal += monthlyPay / Math.pow(1 + mInfl, m);
+    }
+
+    // 負担率：スタートと最小
+    const bStart = annualPay / (getIncome(0).nominal * 10000) * 100;
+    let minBurden = Infinity, minBurdenYear = 0;
+    for (let y = 0; y <= years; y++) {
+      const inc = getIncome(y);
+      if (inc.retired) continue;
+      const b = annualPay / (inc.nominal * 10000) * 100;
+      if (b < minBurden) { minBurden = b; minBurdenYear = y; }
+    }
+
+    // サマリー更新
+    $("loanable").textContent = fmt(Math.round(principal / 10000)) + "万円";
+    $("mpay").textContent = "¥" + fmt(Math.round(monthlyPay));
+    $("ntot").textContent = fmt(Math.round(nominalTotal / 10000)) + "万円";
+    $("rtot").textContent = fmt(Math.round(realTotal / 10000)) + "万円";
+    $("bstart").textContent = bStart.toFixed(1) + "%";
+    $("bmin").textContent = minBurden === Infinity ? "—" : minBurden.toFixed(1) + "%";
+    $("bminAge").textContent = minBurden === Infinity ? "" : (age + minBurdenYear) + "歳ごろ";
+
+    // 5年刻みテーブル
+    const ySet = [];
+    for (let y = 0; y <= years; y += 5) ySet.push(y);
+    if (ySet[ySet.length - 1] !== years) ySet.push(years);
+
+    const tbody = $("tableBody");
+    tbody.innerHTML = "";
+    ySet.forEach((y) => {
+      const inc = getIncome(y);
+      const tr = document.createElement("tr");
+      if (y === 0 || y === years) tr.classList.add("highlight-row");
+      const incomeCell = inc.retired ? "退職" : fmt(Math.round(inc.nominal)) + "万円";
+      const burdenCell = inc.retired
+        ? "—"
+        : (annualPay / (inc.nominal * 10000) * 100).toFixed(1) + "%";
+      tr.innerHTML =
+        "<td>" + y + "年目</td>" +
+        "<td>" + (age + y) + "歳</td>" +
+        "<td>" + incomeCell + "</td>" +
+        "<td>" + fmt(Math.round(annualPay / 10000)) + "万円</td>" +
+        "<td>" + burdenCell + "</td>";
+      tbody.appendChild(tr);
+    });
+
+    // チャート（退職以降はnullで線が切れる）
+    const labels = [];
+    const data = [];
+    for (let y = 0; y <= years; y++) {
+      labels.push(y);
+      const inc = getIncome(y);
+      data.push(inc.retired ? null : annualPay / (inc.nominal * 10000) * 100);
+    }
+    if (!chart) {
+      chart = new Chart($("chart"), {
+        type: "line",
+        data: {
+          labels,
+          datasets: [{
+            label: "返済負担率",
+            data,
+            borderColor: "#2d5f3f",
+            backgroundColor: "rgba(45, 95, 63, 0.12)",
+            fill: true,
+            tension: 0.15,
+            pointRadius: 0,
+            borderWidth: 2.5,
+            spanGaps: false,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: (items) => items[0].label + "年目",
+                label: (ctx) => "返済負担率 " + ctx.parsed.y.toFixed(1) + "%",
+              },
+            },
+          },
+          scales: {
+            y: { beginAtZero: true, ticks: { callback: (v) => v + "%" } },
+            x: { title: { display: true, text: "経過年数", color: "#6b6b65" } },
+          },
+        },
+      });
+    } else {
+      chart.data.labels = labels;
+      chart.data.datasets[0].data = data;
+      chart.update("none");
+    }
+  }
+
+  // インフレ率（主役）変更時：金利が未操作ならインフレ率＋0.5%に追従
+  $("inflation").addEventListener("input", () => {
+    if (!rateTouched) {
+      $("rate").value = (num("inflation") + 0.5).toFixed(1);
+    }
+    calc();
+  });
+
+  // 金利を手入力 → 追従モード解除
+  $("rate").addEventListener("input", () => {
+    rateTouched = true;
+    calc();
+  });
+
+  // その他の入力（年齢でローン期間が自動更新される）
+  ["age", "income", "income60"]
+    .forEach((id) => $(id).addEventListener("input", calc));
+
+  calc();
+})();
+</script>
+</body>
+</html>

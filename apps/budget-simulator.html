@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--
+  YKTラボ｜家づくり予算"逆算"シミュレーター BuildSpec
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家づくり予算"逆算"シミュレーター BuildSpec｜YKTラボ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+<style>
+:root {
+  --bg: #f8f5ee;
+  --surface: #ffffff;
+  --border: #e5dfd0;
+  --border-strong: #d4cdb6;
+  --text: #2a2a26;
+  --text-muted: #6b6b65;
+  --primary: #2d5f3f;
+  --primary-tint: rgba(45, 95, 63, 0.10);
+  --accent: #c97b50;
+  --accent-tint: rgba(201, 123, 80, 0.12);
+  --highlight-bg: #f3eddd;
+  --headline-bg: #ede4cd;
+  --line-green: #06c755;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 760px; margin: 0 auto; }
+header { text-align: center; padding: 24px 0 18px; }
+h1 { font-size: 22px; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: var(--text-muted); }
+section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.tax-credit { font-size: 11px; color: var(--accent); font-weight: 600; text-align: center; margin-bottom: 12px; }
+
+/* 結果サマリー（建物本体予算をヘッドライン化） */
+.summary-headline {
+  background: var(--headline-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.summary-headline-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.04em; }
+.summary-headline-value { font-size: 32px; font-weight: 700; color: var(--primary); line-height: 1.1; }
+.summary-headline-value .unit { font-size: 15px; font-weight: 600; margin-left: 2px; }
+.summary-headline-sub { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+.summary-headline-sub .tax-ex { color: var(--accent); font-weight: 600; }
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.stat { background: var(--highlight-bg); border-radius: 8px; padding: 12px 14px; text-align: center; }
+.stat.green { background: var(--primary-tint); }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.stat-value { font-size: 22px; font-weight: 700; color: var(--primary); line-height: 1.1; }
+.stat-value .unit { font-size: 12px; font-weight: 600; margin-left: 2px; }
+
+/* スライダー */
+.slider-block { margin-bottom: 22px; }
+.slider-block:last-child { margin-bottom: 0; }
+.slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.slider-label { font-size: 13px; font-weight: 600; color: var(--primary); }
+.slider-num { font-size: 20px; font-weight: 800; color: var(--primary); }
+.slider-num .yen { font-size: 13px; font-weight: 600; }
+.tax-excluded-label { color: var(--accent); font-size: 12px; margin-left: 5px; font-weight: 600; }
+input[type="range"] {
+  width: 100%; height: 8px; border-radius: 6px; appearance: none; -webkit-appearance: none;
+  background: var(--highlight-bg); cursor: pointer; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--primary); border: 4px solid var(--surface); box-shadow: 0 2px 8px rgba(45,95,63,0.35); cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--primary);
+  border: 4px solid var(--surface); box-shadow: 0 2px 8px rgba(45,95,63,0.35); cursor: pointer;
+}
+
+/* 詳細入力 */
+.main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.input-card { border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.card-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-group { margin-bottom: 12px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 5px; }
+.input-with-unit { position: relative; }
+.input-with-unit input {
+  width: 100%; padding: 9px 40px 9px 11px; font-size: 15px; font-weight: 600;
+  border: 1px solid var(--border-strong); border-radius: 7px; background: var(--surface);
+  font-family: inherit; color: var(--text); transition: border-color 0.15s;
+}
+.input-with-unit input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-tint); }
+.input-with-unit .unit { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-muted); pointer-events: none; }
+
+/* トグル */
+.toggle-group { display: flex; background: var(--highlight-bg); padding: 4px; border-radius: 9px; margin-bottom: 14px; }
+.toggle-btn { flex: 1; border: none; padding: 9px; border-radius: 7px; cursor: pointer; font-weight: 600; font-size: 12.5px; color: var(--text-muted); background: transparent; font-family: inherit; transition: background 0.15s, color 0.15s; }
+.toggle-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+
+/* 内訳ボックス */
+.detail-box { background: var(--bg); padding: 13px 15px; border-radius: 9px; border: 1px dashed var(--border-strong); font-size: 12px; margin-top: 14px; }
+.detail-row { display: flex; justify-content: space-between; margin-bottom: 5px; color: var(--text-muted); }
+.detail-row span:last-child { color: var(--text); font-weight: 500; }
+.detail-row.total { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-strong); font-weight: 700; color: var(--primary); }
+.detail-row.total span:last-child { color: var(--primary); }
+
+/* 内訳トグル（結果から開く） */
+.detail-toggle {
+  margin-top: 14px; width: 100%; text-align: center;
+  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 8px;
+  padding: 11px; font-size: 13px; font-weight: 600; color: var(--primary);
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+}
+.detail-toggle:hover { background: var(--primary-tint); }
+.detail-toggle .arrow { display: inline-block; transition: transform 0.2s; margin-left: 6px; font-size: 11px; }
+.detail-toggle.open .arrow { transform: rotate(180deg); }
+.detail-collapse { display: none; }
+.detail-collapse.open { display: block; }
+
+/* アクション */
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  flex: 1 1 auto; min-width: 140px; padding: 13px 18px; border-radius: 9px; border: none;
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; text-decoration: none; transition: opacity 0.15s, transform 0.05s;
+}
+.btn:active { transform: translateY(1px); }
+.btn:hover { opacity: 0.92; }
+.btn-line { background: var(--line-green); color: #fff; }
+.btn-mail { background: var(--accent); color: #fff; }
+.btn-print { background: var(--surface); color: var(--text-muted); border: 1px solid var(--border-strong); }
+.action-note { width: 100%; font-size: 11.5px; color: var(--primary); text-align: center; margin-top: 4px; }
+
+footer { padding: 24px 8px 8px; color: var(--text-muted); font-size: 12px; text-align: center; }
+footer p { margin: 6px 0; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.footer-divider { border-top: 1px solid var(--border); margin: 14px 0; }
+.inquiry { font-size: 11px; padding: 11px 14px; background: var(--highlight-bg); border-radius: 8px; margin: 0 0 12px; color: var(--text); line-height: 1.5; }
+.disclaimer { font-size: 11px; color: var(--text-muted); line-height: 1.7; margin-top: 4px; }
+
+.print-title { display: none; }
+
+@media (max-width: 600px) {
+  h1 { font-size: 19px; }
+  section { padding: 14px; }
+  .main-layout { grid-template-columns: 1fr; }
+  .summary-headline-value { font-size: 26px; }
+  .stat-value { font-size: 19px; }
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .input-section, .actions, footer .inquiry { display: none !important; }
+  .print-title { display: block !important; text-align: center; margin-bottom: 18px; }
+  section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1 class="print-title">住宅資金計画シミュレーション結果</h1>
+
+  <header>
+    <h1>家づくり予算"逆算"シミュレーター</h1>
+    <p class="subtitle">BuildSpec ─ 「月々いくら」から、建てられる家の広さと基準を逆算する</p>
+  </header>
+
+  <!-- 結果 -->
+  <section>
+    <div class="section-title">逆算した結果</div>
+    <p class="tax-credit">※数値はすべて消費税込です</p>
+    <div class="summary-headline">
+      <div class="summary-headline-label">建物にかけられる本体予算</div>
+      <div class="summary-headline-value"><span id="out_building_body">0</span><span class="unit">万円</span></div>
+      <div class="summary-headline-sub"><span class="tax-ex" id="out_building_body_tax_ex">(税別 0 万円)</span></div>
+    </div>
+    <div class="summary-grid">
+      <div class="stat green">
+        <div class="stat-label">推定建物面積</div>
+        <div class="stat-value"><span id="out_area">0</span><span class="unit">坪</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">月々支払額</div>
+        <div class="stat-value"><span id="out_monthly">0</span><span class="unit">万円</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">賞与支払い額</div>
+        <div class="stat-value"><span id="out_bonus">10</span><span class="unit">万円</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">プロジェクト総予算</div>
+        <div class="stat-value"><span id="out_total">0</span><span class="unit">万円</span></div>
+      </div>
+    </div>
+
+    <button type="button" id="detailToggle" class="detail-toggle" onclick="toggleDetail()">内訳の明細を見る<span class="arrow">▼</span></button>
+    <div id="detailCollapse" class="detail-collapse">
+      <div class="detail-box">
+        <div class="detail-row"><span id="lab_land_main">土地購入価格</span><span><span id="det_land_main">0</span>万円</span></div>
+        <div class="detail-row" id="row_land_misc"><span>土地購入経費(5%概算)</span><span><span id="det_land_misc">0</span>万円</span></div>
+        <div class="detail-row"><span>建物本体価格(税込)</span><span><span id="det_body_taxin">0</span>万円</span></div>
+        <div class="detail-row"><span>建物諸経費(本体10%)</span><span><span id="det_misc">0</span>万円</span></div>
+        <div class="detail-row"><span>外構・その他工事</span><span><span id="det_landscaping">0</span>万円</span></div>
+        <div class="detail-row total"><span>総予算合計(借入＋自己資金)</span><span><span id="det_total">0</span>万円</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 入力（リアルタイム反映） -->
+  <div class="input-section">
+
+    <section>
+      <div class="section-title">総額と坪単価を動かす</div>
+      <div class="slider-block">
+        <div class="slider-header">
+          <span class="slider-label">💰 プロジェクト総予算</span>
+          <span class="slider-num"><span id="val_total_display">4500</span><span class="yen">万円</span></span>
+        </div>
+        <input type="range" id="in_total_range" min="1000" max="8000" step="50" value="4500" oninput="update()">
+      </div>
+      <div class="slider-block">
+        <div class="slider-header">
+          <span class="slider-label">📐 想定建物坪単価</span>
+          <span class="slider-num"><span id="val_unit_display">88</span><span class="yen">万円</span><span id="val_unit_tax_ex" class="tax-excluded-label">(税別 80 万円)</span></span>
+        </div>
+        <input type="range" id="in_unit_range" min="70" max="150" step="1" value="88" oninput="update()">
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">資金と土地・建物の内訳</div>
+      <div class="main-layout">
+
+        <div class="input-card">
+          <div class="card-title">💳 資金詳細入力</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>贈与額</label>
+              <div class="input-with-unit"><input type="number" id="in_gift" value="0" oninput="update()"><span class="unit">万円</span></div>
+            </div>
+            <div class="form-group">
+              <label>自己資金</label>
+              <div class="input-with-unit"><input type="number" id="in_own" value="100" oninput="update()"><span class="unit">万円</span></div>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>ローン金利</label>
+              <div class="input-with-unit"><input type="number" id="in_rate" value="1.0" step="0.1" oninput="update()"><span class="unit">%</span></div>
+            </div>
+            <div class="form-group">
+              <label>期間</label>
+              <div class="input-with-unit"><input type="number" id="in_years" value="35" oninput="update()"><span class="unit">年</span></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>賞与支払額（1回分）</label>
+            <div class="input-with-unit"><input type="number" id="in_bonus_input" value="10" oninput="update()"><span class="unit">万円</span></div>
+          </div>
+        </div>
+
+        <div class="input-card">
+          <div class="card-title">🏡 土地・建物内訳</div>
+          <div class="toggle-group">
+            <button id="btn_land_none" class="toggle-btn active" onclick="setLand(false)">土地購入</button>
+            <button id="btn_land_yes" class="toggle-btn" onclick="setLand(true)">土地あり</button>
+          </div>
+          <div id="ui_land_none">
+            <div class="form-group">
+              <label>土地購入価格</label>
+              <div class="input-with-unit"><input type="number" id="in_land_price" value="1200" oninput="update()"><span class="unit">万円</span></div>
+            </div>
+          </div>
+          <div id="ui_land_yes" style="display:none;">
+            <div class="form-group">
+              <label>解体・地盤等予算</label>
+              <div class="input-with-unit"><input type="number" id="in_land_extra" value="0" oninput="update()"><span class="unit">万円</span></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>外構・その他工事</label>
+            <div class="input-with-unit"><input type="number" id="in_landscaping" value="100" oninput="update()"><span class="unit">万円</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- アクション -->
+  <section class="actions">
+    <button onclick="window.print()" class="btn btn-print">🖨️ 保存・印刷する</button>
+  </section>
+
+  <footer>
+    <p>※建物本体は税込予算を1.1で割って算出。土地購入経費は5%概算、建物諸経費は本体の10%として試算しています。税・手数料の実額は条件により異なります。具体的な検討は、信頼できる建築会社にご確認ください。</p>
+    <div class="footer-divider"></div>
+    <p><a href="../index.html">← YKTラボ トップへ</a></p>
+  </footer>
+
+</div>
+
+<script>
+let hasLand = false;
+function toggleDetail() {
+    const btn = document.getElementById('detailToggle');
+    const panel = document.getElementById('detailCollapse');
+    const open = panel.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.firstChild.textContent = open ? '内訳の明細を閉じる' : '内訳の明細を見る';
+}
+function setLand(status) {
+    hasLand = status;
+    document.getElementById('btn_land_none').classList.toggle('active', !status);
+    document.getElementById('btn_land_yes').classList.toggle('active', status);
+    document.getElementById('ui_land_none').style.display = status ? 'none' : 'block';
+    document.getElementById('ui_land_yes').style.display = status ? 'block' : 'none';
+    document.getElementById('row_land_misc').style.display = status ? 'none' : 'flex';
+    document.getElementById('lab_land_main').innerText = status ? '解体・地盤等予算' : '土地購入価格';
+    update();
+}
+function update() {
+    const totalMan = parseFloat(document.getElementById('in_total_range').value) || 0;
+    document.getElementById('val_total_display').innerText = totalMan.toLocaleString();
+    const giftMan = parseFloat(document.getElementById('in_gift').value) || 0;
+    const ownMan = parseFloat(document.getElementById('in_own').value) || 0;
+    const rateYear = (parseFloat(document.getElementById('in_rate').value) || 0) / 100;
+    const years = parseFloat(document.getElementById('in_years').value) || 1;
+    const bonusMan = parseFloat(document.getElementById('in_bonus_input').value) || 0;
+    const unitPriceMan = parseFloat(document.getElementById('in_unit_range').value) || 1;
+    const unitPriceTaxEx = Math.round(unitPriceMan / 1.1);
+    document.getElementById('val_unit_display').innerText = unitPriceMan;
+    document.getElementById('val_unit_tax_ex').innerText = `(税別 ${unitPriceTaxEx} 万円)`;
+    const landscapingCostMan = parseFloat(document.getElementById('in_landscaping').value) || 0;
+    let landMainMan = 0;
+    let landMiscMan = 0;
+    if (!hasLand) {
+        landMainMan = parseFloat(document.getElementById('in_land_price').value) || 0;
+        landMiscMan = Math.round(landMainMan * 0.05);
+    } else {
+        landMainMan = parseFloat(document.getElementById('in_land_extra').value) || 0;
+        landMiscMan = 0;
+    }
+    const landTotalCostMan = landMainMan + landMiscMan;
+    const buildBudgetTotalMan = Math.max(0, totalMan - landTotalCostMan - landscapingCostMan);
+    const buildBodyMan = buildBudgetTotalMan / 1.1;
+    const buildBodyTaxEx = Math.round(buildBodyMan / 1.1);
+    const buildMiscMan = buildBudgetTotalMan - buildBodyMan;
+    const areaTsubo = buildBodyMan / unitPriceMan;
+    const loanAmountMan = Math.max(0, totalMan - giftMan - ownMan);
+    const monthlyRate = rateYear / 12;
+    const totalMonths = years * 12;
+    let monthlyMan = 0;
+    if (loanAmountMan > 0 && years > 0) {
+        if (rateYear > 0) {
+            const factor = (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+            monthlyMan = Math.max(0, (loanAmountMan * factor) - (bonusMan * 2 / 12));
+        } else {
+            monthlyMan = Math.max(0, (loanAmountMan / totalMonths) - (bonusMan * 2 / 12));
+        }
+    }
+    document.getElementById('out_total').innerText = totalMan.toLocaleString();
+    document.getElementById('out_building_body').innerText = Math.round(buildBodyMan).toLocaleString();
+    document.getElementById('out_building_body_tax_ex').innerText = `(税別 ${buildBodyTaxEx} 万円)`;
+    document.getElementById('out_area').innerText = areaTsubo.toFixed(1);
+    document.getElementById('out_monthly').innerText = monthlyMan.toFixed(1);
+    document.getElementById('out_bonus').innerText = bonusMan.toLocaleString();
+    document.getElementById('det_land_main').innerText = landMainMan.toLocaleString();
+    document.getElementById('det_land_misc').innerText = landMiscMan.toLocaleString();
+    document.getElementById('det_body_taxin').innerText = Math.round(buildBodyMan).toLocaleString();
+    document.getElementById('det_misc').innerText = Math.round(buildMiscMan).toLocaleString();
+    document.getElementById('det_landscaping').innerText = landscapingCostMan.toLocaleString();
+    document.getElementById('det_total').innerText = totalMan.toLocaleString();
+}
+update();
+</script>
+</body>
+</html>

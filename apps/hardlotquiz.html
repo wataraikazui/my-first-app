@@ -1,0 +1,910 @@
+<!doctype html>
+<!--
+  YKTラボ｜難敷地は本当に安い？
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>難敷地は本当に安い？｜YKTラボ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧩</text></svg>">
+  <meta name="description" content="5問でわかる、安い土地の「理由」の読み方。論理と科学の家づくり占い館シリーズ。">
+  <meta property="og:description" content="5問でわかる、安い土地の「理由」の読み方。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    /* 5つの視点ボックス（結果画面の見出し直下） */
+    .takeaways {
+      margin-top: 22px;
+      padding: clamp(22px, 4vw, 30px);
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .takeaways h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--accent-dark);
+    }
+    .takeaways ol {
+      margin: 0;
+      padding-left: 1.5em;
+      counter-reset: tk;
+    }
+    .takeaways ol li {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .takeaways ol li:last-child { margin-bottom: 0; }
+    .takeaways .takeaways-note {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* 個別の振り返り（各問の詳しい解説） */
+    .review-block {
+      margin-top: 24px;
+    }
+    .review-block h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--accent-dark);
+      letter-spacing: .02em;
+    }
+    .result-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row .q-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .result-row .q-meta .q-num {
+      display: block;
+      font-size: 18px;
+      color: var(--accent-dark);
+      margin-bottom: 2px;
+    }
+    .result-row .q-meta .q-status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+    .result-row .q-question {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+    .result-row .q-headline {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .result-row .q-summary {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.95;
+    }
+
+    /* 最後のまとめ（CTAボックス直前） */
+    .closing {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 22px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .closing h3 {
+      margin: 0 0 14px;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+    .closing p {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+    .closing p:last-child { margin-bottom: 0; }
+    .closing-points {
+      margin: 0 0 16px;
+      padding: 16px 20px 16px 36px;
+      background: var(--accent-soft);
+      border-radius: 14px;
+      list-style: disc;
+    }
+    .closing-points li {
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .closing-points li:last-child { margin-bottom: 0; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+
+    /* 4択相談パネル */
+    .contact-panel { margin-top:18px; animation:panelFade .22s ease; }
+    @keyframes panelFade { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+    .contact-card { display:flex; flex-direction:column; align-items:center; gap:5px; padding:15px 10px; border-radius:16px; background:#fff; color:var(--ink); border:1px solid var(--line); text-decoration:none; transition:transform .18s ease,box-shadow .18s ease; }
+    .contact-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(68,45,26,.10); }
+    .contact-icon  { font-size:26px; line-height:1; }
+    .contact-label { font-size:13px; font-weight:900; color:var(--accent-dark); letter-spacing:.04em; }
+    .contact-desc  { font-size:11px; color:var(--muted); text-align:center; line-height:1.55; }
+    .contact-close { display:block; width:100%; padding:11px; border:1px solid var(--line); border-radius:999px; background:transparent; color:var(--muted); font:inherit; font-size:12.5px; cursor:pointer; transition:background .18s; }
+    .contact-close:hover { background:var(--accent-soft); }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">土地・敷地のきほん</div>
+      <h1>難敷地は<br>本当に安い？</h1>
+      <p class="lead">5問でわかる、安い土地の「理由」の読み方</p>
+      <div class="note-box">
+        土地情報を見ていると、相場より安く見える土地に出会うことがあります。変形地、高低差のある土地、古家付きの土地、下水や造成に確認が必要な土地、法律的な制約のある土地──。<br>
+        <strong>でも、難敷地は、ただ安い土地ではありません。安く見える理由が、工事費で返ってくるのか、設計で吸収できるのか、暮らし方で許容できるのか、それとも希望の家づくりに向かないのか。このクイズでは、難敷地を「避けるかどうか」ではなく、どう読めばよいかを確認していきます。二択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>二択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="takeaways">
+        <h3>覚えておきたい、5つの視点</h3>
+        <ol>
+          <li>難敷地は、土地代ではなく総額で見る</li>
+          <li>安い理由が、工事費として返ってくる土地もある</li>
+          <li>法律的な制約は、安さより先に確認する</li>
+          <li>周辺環境のマイナスは、価格ではなく暮らしへの影響で見る</li>
+          <li>安い理由は「解消できるもの／受け入れるもの」に分けてから判断する</li>
+        </ol>
+        <p class="takeaways-note">
+          難敷地は、ただ安く売られている土地ではありません。安い理由が、工事費として返ってくるのか、設計の工夫で吸収できるのか、暮らし方で許容できるのか、法律上の制約として残るのか、周辺環境として受け入れる必要があるのか。<br>
+          その性質を分けて読めるかどうかで、同じ土地が「選択肢」にも「後悔」にもなります。
+        </p>
+      </div>
+
+      <div class="review-block">
+        <h3>各問のふりかえり</h3>
+        <div class="result-list" id="resultList"></div>
+      </div>
+
+      <div class="closing">
+        <h3>難敷地は、値引き品ではなく「読み解く土地」です</h3>
+        <p>難敷地は、ただ安く売られている土地ではありません。そこには、安い理由があります。</p>
+        <p>その理由を読まずに買うと、土地代は安くても、こうなることがあります。</p>
+        <ul class="closing-points">
+          <li>工事費まで含めると、総額が高くなる</li>
+          <li>法的な制約で、希望の家が建てにくくなる</li>
+          <li>周辺環境が、暮らし始めてから気になる</li>
+          <li>受け入れるしかない条件に、あとから気づく</li>
+        </ul>
+        <p>反対に、安い理由をきちんと理解できれば、難敷地は選択肢になることもあります。</p>
+        <p>大切なのは、安い土地を探すことではなく、安い理由を読んで判断することです。土地だけで判断せず、建物、外構、造成、法的制約、周辺環境、総額まで含めて確認しておきましょう。</p>
+      </div>
+<div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、安い土地の「理由」の読み方を知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        title: "変形地や高低差のある土地は、安ければお得？",
+        choices: { A: "土地価格が安ければ、基本的にはお得", B: "追加費用や設計の制約まで見ないと判断できない" },
+        correct: "B",
+        explanation: "土地価格が安く見えても、その土地を使うために追加費用がかかる場合があります。たとえば、高低差がある土地では、造成、擁壁、階段、外構、駐車計画などに費用がかかることがあります。変形地では、建物の配置や間取り、駐車スペース、庭の取り方に制約が出ることがあります。つまり、難敷地は土地価格だけで安いかどうかを判断できない土地です。",
+        remember: "難敷地は、土地代ではなく総額で見る土地です。",
+        summary: "高低差や変形は、造成・擁壁・外構・駐車・間取りに追加費用や制約として表れます。土地価格だけでは安いかどうかは決まりません。難敷地は、土地代ではなく総額で見る土地です。"
+      },
+      {
+        title: "「安い理由」が造成や下水の工事費だった場合、どう考える？",
+        choices: { A: "工事費を含めた総額で、まだ納得できるかを見る", B: "土地代が安いなら、工事費はあまり気にしなくてよい" },
+        correct: "A",
+        explanation: "土地が安い理由の中には、あとから工事費として表れるものがあります。造成が必要。下水の引き込みに確認が必要。古家の解体が必要。外構に費用がかかる。地盤や排水の確認が必要。こうした費用がある場合、土地代だけを見ると安くても、総額では普通の土地とあまり変わらないことがあります。大切なのは、「土地が安いか」ではなく、土地を使える状態にするまでの費用を含めて安いかです。",
+        remember: "安い理由が工事費で返ってくる土地もあります。",
+        summary: "造成・下水・解体・外構・地盤などは、あとから工事費として表れます。土地代が安くても、使える状態にするまでの費用を含めると普通の土地と変わらないことがあります。判断は土地代ではなく総額で行います。"
+      },
+      {
+        title: "法律的な制約がある土地は、安ければ買ってもよい？",
+        choices: { A: "土地が安ければ、あとから何とかなる", B: "建てたい家が法的に成り立つかを先に確認する" },
+        correct: "B",
+        explanation: "土地には、見た目ではわかりにくい制約があります。たとえば、用途地域、建ぺい率、容積率、高さ制限、防火規制、地区計画、農地、災害区域などです。こうした制約によって、建てられる建物の大きさ、用途、形、手続きが変わることがあります。土地が安くても、自分が建てたい家が建てられない、思っていた大きさが入らない、手続きに時間や費用がかかる、という場合は注意が必要です。難敷地の中には、お金で解決できるものだけでなく、そもそも制約として受け入れるしかないものもあります。",
+        remember: "法律的な制約は、安さより先に確認する条件です。",
+        summary: "用途地域・建ぺい率・容積率・高さ・防火・地区計画・農地・災害区域などは、建てられる家の大きさや形を左右します。お金で解決できないものもあるため、安さより先に「建てたい家が成り立つか」を確認します。"
+      },
+      {
+        title: "周辺に一般的な迷惑施設とされる施設がある土地は、どう考える？",
+        choices: { A: "安くなっているなら、周辺環境はあまり気にしなくてよい", B: "価格に反映される理由と、実際の暮らしへの影響を分けて見る" },
+        correct: "B",
+        explanation: "周辺環境は、土地価格に影響することがあります。音。におい。交通量。人の出入り。夜間の明るさ。心理的な抵抗感。こうした条件は、一般的にはマイナス評価になり、土地価格が下がることがあります。ただし、ここで大切なのは、「安いから良い」でも、「迷惑施設があるから絶対に悪い」でもありません。その施設が、毎日の暮らしにどのくらい影響するのか。時間帯によって影響が変わるのか。将来も同じ環境が続くのか。建物の配置や窓の取り方で軽減できるのか。そこまで見ないと判断できません。",
+        remember: "周辺環境のマイナスは、価格だけでなく暮らしへの影響で見ます。",
+        summary: "音・におい・交通量・夜間の明るさなどは価格を下げる要因になります。「安いから良い」でも「あるから絶対悪い」でもなく、暮らしへの影響の大きさ・時間帯・将来・建物側で軽減できるかまで見て判断します。"
+      },
+      {
+        title: "難敷地を検討するとき、一番大切なのは？",
+        choices: { A: "安い理由が、解消できるものか、受け入れるものかを分ける", B: "相場より安いなら、細かい理由は後で考えればよい" },
+        correct: "A",
+        explanation: "難敷地を見るときは、安い理由をひとまとめにしないことが大切です。造成すれば解消できるもの。設計で吸収できるもの。外構で工夫できるもの。暮らし方で許容できるもの。法律や周辺環境として受け入れるしかないもの。これらは、まったく性質が違います。お金で解決できる問題なら、その費用を土地価格と合わせて考えます。設計で吸収できる問題なら、建築側の工夫が重要になります。どうしても受け入れるしかない問題なら、その条件で本当に暮らせるかを考える必要があります。",
+        remember: "難敷地は、安い理由を分類してから判断する土地です。",
+        summary: "安い理由は「造成で解消／設計で吸収／外構で工夫／暮らし方で許容／受け入れるしかない」で性質がまったく違います。ひとまとめにせず、分類してから判断します。"
+      }
+    ];
+
+    let current = 0;
+
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.textContent = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.textContent = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function(ch) {
+        return "&#" + ch.charCodeAt(0) + ";";
+      });
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+
+      if (score === 5) {
+        resultTitle.textContent = "しっかり読めています";
+        resultLead.textContent = "安い理由を読み解く視点が、ぶれずに整理できています。土地価格だけで判断せず、総額・法的制約・周辺環境・建築側の工夫まで分けて見られています。あとは、気になる土地が出てきたときに、この見方を実際に当てはめてみてください。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "大事な視点は見えてきました";
+        resultLead.textContent = "難敷地を読む考え方が、少しずつ整理されてきています。特に「土地代ではなく総額で見る」と「安い理由を、解消できるものと受け入れるものに分ける」、この2点を覚えておくと、土地選びの判断がしやすくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "難敷地の安さは、工事費・法的制約・周辺環境など、見えにくいところに理由が隠れています。まずは「安い土地には、安い理由がある」「土地代だけでなく、使える状態にするまでの総額で見る」、この2点から覚えておきましょう。気になる土地があれば、買う前に設計者に話しかけてみてください。";
+      }
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div class="q-meta">
+              <span class="q-num">Q${index + 1}</span>
+              <span class="q-status">${status}</span>
+            </div>
+            <div>
+              <p class="q-question">${escapeHtml(q.title)}</p>
+              <b class="q-headline">${escapeHtml(q.remember).replace(/\n/g, "<br>")}</b>
+              <p class="q-summary">${escapeHtml(q.summary)}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+</body>
+</html>

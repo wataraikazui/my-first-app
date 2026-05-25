@@ -1,0 +1,906 @@
+<!doctype html>
+<!--
+  YKTラボ｜倒産から自分を守る、5つの視点
+  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
+  利用は制限しませんが、使用される際はご連絡ください。
+-->
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>倒産から自分を守る、5つの視点｜YKTラボ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #2c2a27;
+      --muted: #6f665b;
+      --line: #dfd3c2;
+      --accent: #6f7f63;
+      --accent-dark: #43513c;
+      --accent-soft: #e8eee3;
+      --brown: #7b5637;
+      --brown-soft: #efe2d2;
+      --ok: #4f7852;
+      --ng: #9b4a3f;
+      --shadow: 0 16px 40px rgba(68, 45, 26, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.92), rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #f8f0e5 0%, #f6f2ec 48%, #e7eadf 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    /* 占い館のヘッダー */
+    .hall-header {
+      text-align: center;
+      padding: 12px 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .hall-name {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .hall-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .hall-name a:hover { opacity: 0.7; }
+
+    .hall-sub {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,253,248,0.98), rgba(232,238,227,0.92));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid rgba(67, 81, 60, 0.14);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(111, 127, 99, 0.13);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: clamp(34px, 7vw, 62px);
+      line-height: 1.12;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: #3f3932;
+    }
+
+    .note-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .note-box strong { color: var(--accent-dark); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 10px 22px rgba(67, 81, 60, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 28px rgba(67, 81, 60, 0.22);
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .start-area, .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,0.94);
+      border: 1px solid rgba(111, 127, 99, 0.12);
+      box-shadow: 0 10px 26px rgba(68, 45, 26, 0.08);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .section p { margin: 0 0 12px; }
+
+    .quiz-card {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fffaf3;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+
+    .quiz-head {
+      padding: 20px 22px 16px;
+      background: linear-gradient(135deg, rgba(111,127,99,0.12), rgba(255,253,248,0.84));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-index {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+    }
+
+    .score-mini {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eadfce;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progressbar span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(22px, 3.6vw, 32px);
+      line-height: 1.45;
+    }
+
+    .choices {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #e7dac9;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(111,127,99,0.42);
+      box-shadow: 0 10px 22px rgba(68,45,26,0.08);
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.selected.correct {
+      border-color: rgba(79, 120, 82, 0.48);
+      background: #f1f8ef;
+    }
+
+    .choice.selected.wrong {
+      border-color: rgba(155, 74, 63, 0.46);
+      background: #fff1ee;
+    }
+
+    .choice .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .choice.selected.correct .mark {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .choice.selected.wrong .mark {
+      background: var(--ng);
+      color: #fff;
+    }
+
+    .choice-title {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .feedback {
+      display: none;
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .feedback.show { display: block; }
+
+    .feedback h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .feedback.correct h3 { color: var(--ok); }
+    .feedback.wrong h3 { color: var(--ng); }
+
+    .remember {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+
+    .remember span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 3px;
+    }
+
+    #result { display: none; }
+
+    .result-hero {
+      border-radius: 26px;
+      padding: clamp(22px, 4vw, 34px);
+      background: linear-gradient(135deg, #fffdf8, #e8eee3);
+      border: 1px solid rgba(111,127,99,0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .result-kicker {
+      color: var(--accent-dark);
+      font-weight: 900;
+      letter-spacing: .05em;
+    }
+
+    .result-title {
+      margin: 6px 0 12px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.25;
+    }
+
+    /* 5つの視点ボックス（結果画面の見出し直下） */
+    .takeaways {
+      margin-top: 22px;
+      padding: clamp(22px, 4vw, 30px);
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .takeaways h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--accent-dark);
+    }
+    .takeaways ol {
+      margin: 0;
+      padding-left: 1.5em;
+      counter-reset: tk;
+    }
+    .takeaways ol li {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .takeaways ol li:last-child { margin-bottom: 0; }
+    .takeaways .takeaways-note {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    /* 個別の振り返り（各問の詳しい解説） */
+    .review-block {
+      margin-top: 24px;
+    }
+    .review-block h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--accent-dark);
+      letter-spacing: .02em;
+    }
+    .result-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadfce;
+    }
+
+    .result-row .q-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .result-row .q-meta .q-num {
+      display: block;
+      font-size: 18px;
+      color: var(--accent-dark);
+      margin-bottom: 2px;
+    }
+    .result-row .q-meta .q-status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+    .result-row .q-question {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+    .result-row .q-headline {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .result-row .q-summary {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.95;
+    }
+
+    /* 最後のまとめ（CTAボックス直前） */
+    .closing {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 22px;
+      background: rgba(255,253,248,0.96);
+      border: 1px solid rgba(111, 127, 99, 0.18);
+      box-shadow: 0 8px 20px rgba(68, 45, 26, 0.06);
+    }
+    .closing h3 {
+      margin: 0 0 14px;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--accent-dark);
+      line-height: 1.5;
+    }
+    .closing p {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+    .closing p:last-child { margin-bottom: 0; }
+    .closing-points {
+      margin: 0 0 16px;
+      padding: 16px 20px 16px 36px;
+      background: var(--accent-soft);
+      border-radius: 14px;
+      list-style: disc;
+    }
+    .closing-points li {
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .closing-points li:last-child { margin-bottom: 0; }
+
+    .cta-box {
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 32px);
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f3eadf, #fffdf8);
+      border: 1px solid rgba(123,86,55,0.18);
+      text-align: center;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(68,45,26,0.10);
+    }
+
+    .link-card b {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .link-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* 占い館に戻るリンク */
+    .back-to-hall {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .back-to-hall a {
+      display: inline-block;
+      padding: 12px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+
+    .back-to-hall a:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+
+    /* 4択相談パネル */
+    .contact-panel { margin-top:18px; animation:panelFade .22s ease; }
+    @keyframes panelFade { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+    .contact-card { display:flex; flex-direction:column; align-items:center; gap:5px; padding:15px 10px; border-radius:16px; background:#fff; color:var(--ink); border:1px solid var(--line); text-decoration:none; transition:transform .18s ease,box-shadow .18s ease; }
+    .contact-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(68,45,26,.10); }
+    .contact-icon  { font-size:26px; line-height:1; }
+    .contact-label { font-size:13px; font-weight:900; color:var(--accent-dark); letter-spacing:.04em; }
+    .contact-desc  { font-size:11px; color:var(--muted); text-align:center; line-height:1.55; }
+    .contact-close { display:block; width:100%; padding:11px; border:1px solid var(--line); border-radius:999px; background:transparent; color:var(--muted); font:inherit; font-size:12.5px; cursor:pointer; transition:background .18s; }
+    .contact-close:hover { background:var(--accent-soft); }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 920px); padding-top: 12px; }
+      .hero { border-radius: 24px; padding: 26px 20px; }
+      .section { padding: 22px 16px; }
+      .choice { grid-template-columns: 38px 1fr; gap: 12px; padding: 14px; }
+      .choice .mark { width: 38px; height: 38px; }
+      .result-row { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+      .button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hall-header">
+      <div class="hall-name"><a href="../index.html">YKTラボ</a></div>
+      <div class="hall-sub">論理と科学の家づくり占い館</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">リスクのきほん</div>
+      <h1>倒産から<br>自分を守る</h1>
+      <p class="lead">5問でわかる、契約と支払いの守り方</p>
+      <div class="note-box">
+        家づくりは、とても大きな買い物です。万が一、依頼先の住宅会社が工事の途中で倒産してしまったら──。<br>
+        <strong>そのとき大切なのは、「絶対に倒産しない会社」を見つけることではありません。もしものときに、施主側の損失をできるだけ小さくできる契約と支払いにしておくことです。三択を5問、自分で選んでみてください。</strong>
+      </div>
+      <div class="start-area">
+        <button class="button" type="button" id="startButton">はじめる</button>
+        <span class="subtext">1問ずつ、軽く進みます</span>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" style="display:none;">
+      <h2>三択クイズ</h2>
+      <p>答えを選ぶと、その場で短い解説が出ます。</p>
+
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <div class="progress-row">
+            <span class="question-index" id="questionIndex">Q1</span>
+            <span class="score-mini" id="scoreMini">0 / 5</span>
+          </div>
+          <h3 class="question-title" id="questionTitle"></h3>
+          <div class="progressbar"><span id="progressBar"></span></div>
+        </div>
+        <div class="choices" id="choicesRoot"></div>
+        <div class="feedback" id="feedbackBox">
+          <h3 id="feedbackTitle"></h3>
+          <p id="feedbackText"></p>
+          <div class="remember">
+            <span>ここだけ覚える</span>
+            <div id="rememberText"></div>
+          </div>
+          <div class="actions">
+            <button class="button" type="button" id="nextButton">次の問題へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="result-hero">
+        <div class="result-kicker">結果</div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p id="resultLead"></p>
+      </div>
+
+      <div class="takeaways">
+        <h3>覚えておきたい、5つの視点</h3>
+        <ol>
+          <li>出来高以上は支払わない</li>
+          <li>完成保証は、自分の物件に付いているか確認する</li>
+          <li>着工前の支払いは、累計1割以下を目安にする</li>
+          <li>融資のお金の流れを、業者任せにしない</li>
+          <li>会社規模は、倒産リスク対策そのものではない</li>
+        </ol>
+        <p class="takeaways-note">
+          売上高が大きい。従業員数が多い。名前をよく聞く。そうした情報は、会社を知る材料にはなります。しかし、施主の損失を小さくする直接の防衛策ではありません。<br>
+          家づくりでは、どの会社に頼むかと同じくらい、いつ、いくら住宅会社へ支払うかが大切です。
+        </p>
+      </div>
+
+      <div class="review-block">
+        <h3>各問のふりかえり</h3>
+        <div class="result-list" id="resultList"></div>
+      </div>
+
+      <div class="closing">
+        <h3>信頼することと、確認すること</h3>
+        <p>倒産リスクは、会社選びだけでゼロにはできません。会社の規模が大きくても、上場していても、完成保証を掲げていても、それだけで施主の損失がなくなるわけではありません。</p>
+        <p>だからこそ大切なのは、契約前にお金の流れを確認しておくことです。</p>
+        <ul class="closing-points">
+          <li>着工前に払いすぎない</li>
+          <li>出来高以上に払わない</li>
+          <li>完成保証は、自分の物件に付いているか確認する</li>
+          <li>融資のお金が、いつ、いくら、住宅会社へ渡るのかを把握しておく</li>
+        </ul>
+        <p>信頼できる会社を選ぶことは大切です。でも、信頼と確認は別です。</p>
+        <p>家づくりでは、相手を信じることと同時に、自分の損失を小さくする仕組みを持っておくことが、施主自身を守る力になります。</p>
+      </div>
+<div class="actions">
+        <button class="button secondary" type="button" id="restartButton">↻ もう一度はじめる</button>
+      </div>
+
+      <div class="back-to-hall">
+        <a href="../index.html">← YKTラボ トップへ</a>
+      </div>
+    </section>
+
+    <p class="footer-note">YKTラボ｜このページは、契約と支払いから自分を守る考え方を知るための簡易チェックです。</p>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        title: "会社の規模で安心を測るなら、どこを見る？",
+        choices: { A: "売上高の大きさ", B: "従業員数の多さ", C: "上場しているかどうか" },
+        correct: "C",
+        explanation: "売上高が大きい、従業員数が多い。そうした数字は、会社の大きさを見る材料にはなります。ただし、会社が大きいことと、倒産しにくいことは同じではありません。会社の大きさが安心材料になりやすいのは、その数字が外から厳しく見られている場合です。上場会社は、投資家に向けて情報を開示し、監査も受けています。もちろん、上場していれば倒産しないという意味ではありません。ただ、会社の規模で安心を測るなら、売上高や従業員数そのものより、上場しているかどうかの方が判断材料としては見やすいです。",
+        remember: "会社の大きさが安心材料になるのは、その数字が外から厳しく見られている場合です。",
+        summary: "売上高や従業員数は、会社の大きさを見る材料にはなりますが、倒産しにくさそのものとは別です。大きくても資金繰りが厳しい会社はあり、社員数が多くても固定費が重くなっている場合があります。会社の規模で安心を測るなら、外から厳しく見られている数字、たとえば上場しているかどうかの方が判断材料としては見やすいです。もちろん、上場していれば倒産しないという意味ではありません。"
+      },
+      {
+        title: "完成保証で本当に守られているのは、どの状態？",
+        choices: { A: "会社が完成保証制度に加入している", B: "ホームページで完成保証加入と書かれている", C: "自分の物件に完成保証料が計上されている" },
+        correct: "C",
+        explanation: "完成保証は、住宅会社が倒産したときに、工事の引き継ぎや前払い金の損失を一定範囲で補うための制度です。ただし、会社が完成保証制度に加入しているだけでは十分ではありません。大切なのは、自分の家、自分の契約について、実際に保証が付いているかです。ホームページに「完成保証加入」と書かれていても、それは会社の説明です。特に見るべきなのは、見積書の中に完成保証料が計上されているかどうかです。完成保証は、会社名だけですべての物件に自動的に効くものではなく、1件ごとに対象となるかどうかを確認する必要があります。最終的には、保証書や保証番号などで、自分の家が完成保証の対象になっているかを確認しましょう。",
+        remember: "制度の名前ではなく、自分の家が対象になっているかを見ます。会社が制度に加入していても、あなたの物件が対象でなければ保証は効きません。",
+        summary: "完成保証は、会社が制度に加入していても、すべての物件に自動的に効くわけではありません。本当に守られているかどうかは、自分の見積書の中に完成保証料が計上されているか、保証書や保証番号で自分の家が対象になっているかで確認します。ホームページの「完成保証加入」は会社の説明にすぎません。「制度の名前」と「自分の物件への適用」は分けて見ます。"
+      },
+      {
+        title: "着工前に求められる支払い、安全なのはどこまで？",
+        choices: { A: "累計1割以下", B: "累計2割以下", C: "累計3割以下" },
+        correct: "A",
+        explanation: "着工前の支払いは、できるだけ小さく抑えるのが基本です。目安としては、累計1割以下です。注意したいのは、「契約金」「着手金」「申込金」「準備金」など、別々の名前で請求されるケースです。一つひとつの金額は小さく見えても、合計すると着工前に大きな金額になっていることがあります。累計2割でも、かなり慎重に確認したい水準です。そして、着工前に3割以上の支払いを求められる場合は、原則として候補から外すくらいの危険信号と見た方がよいです。工事が始まる前に多くのお金を払ってしまうと、万が一その会社が倒産したとき、施主側の損失が大きくなります。だからこそ、金額の名前ではなく、着工前に合計でいくら払うのかを見ることが大切です。",
+        remember: "名前が違っても、先に払ったお金であることに変わりはありません。",
+        summary: "着工前の支払いは、累計1割以下が目安です。2割でも慎重に、3割以上の場合は候補から外すくらいの危険信号と見ます。注意したいのは「契約金」「着手金」「申込金」「準備金」など別々の名前で請求されるケースです。一つひとつは小さく見えても、合計すると着工前に大きな金額になっていることがあります。判断は名前ではなく、着工前に合計でいくら払うかで行います。"
+      },
+      {
+        title: "融資を使うとき、施主が特に確認すべきことはどれ？",
+        choices: { A: "銀行の審査が通ったか", B: "融資が実行されたか", C: "そのお金が、いつ・いくら住宅会社に支払われるか" },
+        correct: "C",
+        explanation: "注文住宅では、建物が完成する前に、着工金や中間金が必要になることがあります。そのため、つなぎ融資などを使って支払うケースがあります。ここで大切なのは、融資が実行されたかどうかではありません。そのお金が、住宅会社にいくら支払われたかです。たとえ融資が実行されていても、まだ住宅会社に支払っていないお金であれば、倒産時の損失には直結しません。一方で、自分の口座を通らず、金融機関から住宅会社へ直接お金が動く場合は、「まだ払った感覚がない」のに、実際には支払い済みになっていることがあります。倒産時に問題になるのは、借入額そのものではなく、すでに住宅会社へ渡ってしまった金額です。だからこそ、融資を使う場合は、業者任せにせず、支払いのタイミング・金額・送金先を自分でも確認しておく必要があります。",
+        remember: "借りたお金より、渡したお金を見る。倒産時に戻りにくいのは、すでに住宅会社へ支払ったお金です。",
+        summary: "融資が実行されたかどうかではなく、そのお金が住宅会社にいくら支払われたかが大切です。自分の口座を通らず、金融機関から住宅会社へ直接お金が動くと、「まだ払った感覚がない」のに、実際には支払い済みになっていることがあります。倒産時に問題になるのは、借入額そのものではなく、すでに住宅会社へ渡ってしまった金額です。融資を使うなら、業者任せにせず、支払いのタイミング・金額・送金先を自分でも確認しておきましょう。"
+      },
+      {
+        title: "倒産リスクから身を守るために、最も優先すべきことはどれ？",
+        choices: { A: "いい会社を選ぶ", B: "完成保証に入ってもらう", C: "出来高以上は支払わない" },
+        correct: "C",
+        explanation: "信頼できる会社を選ぶことも、完成保証を確認することも方法の一つです。しかし、倒産リスクに対して最も直接的に効くのは、工事の進み具合以上にお金を払わないことです。もし現場が3割まで進んでいるなら、支払いも3割程度まで。もし現場がまだ始まっていないなら、支払いも最小限に。この考え方を守っていれば、万が一のときにも施主側の損失を小さく抑えやすくなります。会社を完全に見抜くことはできません。でも、先に払いすぎないことは、契約前に確認できます。",
+        remember: "会社を信じることと、先に払いすぎないことは、分けて考えます。",
+        summary: "会社選びも完成保証の確認も方法の一つですが、倒産リスクに最も直接的に効くのは、工事の進み具合以上にお金を払わないことです。現場が3割まで進んでいるなら、支払いも3割程度まで。現場がまだ始まっていないなら、支払いも最小限に。この考え方を守っていれば、万が一のときにも施主側の損失を小さく抑えやすくなります。会社を完全に見抜くことはできなくても、先に払いすぎないことは契約前に確認できます。"
+      }
+    ];
+
+    let current = 0;
+
+    let score = 0;
+    let answered = [];
+
+    const startButton = document.getElementById("startButton");
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionIndex = document.getElementById("questionIndex");
+    const scoreMini = document.getElementById("scoreMini");
+    const progressBar = document.getElementById("progressBar");
+    const questionTitle = document.getElementById("questionTitle");
+    const choicesRoot = document.getElementById("choicesRoot");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const feedbackText = document.getElementById("feedbackText");
+    const rememberText = document.getElementById("rememberText");
+    const nextButton = document.getElementById("nextButton");
+    const restartButton = document.getElementById("restartButton");
+
+    function showQuestion() {
+      const q = questions[current];
+      questionIndex.textContent = `Q${current + 1}`;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+      progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
+      questionTitle.textContent = q.title;
+      feedbackBox.className = "feedback";
+      feedbackTitle.textContent = "";
+      feedbackText.textContent = "";
+      rememberText.textContent = "";
+      nextButton.textContent = current === questions.length - 1 ? "結果を見る" : "次の問題へ";
+
+      choicesRoot.innerHTML = Object.entries(q.choices).map(([key, label]) => `
+        <button class="choice" type="button" data-choice="${key}">
+          <span class="mark">${key}</span>
+          <span class="choice-title">${label}</span>
+        </button>
+      `).join("");
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => selectAnswer(button.dataset.choice));
+      });
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[current];
+      const isCorrect = choice === q.correct;
+      answered[current] = { choice, isCorrect };
+      if (isCorrect) score += 1;
+
+      choicesRoot.querySelectorAll(".choice").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.choice === choice) {
+          button.classList.add("selected", isCorrect ? "correct" : "wrong");
+        }
+      });
+
+      feedbackBox.classList.add("show", isCorrect ? "correct" : "wrong");
+      feedbackTitle.textContent = isCorrect ? "正解です" : "ここは少し注意です";
+      feedbackText.textContent = q.explanation;
+      rememberText.textContent = q.remember;
+      scoreMini.textContent = `${score} / ${questions.length}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function(ch) {
+        return "&#" + ch.charCodeAt(0) + ";";
+      });
+    }
+
+    function showResult() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultLead = document.getElementById("resultLead");
+      const resultList = document.getElementById("resultList");
+
+      if (score === 5) {
+        resultTitle.textContent = "しっかり守れています";
+        resultLead.textContent = "倒産リスクへの基本的な考え方が、ぶれずに整理できています。会社選びだけに頼らず、契約と支払いの両面で施主側の損失を小さくする視点が持てています。あとは、いざ契約・着工というタイミングで、書類と支払い計画を実際に見直してみてください。";
+      } else if (score >= 3) {
+        resultTitle.textContent = "大事な視点は見えてきました";
+        resultLead.textContent = "倒産リスクから身を守る考え方が、少しずつ整理されてきています。特に「出来高以上は支払わない」と「自分の物件に完成保証料が計上されているかを確認する」、この2点を覚えておくと、契約前の判断がしやすくなります。";
+      } else {
+        resultTitle.textContent = "まずはここからで大丈夫です";
+        resultLead.textContent = "倒産リスクの考え方は、契約書の専門用語のなかに隠れてしまいがちです。まずは「会社を完全に見抜くことはできない」「だからこそ、先に払いすぎない」、この2点を覚えておきましょう。気になることがあれば、契約前に設計者に話しかけてみてください。";
+      }
+      resultList.innerHTML = questions.map((q, index) => {
+        const ans = answered[index];
+        const status = ans && ans.isCorrect ? "正解" : "確認";
+        return `
+          <div class="result-row">
+            <div class="q-meta">
+              <span class="q-num">Q${index + 1}</span>
+              <span class="q-status">${status}</span>
+            </div>
+            <div>
+              <p class="q-question">${escapeHtml(q.title)}</p>
+              <b class="q-headline">${escapeHtml(q.remember).replace(/\n/g, "<br>")}</b>
+              <p class="q-summary">${escapeHtml(q.summary)}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function startQuiz() {
+      current = 0;
+      score = 0;
+      answered = [];
+      result.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    startButton.addEventListener("click", startQuiz);
+    restartButton.addEventListener("click", startQuiz);
+
+    nextButton.addEventListener("click", () => {
+      if (!answered[current]) return;
+      if (current < questions.length - 1) {
+        current += 1;
+        showQuestion();
+        quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        showResult();
+      }
+    });
+  </script>
+</body>
+</html>
