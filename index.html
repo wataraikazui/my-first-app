@@ -29,6 +29,9 @@
   --method-light:#e8f0f8;
   --case:#b07d4b;
   --case-light:#f3eae0;
+  --native:#7a6aa8;
+  --native-light:#ece8f5;
+  --native-dark:#5e4f88;
   --text:#3a3a3a;
   --text-light:#8a8a8a;
   --border:#e0dcd4;
@@ -53,15 +56,19 @@ main{flex:1}
 .room-card.methods:hover{border-color:var(--method)}
 .room-card.cases{border-left:4px solid var(--case)}
 .room-card.cases:hover{border-color:var(--case)}
+.room-card.native{border-left:4px solid var(--native)}
+.room-card.native:hover{border-color:var(--native)}
 .room-head{display:flex;align-items:center;gap:16px;margin-bottom:12px}
 .room-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
 .room-card.apps .room-icon{background:var(--main-light)}
 .room-card.methods .room-icon{background:var(--method-light)}
 .room-card.cases .room-icon{background:var(--case-light)}
+.room-card.native .room-icon{background:var(--native-light)}
 .room-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;line-height:1.4}
 .room-card.apps .room-title{color:var(--main)}
 .room-card.methods .room-title{color:var(--method)}
 .room-card.cases .room-title{color:var(--case)}
+.room-card.native .room-title{color:var(--native)}
 .room-sub{font-size:.82rem;color:var(--text-light);font-weight:500;margin-top:2px}
 .room-desc{font-size:.88rem;color:var(--text);line-height:1.9;margin-bottom:14px}
 .room-count{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text-light)}
@@ -69,6 +76,7 @@ main{flex:1}
 .room-card.apps .count-badge{background:var(--main-light);color:var(--main)}
 .room-card.methods .count-badge{background:var(--method-light);color:var(--method)}
 .room-card.cases .count-badge{background:var(--case-light);color:var(--case-dark,#8a5f33)}
+.room-card.native .count-badge{background:var(--native-light);color:var(--native-dark)}
 .nav-links{display:flex;justify-content:center;gap:20px;margin-top:32px;flex-wrap:wrap}
 .nav-link{font-size:.82rem;color:var(--text-light);text-decoration:none;padding:6px 0;border-bottom:1px solid transparent;transition:all .2s}.nav-link:hover{color:var(--main);border-bottom-color:var(--main)}
 .footer{text-align:center;padding:24px 20px 32px;font-size:.75rem;color:var(--text-light);line-height:1.8;border-top:1px solid var(--border);background:var(--card)}
@@ -91,11 +99,22 @@ main{flex:1}
 </div>
 <div class="container">
   <div class="room-grid">
+    <a href="app-dev/index.html" class="room-card native">
+      <div class="room-head">
+        <div class="room-icon">📱</div>
+        <div>
+          <div class="room-title">アプリ開発室</div>
+          <div class="room-sub">スマホアプリの開発と公開</div>
+        </div>
+      </div>
+      <p class="room-desc">現場の写真を、撮ってそのままメールで送る。職人と会社をつなぐスマホアプリ「撮ったヨ」「撮ってネ」を開発しています。</p>
+      <div class="room-count"><span class="count-badge">開発中 2</span><span>App Store 公開準備</span></div>
+    </a>
     <a href="apps/index.html" class="room-card apps">
       <div class="room-head">
         <div class="room-icon">🔮</div>
         <div>
-          <div class="room-title">アプリ開発室</div>
+          <div class="room-title">WEBミニアプリ開発室</div>
           <div class="room-sub">論理と科学の家づくり占い館</div>
         </div>
       </div>
