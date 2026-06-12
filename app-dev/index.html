@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  アプリ開発室｜スマホアプリの開発と公開（撮ったヨ／撮ってネ）
+  アプリ開発室｜アプリとAIの開発と公開
   © YKTラボ / 荻野 尚志 | says@o-h.co.jp
 -->
 <html lang="ja">
@@ -8,9 +8,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>アプリ開発室｜YKTラボ</title>
-<meta name="description" content="現場の写真を、撮ってそのままメールで送るスマホアプリ「撮ったヨ」「撮ってネ」の開発記録とロードマップ。">
+<meta name="description" content="家づくりを助ける道具を、スマホアプリやAIのかたちで開発しています。撮ったヨ／撮ってネ、AI猫ちゃん、LINE家づくりスタッフ。開発の進み具合の記録。">
 <meta property="og:title" content="アプリ開発室｜YKTラボ">
-<meta property="og:description" content="現場の写真を撮ってそのままメールで送るスマホアプリの開発記録とロードマップ。">
+<meta property="og:description" content="家づくりを助ける道具を、スマホアプリやAIのかたちで開発しています。開発の進み具合の記録。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
@@ -28,8 +28,8 @@
   --text:#3a3a3a;
   --text-light:#8a8a8a;
   --border:#e0dcd4;
-  --done:#5b8a72;
-  --done-light:#e8f0ec;
+  --live:#5b8a72;
+  --live-light:#e8f0ec;
   --fd:'Zen Maru Gothic',sans-serif;
   --fb:'Noto Sans JP',sans-serif;
 }
@@ -38,15 +38,15 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.
 main{flex:1}
 .top-link{display:inline-flex;align-items:center;gap:6px;margin:20px 0 0 20px;font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
 .top-link:hover{color:var(--native)}
-.hero{text-align:center;padding:32px 20px 30px}
+.hero{text-align:center;padding:32px 20px 26px}
 .hero-icon{font-size:2.8rem;margin-bottom:6px}
 .hero h1{font-family:var(--fd);font-size:1.7rem;font-weight:700;color:var(--native);margin-bottom:4px}
 .hero .subtitle{font-size:.9rem;color:var(--accent);font-weight:500;margin-bottom:14px}
-.hero .desc{font-size:.85rem;color:var(--text-light);max-width:460px;margin:0 auto;line-height:1.95}
+.hero .desc{font-size:.85rem;color:var(--text-light);max-width:470px;margin:0 auto;line-height:1.95}
 .container{max-width:680px;margin:0 auto;padding:0 20px 48px;width:100%}
-.section-head{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--native-dark);margin:28px 0 14px;padding-left:10px;border-left:3px solid var(--native)}
+.group-head{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--native-dark);margin:30px 0 14px;padding-left:10px;border-left:3px solid var(--native)}
 
-/* アプリカード */
+/* プロジェクトカード */
 .app-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:14px}
 .app-top{display:flex;align-items:flex-start;gap:14px}
 .app-icon{width:48px;height:48px;border-radius:12px;background:var(--native-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
@@ -55,23 +55,28 @@ main{flex:1}
 .tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 10px;border-radius:20px;margin-top:6px}
 .tag.lead{background:var(--native-light);color:var(--native-dark)}
 .tag.next{background:#f3eae0;color:#8a5f33}
+.tag.live{background:var(--live-light);color:var(--live)}
+.tag.plan{background:#efece6;color:var(--text-light)}
 .app-body{font-size:.88rem;color:var(--text);line-height:1.9;margin-top:12px}
 .app-spec{list-style:none;margin:10px 0 0;padding:0;font-size:.82rem;color:var(--text-light)}
 .app-spec li{padding:3px 0 3px 18px;position:relative}
 .app-spec li::before{content:"–";position:absolute;left:2px;color:var(--native)}
+.app-status{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:.8rem}
+.app-status b{color:var(--native-dark);font-weight:700;margin-right:4px}
+.app-status span{color:var(--text-light)}
 
 /* ロードマップ */
 .steps{list-style:none;margin:0;padding:0}
 .step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
 .step:last-child{border-bottom:none}
 .step-mark{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}
-.step.done .step-mark{background:var(--done-light);color:var(--done)}
+.step.done .step-mark{background:var(--live-light);color:var(--live)}
 .step.now .step-mark{background:var(--native-light);color:var(--native-dark)}
 .step.todo .step-mark{background:#efece6;color:var(--text-light)}
 .step-body{flex:1;min-width:0}
 .step-title{font-weight:700;font-size:.92rem;color:var(--text)}
 .step-title .st-tag{font-size:.68rem;font-weight:700;padding:1px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
-.step.done .st-tag{background:var(--done-light);color:var(--done)}
+.step.done .st-tag{background:var(--live-light);color:var(--live)}
 .step.now .st-tag{background:var(--native-light);color:var(--native-dark)}
 .step.todo .st-tag{background:#efece6;color:var(--text-light)}
 .step-desc{font-size:.82rem;color:var(--text-light);line-height:1.8;margin-top:3px}
@@ -88,7 +93,7 @@ main{flex:1}
 .footer a{color:var(--native);text-decoration:none}
 .footer a:hover{text-decoration:underline}
 @media(max-width:480px){
-  .hero{padding:24px 20px 24px}
+  .hero{padding:24px 20px 22px}
   .hero h1{font-size:1.45rem}
   .app-card,.todo-box{padding:16px 18px}
 }
@@ -100,12 +105,13 @@ main{flex:1}
 <div class="hero">
   <div class="hero-icon">📱</div>
   <h1>アプリ開発室</h1>
-  <p class="subtitle">スマホアプリの開発と公開</p>
-  <p class="desc">現場の写真を、撮ってそのままメールで送る。<br>職人と会社をつなぐスマホアプリを開発しています。<br>このページは開発の進み具合とロードマップの記録です。</p>
+  <p class="subtitle">アプリとAIの開発と公開</p>
+  <p class="desc">家づくりを助ける道具を、スマホアプリやAIのかたちでつくっています。<br>このページは、それぞれの開発の進み具合の記録です。</p>
 </div>
 <div class="container">
 
-  <div class="section-head">開発中のアプリ</div>
+  <!-- ===== スマホアプリ ===== -->
+  <div class="group-head">スマホアプリ ──「撮ったヨ」「撮ってネ」</div>
 
   <div class="app-card">
     <div class="app-top">
@@ -118,14 +124,17 @@ main{flex:1}
     </div>
     <p class="app-body">
       現場で写真を撮り、物件名と内容を選ぶだけで、件名・ファイル名が自動でつくられ、決めた宛先へメールで送れます。
-      職人さんが、取引先ごとに送り分けられる少し高機能な方。まずこちらをMVPとして先に公開します。
+      職人さんが取引先ごとに送り分けられる、少し高機能な方。まずこちらをMVPとして先に公開します。
     </p>
     <ul class="app-spec">
       <li>撮る → 物件名・内容を選ぶ → 件名／ファイル名が自動生成</li>
       <li>宛先を選んで、端末のメールでそのまま送信</li>
-      <li>写真は自動で縮小（長辺2048px）</li>
-      <li>データ収集なし（端末内で完結）</li>
+      <li>写真は自動で縮小／データ収集なし（端末内で完結）</li>
     </ul>
+    <div class="app-status">
+      <span><b>いま</b>実機でカメラ・メールを確認中</span>
+      <span><b>つぎ</b>App Store へ提出</span>
+    </div>
   </div>
 
   <div class="app-card">
@@ -143,13 +152,68 @@ main{flex:1}
     </p>
     <ul class="app-spec">
       <li>宛先は自社のみ固定 ／ 操作は最小限</li>
-      <li>物件名リストを会社側で用意（公開シート連携の軽い仕組み）</li>
-      <li>業者ごとのコードで、自分の物件だけを表示</li>
-      <li>「撮ったヨ」の派生として開発（宛先ロック＋リスト取得を追加）</li>
+      <li>物件名リストを会社側で用意（軽い仕組みで連携）</li>
+      <li>「撮ったヨ」の派生として開発</li>
     </ul>
+    <div class="app-status">
+      <span><b>いま</b>仕様を整理中</span>
+      <span><b>つぎ</b>撮ったヨ公開のあとに着手</span>
+    </div>
   </div>
 
-  <div class="section-head">開発ロードマップ</div>
+  <!-- ===== AI・自動応答 ===== -->
+  <div class="group-head">AI・自動応答</div>
+
+  <div class="app-card">
+    <div class="app-top">
+      <div class="app-icon">🐱</div>
+      <div>
+        <div class="app-name">AI猫ちゃん（受付AI）</div>
+        <div class="app-role">サイトの入口で、来訪者を案内する</div>
+        <span class="tag live">実践運用中</span>
+      </div>
+    </div>
+    <p class="app-body">
+      白衣を着た猫の受付係。サイトを訪れた人に「今日はどんなことが気になっていますか？」と話しかけ、
+      目的に合った診断ツールや解説ページへそっと案内するAIです。すでに実際のサイトで動いています。
+    </p>
+    <ul class="app-spec">
+      <li>来訪者の関心を聞き、適したページ・診断へ案内</li>
+      <li>サイト全体の案内役（入口のコンシェルジュ）</li>
+      <li>実際のサイトに組み込んで運用中</li>
+    </ul>
+    <div class="app-status">
+      <span><b>いま</b>運用しながら案内の精度を調整</span>
+      <span><b>つぎ</b>人への引き継ぎを強める</span>
+    </div>
+  </div>
+
+  <div class="app-card">
+    <div class="app-top">
+      <div class="app-icon">💬</div>
+      <div>
+        <div class="app-name">LINE家づくりスタッフ（LINEボット）</div>
+        <div class="app-role">トークに住む、家づくりの相談相手</div>
+        <span class="tag plan">企画中</span>
+      </div>
+    </div>
+    <p class="app-body">
+      LINEのトーク画面に住み、家づくりの疑問にその場で答えるAIスタッフ。
+      受付AIの考え方をLINEに移し、気軽なやり取りから、必要なときに人の相談へつなぐ受け皿を目指しています。
+    </p>
+    <ul class="app-spec">
+      <li>LINEのトークで家づくりの疑問に応答</li>
+      <li>気軽なやり取り → 必要なら人の相談へ橋渡し</li>
+      <li>企画書を作成済み（A4・3枚）</li>
+    </ul>
+    <div class="app-status">
+      <span><b>いま</b>企画を詰めている段階</span>
+      <span><b>つぎ</b>キャラ・やり取りの形・項目を決める</span>
+    </div>
+  </div>
+
+  <!-- ===== 撮ったヨ 公開ロードマップ ===== -->
+  <div class="group-head">撮ったヨ：公開までのロードマップ</div>
 
   <ol class="steps">
     <li class="step done">
@@ -177,7 +241,7 @@ main{flex:1}
       <div class="step-mark">○</div>
       <div class="step-body">
         <div class="step-title">App Store へ提出（iOS）<span class="st-tag">これから</span></div>
-        <div class="step-desc">MacでiOS版をビルドし、Apple Developer 登録・スクリーンショット・審査を経て公開する段階。公開準備の書類一式（ストア文言・プライバシー・手順）は作成済み。</div>
+        <div class="step-desc">MacでiOS版をビルドし、Apple Developer 登録・スクリーンショット・審査を経て公開する段階。公開準備の書類一式は作成済み。</div>
       </div>
     </li>
     <li class="step todo">
@@ -189,7 +253,7 @@ main{flex:1}
     </li>
   </ol>
 
-  <div class="section-head">公開までの残り作業</div>
+  <div class="group-head">撮ったヨ：公開までの残り作業</div>
   <div class="todo-box">
     <ul>
       <li>Apple Developer Program への登録</li>
@@ -200,7 +264,7 @@ main{flex:1}
       <li>App Store Connect に登録して審査へ提出</li>
     </ul>
     <p class="note">
-      ※ このページは開発の記録です。アプリはまだ公開前で、ダウンロードはできません。公開できしだい、ここからご案内します。
+      ※ このページは開発の記録です。スマホアプリはまだ公開前で、ダウンロードはできません。公開できしだい、ここからご案内します。
     </p>
   </div>
 
