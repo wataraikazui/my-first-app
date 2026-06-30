@@ -359,8 +359,8 @@
 
     .step-controls {
       display: grid;
-      gap: 9px;
-      padding: 10px;
+      gap: 12px;
+      padding: 12px;
       background: #f8faf6;
       border: 1px solid #e4e9df;
       border-radius: 8px;
@@ -373,65 +373,81 @@
 
     .step-amount-grid {
       display: grid;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .amount-control {
+    .amount-card {
       display: grid;
-      grid-template-columns: 72px 38px minmax(76px, 1fr) 58px 38px;
-      gap: 6px;
+      grid-template-columns: minmax(0, 1fr) minmax(118px, 0.78fr);
+      gap: 8px 10px;
       align-items: center;
+      padding: 10px;
+      background: #ffffff;
+      border: 1px solid #dfe7dc;
+      border-radius: 8px;
     }
 
-    .amount-label {
-      color: var(--muted);
-      font-size: 12px;
+    .amount-title {
+      color: #24342c;
+      font-size: 13px;
       font-weight: 800;
       white-space: nowrap;
     }
 
-    .amount-input {
-      width: 100%;
-      min-height: 42px;
-      border: 1px solid #c6d2c3;
-      border-radius: 8px;
-      background: #ffffff;
-      color: #17211d;
-      font-size: 20px;
-      font-weight: 800;
-      text-align: right;
-      padding: 6px 9px;
-      outline: none;
+    .amount-sub {
+      grid-column: 1;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
     }
 
-    .amount-input:focus {
+    .amount-entry {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      display: grid;
+      grid-template-columns: minmax(70px, 1fr) auto;
+      align-items: center;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #c6d2c3;
+      border-radius: 8px;
+    }
+
+    .amount-entry:focus-within {
       box-shadow: 0 0 0 3px rgba(15, 139, 141, 0.18);
       border-color: var(--teal);
     }
 
+    .amount-input {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-right: 1px solid #e0e6dd;
+      border-radius: 0;
+      background: #ffffff;
+      color: #17211d;
+      font-size: 22px;
+      font-weight: 800;
+      text-align: right;
+      padding: 6px 10px;
+      outline: none;
+    }
+
+    .amount-input:focus {
+      box-shadow: none;
+    }
+
     .amount-unit {
+      padding: 0 9px;
       color: #53605a;
       font-size: 12px;
       font-weight: 800;
       white-space: nowrap;
     }
 
-    .step-button {
-      width: 38px;
-      height: 42px;
-      border: 1px solid #c6d2c3;
-      border-radius: 8px;
-      background: #ffffff;
-      color: #173f42;
-      font-size: 20px;
-      line-height: 1;
-      font-weight: 800;
-      display: grid;
-      place-items: center;
-    }
-
-    .step-button:hover {
-      background: #eef7f4;
+    .step-apply {
+      width: 100%;
+      min-height: 42px;
     }
 
     .stage-line {
@@ -809,8 +825,14 @@
         grid-template-columns: 1fr;
       }
 
-      .amount-control {
-        grid-template-columns: 70px 38px minmax(70px, 1fr) 54px 38px;
+      .amount-card {
+        grid-template-columns: 1fr;
+      }
+
+      .amount-sub,
+      .amount-entry {
+        grid-column: 1;
+        grid-row: auto;
       }
 
       .family-row {
@@ -1342,21 +1364,24 @@
             <div class="step-controls" aria-label="段階繰上の加算額">
               <h3 class="section-title">段階繰上の加算額</h3>
               <div class="step-amount-grid">
-                <div class="amount-control">
-                  <span class="amount-label">教育費前</span>
-                  <button class="step-button" type="button" data-step-target="earlyExtraMan" data-step="-1" aria-label="教育費前を減らす">−</button>
-                  <input id="earlyExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.earlyExtraMan}" aria-label="教育費前の毎月加算額">
-                  <span class="amount-unit">万円/月</span>
-                  <button class="step-button" type="button" data-step-target="earlyExtraMan" data-step="1" aria-label="教育費前を増やす">＋</button>
-                </div>
-                <div class="amount-control">
-                  <span class="amount-label">独立後</span>
-                  <button class="step-button" type="button" data-step-target="strongExtraMan" data-step="-1" aria-label="独立後を減らす">−</button>
-                  <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="独立後の毎月加算額">
-                  <span class="amount-unit">万円/月</span>
-                  <button class="step-button" type="button" data-step-target="strongExtraMan" data-step="1" aria-label="独立後を増やす">＋</button>
-                </div>
+                <label class="amount-card" for="earlyExtraMan">
+                  <span class="amount-title">教育費前</span>
+                  <span class="amount-sub">返済額軽減型に回す毎月の上乗せ額</span>
+                  <span class="amount-entry">
+                    <input id="earlyExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.earlyExtraMan}" aria-label="教育費前の毎月加算額">
+                    <span class="amount-unit">万円/月</span>
+                  </span>
+                </label>
+                <label class="amount-card" for="strongExtraMan">
+                  <span class="amount-title">独立後</span>
+                  <span class="amount-sub">期間短縮に回す毎月の追加返済額</span>
+                  <span class="amount-entry">
+                    <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="独立後の毎月加算額">
+                    <span class="amount-unit">万円/月</span>
+                  </span>
+                </label>
               </div>
+              <button id="applyStepAmounts" class="button primary step-apply" type="button">反映</button>
             </div>
           `
           : "";
@@ -1392,28 +1417,27 @@
     }
 
     function wireStepControls() {
+      const applyStepAmounts = () => {
+        ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
+          const input = document.getElementById(id);
+          if (!input) return;
+          state[id] = Math.max(0, Number(input.value) || 0);
+        });
+        refresh();
+      };
+
       ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
         const input = document.getElementById(id);
         if (!input) return;
         input.addEventListener("input", () => {
           state[id] = Math.max(0, Number(input.value) || 0);
         });
-        input.addEventListener("change", refresh);
         input.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") input.blur();
+          if (event.key === "Enter") applyStepAmounts();
         });
       });
-      document.querySelectorAll("[data-step-target]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const target = document.getElementById(button.dataset.stepTarget);
-          if (!target) return;
-          const step = Number(button.dataset.step) || 0;
-          const next = Math.max(0, (Number(target.value) || 0) + step);
-          target.value = Number.isInteger(next) ? String(next) : next.toFixed(1);
-          state[button.dataset.stepTarget] = next;
-          refresh();
-        });
-      });
+      const applyButton = document.getElementById("applyStepAmounts");
+      if (applyButton) applyButton.addEventListener("click", applyStepAmounts);
     }
 
     function makeSvg(tag, attrs = {}, text = "") {
