@@ -1,598 +1,1771 @@
-<!DOCTYPE html>
-<!--
-  YKTラボ｜住宅ローン返済 対策シミュレーター
-  © YKTラボ / 荻野 尚志 | says@o-h.co.jp
-  利用は制限しませんが、使用される際はご連絡ください。
--->
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>住宅ローン返済 対策シミュレーター｜YKTラボ</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-<style>
-:root {
-  --bg: #f8f5ee;
-  --surface: #ffffff;
-  --border: #e5dfd0;
-  --border-strong: #d4cdb6;
-  --text: #2a2a26;
-  --text-muted: #6b6b65;
-  --primary: #2d5f3f;
-  --primary-tint: rgba(45, 95, 63, 0.10);
-  --accent: #c97b50;
-  --accent-tint: rgba(201, 123, 80, 0.12);
-  --highlight-bg: #f3eddd;
-  --headline-bg: #ede4cd;
-  --line-green: #06c755;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  padding: 16px;
-  -webkit-font-smoothing: antialiased;
-}
-.container { max-width: 760px; margin: 0 auto; }
-header { text-align: center; padding: 24px 0 18px; }
-h1 { font-size: 22px; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
-.subtitle { font-size: 13px; color: var(--text-muted); }
-section {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-.section-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
-  margin-bottom: 14px;
-  text-transform: uppercase;
-}
-.inputs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 14px;
-}
-.input-block { margin-bottom: 20px; }
-.input-block:last-child { margin-bottom: 0; }
-.input-subtitle {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--primary);
-  margin: 0 0 12px;
-  padding-left: 10px;
-  border-left: 3px solid var(--accent);
-}
-.input-field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-.input-field .hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 4px;
-  line-height: 1.5;
-}
-.input-with-unit { position: relative; }
-.input-with-unit input,
-.input-with-unit select {
-  width: 100%;
-  padding: 9px 38px 9px 11px;
-  font-size: 15px;
-  border: 1px solid var(--border-strong);
-  border-radius: 7px;
-  background: var(--surface);
-  font-family: inherit;
-  color: var(--text);
-  transition: border-color 0.15s;
-}
-.input-with-unit select { padding-right: 11px; appearance: auto; }
-.input-with-unit input:focus,
-.input-with-unit select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-tint);
-}
-.input-with-unit .unit {
-  position: absolute;
-  right: 11px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: var(--text-muted);
-  pointer-events: none;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>おすすめローンの組み方 汎用シミュレーター</title>
+  <style>
+    :root {
+      --bg: #f6f7f3;
+      --paper: #ffffff;
+      --ink: #202421;
+      --muted: #64706a;
+      --line: #dbe1d7;
+      --soft: #eef4ed;
+      --teal: #0f8b8d;
+      --amber: #d18a28;
+      --indigo: #5868b3;
+      --green: #547a44;
+      --red: #aa4c4c;
+      --shadow: 0 14px 38px rgba(35, 43, 37, 0.10);
+      font-family: "Yu Gothic", "YuGothic", "Meiryo", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      letter-spacing: 0;
+    }
 
-/* オプションのサブセクション */
-.option-block {
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 15px 16px;
-  margin-top: 14px;
-}
-.option-block.rate { background: var(--accent-tint); border-color: rgba(201,123,80,0.3); }
-.option-block.prepay { background: var(--primary-tint); border-color: rgba(45,95,63,0.22); }
-.option-head {
-  font-size: 12.5px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.option-block.rate .option-head { color: var(--accent); }
-.option-block.prepay .option-head { color: var(--primary); }
-.option-note { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+    * { box-sizing: border-box; }
 
-/* 繰り上げ返済 行 */
-.prepay-row {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  padding: 12px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)) 40px;
-  gap: 9px;
-  align-items: end;
-  margin-bottom: 10px;
-}
-.prepay-row .input-field label { font-size: 11.5px; margin-bottom: 4px; }
-.prepay-row input, .prepay-row select {
-  width: 100%; padding: 8px 9px; font-size: 14px;
-  border: 1px solid var(--border-strong); border-radius: 6px;
-  background: var(--surface); font-family: inherit; color: var(--text);
-}
-.prepay-row input:focus, .prepay-row select:focus {
-  outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-tint);
-}
-.remove-btn {
-  height: 38px; border: none; border-radius: 6px;
-  background: var(--accent-tint); color: var(--accent);
-  font-size: 18px; cursor: pointer; transition: background 0.15s;
-}
-.remove-btn:hover { background: rgba(201,123,80,0.25); }
-.add-btn {
-  background: transparent; color: var(--primary);
-  border: 1px dashed var(--border-strong); border-radius: 7px;
-  padding: 10px 18px; font-size: 13px; font-weight: 600;
-  cursor: pointer; font-family: inherit; transition: background 0.15s, border-color 0.15s;
-}
-.add-btn:hover { background: var(--primary-tint); border-color: var(--primary); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(246,247,243,0.98), rgba(246,247,243,1)),
+        repeating-linear-gradient(90deg, rgba(15,139,141,0.045) 0 1px, transparent 1px 104px);
+    }
 
-/* サマリー */
-.summary-headline {
-  background: var(--headline-bg);
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  padding: 20px 22px;
-  margin-bottom: 12px;
-  text-align: center;
-}
-.summary-headline-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.04em; }
-.summary-headline-value { font-size: 32px; font-weight: 700; color: var(--primary); line-height: 1.1; }
-.summary-headline-sub { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
-.summary-headline-sub strong { color: var(--text); font-weight: 600; }
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-}
-.stat { background: var(--highlight-bg); border-radius: 8px; padding: 12px 14px; }
-.stat.accent { background: var(--accent-tint); }
-.stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
-.stat-value { font-size: 20px; font-weight: 600; color: var(--primary); line-height: 1.2; }
-.stat.accent .stat-value { color: var(--accent); }
-.stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-/* 比較（元の条件 vs 今回の試算） */
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.compare-col { border: 1px solid var(--border-strong); border-radius: 10px; padding: 14px 16px; }
-.compare-col.base { background: var(--highlight-bg); }
-.compare-col.scenario { background: var(--accent-tint); border-color: rgba(201,123,80,0.35); }
-.compare-head { font-size: 12px; font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); line-height: 1.4; }
-.compare-col.base .compare-head { color: var(--text-muted); }
-.compare-col.scenario .compare-head { color: var(--accent); }
-.compare-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 7px; font-size: 12px; color: var(--text-muted); }
-.compare-row:last-child { margin-bottom: 0; }
-.compare-row .cv { font-size: 15px; font-weight: 700; color: var(--primary); text-align: right; }
-.compare-col.scenario .compare-row .cv { color: var(--accent); }
-.compare-row.sub .cv { font-size: 13px; }
-.compare-diff { margin-top: 12px; padding: 11px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; color: var(--text); line-height: 1.6; text-align: center; }
-.compare-diff strong { color: var(--accent); font-weight: 700; }
-.compare-diff .muted { color: var(--text-muted); font-size: 11.5px; }
-@media (max-width: 480px) {
-  .compare-grid { grid-template-columns: 1fr; }
-  .compare-row .cv { font-size: 14px; }
-}
+    button {
+      cursor: pointer;
+    }
 
-/* テーブル */
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 12.5px; white-space: nowrap; }
-th, td { padding: 9px 10px; text-align: right; border-bottom: 1px solid var(--border); }
-th:first-child, td:first-child { text-align: left; }
-th { font-weight: 600; color: var(--text-muted); background: var(--bg); font-size: 11px; letter-spacing: 0.03em; }
-td.bg-rate { background: var(--accent-tint); color: var(--accent); font-weight: 600; }
-td.bg-prepay { background: var(--primary-tint); color: var(--primary); font-weight: 600; }
+    .page {
+      width: min(1220px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 22px 0 36px;
+    }
 
-/* アクションボタン */
-.actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.btn {
-  flex: 1 1 auto; min-width: 140px;
-  padding: 13px 18px; border-radius: 9px; border: none;
-  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  text-decoration: none; transition: opacity 0.15s, transform 0.05s;
-}
-.btn:active { transform: translateY(1px); }
-.btn:hover { opacity: 0.92; }
-.btn-line { background: var(--line-green); color: #fff; }
-.btn-mail { background: var(--accent); color: #fff; }
-.btn-print { background: var(--surface); color: var(--text-muted); border: 1px solid var(--border-strong); }
-.action-note { width: 100%; font-size: 11.5px; color: var(--primary); text-align: center; margin-top: 4px; }
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      padding: 8px 0 16px;
+    }
 
-footer { padding: 24px 8px 8px; color: var(--text-muted); font-size: 12px; text-align: center; }
-footer p { margin: 6px 0; }
-footer a { color: var(--accent); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
-.footer-divider { border-top: 1px solid var(--border); margin: 14px 0; }
-.inquiry { font-size: 11px; padding: 11px 14px; background: var(--highlight-bg); border-radius: 8px; margin: 0 0 12px; color: var(--text); line-height: 1.5; }
-.disclaimer { font-size: 11px; color: var(--text-muted); line-height: 1.7; margin-top: 4px; }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(25px, 3.4vw, 42px);
+      line-height: 1.16;
+      font-weight: 800;
+      color: #17211d;
+    }
 
-.print-header { display: none; }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.62;
+      max-width: 820px;
+    }
 
-@media (max-width: 480px) {
-  h1 { font-size: 19px; }
-  section { padding: 14px; }
-  .stat-value { font-size: 18px; }
-  .summary-headline-value { font-size: 26px; }
-  .summary-headline { padding: 16px 14px; }
-  table { font-size: 11.5px; }
-  th, td { padding: 7px 7px; }
-  .prepay-row { grid-template-columns: 1fr 1fr; }
-  .prepay-row .remove-btn { grid-column: 1 / -1; }
-}
+    .stamp {
+      min-width: 228px;
+      padding: 10px 12px;
+      background: #fff8e8;
+      border: 1px solid #e8d8b9;
+      border-radius: 8px;
+      color: #6b552c;
+      font-size: 12px;
+      display: grid;
+      gap: 5px;
+    }
 
-@media print {
-  body { background: #fff; padding: 0; }
-  .input-section, .actions, .add-btn, .remove-btn, footer .inquiry { display: none !important; }
-  .print-header { display: block !important; text-align: center; border-bottom: 2px solid #333; margin-bottom: 18px; padding-bottom: 10px; }
-  section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
-  td.bg-rate { background: #fff4e6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  td.bg-prepay { background: #e7f3ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-}
-</style>
+    .stamp strong {
+      color: #3c3328;
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .input-panel {
+      position: sticky;
+      top: 12px;
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .field span,
+    .family-row label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .input-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      border: 1px solid #cfd8cc;
+      background: #fbfcfa;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .input-wrap input,
+    .family-row input,
+    .family-row select {
+      width: 100%;
+      min-height: 38px;
+      border: 0;
+      background: transparent;
+      padding: 8px 9px;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .input-wrap input:focus,
+    .family-row input:focus,
+    .family-row select:focus {
+      box-shadow: inset 0 0 0 2px rgba(15, 139, 141, 0.28);
+    }
+
+    .unit {
+      color: #53605a;
+      font-size: 12px;
+      padding: 0 9px;
+      white-space: nowrap;
+    }
+
+    .family-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .family-row {
+      display: grid;
+      grid-template-columns: 86px minmax(76px, 1fr) 70px 34px;
+      gap: 6px;
+      align-items: end;
+    }
+
+    .family-row select,
+    .family-row input {
+      border: 1px solid #cfd8cc;
+      background: #fbfcfa;
+      border-radius: 8px;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 38px;
+      border: 1px solid #d7ddd3;
+      background: #fff;
+      color: #6b473f;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .button {
+      min-height: 38px;
+      border: 1px solid #cfd8cc;
+      border-radius: 8px;
+      background: #f7faf5;
+      color: #26362f;
+      font-weight: 800;
+      padding: 0 12px;
+    }
+
+    .button.primary {
+      background: #173f42;
+      border-color: #173f42;
+      color: #fff;
+    }
+
+    .notice {
+      margin: 0;
+      padding: 10px 11px;
+      border: 1px solid #e4d7bf;
+      background: #fffaf0;
+      color: #6a542c;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .content {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .recommendation {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 12px;
+      padding: 14px;
+      border-left: 5px solid var(--teal);
+    }
+
+    .recommendation h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .recommendation p {
+      margin: 0;
+      color: #3f4943;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .recommend-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 10px;
+      background: #f8faf6;
+      border: 1px solid #e4e9df;
+      border-radius: 8px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 18px;
+      line-height: 1.22;
+      overflow-wrap: anywhere;
+    }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .pattern-card {
+      padding: 13px;
+      display: grid;
+      gap: 11px;
+      border-top: 5px solid #ccd5cc;
+    }
+
+    .pattern-card.recommended {
+      border-color: var(--teal);
+      box-shadow: 0 16px 42px rgba(15,139,141,0.14);
+    }
+
+    .pattern-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .pattern-head h2 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .tag {
+      display: inline-grid;
+      place-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stage-plan {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      line-height: 1.42;
+      color: #3c443e;
+    }
+
+    .step-controls {
+      display: grid;
+      gap: 9px;
+      padding: 10px;
+      background: #f8faf6;
+      border: 1px solid #e4e9df;
+      border-radius: 8px;
+    }
+
+    .step-controls .section-title {
+      margin-bottom: 0;
+      font-size: 13px;
+    }
+
+    .step-amount-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .amount-control {
+      display: grid;
+      grid-template-columns: 72px 38px minmax(76px, 1fr) 58px 38px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .amount-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .amount-input {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid #c6d2c3;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #17211d;
+      font-size: 20px;
+      font-weight: 800;
+      text-align: right;
+      padding: 6px 9px;
+      outline: none;
+    }
+
+    .amount-input:focus {
+      box-shadow: 0 0 0 3px rgba(15, 139, 141, 0.18);
+      border-color: var(--teal);
+    }
+
+    .amount-unit {
+      color: #53605a;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .step-button {
+      width: 38px;
+      height: 42px;
+      border: 1px solid #c6d2c3;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #173f42;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    .step-button:hover {
+      background: #eef7f4;
+    }
+
+    .stage-line {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 7px;
+      align-items: baseline;
+    }
+
+    .stage-line span {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .chart-panel {
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid #e5ebe2;
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .panel-title h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .panel-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .segmented {
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      border: 1px solid #ccd6cb;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f6f9f4;
+    }
+
+    .segmented button {
+      min-height: 36px;
+      border: 0;
+      background: transparent;
+      color: #34413a;
+      padding: 0 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .segmented button[aria-pressed="true"] {
+      background: #173f42;
+      color: #fff;
+    }
+
+    .chart-wrap {
+      padding: 12px 14px 6px;
+    }
+
+    .chart-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2.05 / 1;
+      min-height: 360px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .chart-label {
+      fill: #687269;
+      font-size: 12px;
+    }
+
+    .chart-title-small {
+      fill: #28322c;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .grid-line {
+      stroke: #e3e9df;
+      stroke-width: 1;
+    }
+
+    .axis-line {
+      stroke: #aeb9aa;
+      stroke-width: 1.25;
+    }
+
+    .stage-band {
+      opacity: 0.76;
+    }
+
+    .marker-line {
+      stroke: #868f86;
+      stroke-width: 1;
+      stroke-dasharray: 5 5;
+    }
+
+    .series-path {
+      fill: none;
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .focus-line {
+      stroke: #222722;
+      stroke-width: 1.3;
+      stroke-dasharray: 4 6;
+    }
+
+    .focus-dot {
+      stroke: #fff;
+      stroke-width: 2.4;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px 15px;
+      padding: 0 14px 10px;
+      min-height: 38px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #39443e;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .swatch {
+      inline-size: 18px;
+      block-size: 5px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .timeline-control {
+      display: grid;
+      grid-template-columns: 70px minmax(0, 1fr) 58px;
+      gap: 10px;
+      align-items: center;
+      padding: 0 14px 16px;
+    }
+
+    .timeline-control span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--amber);
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.92fr);
+      gap: 14px;
+    }
+
+    .focus-box {
+      padding: 14px;
+    }
+
+    .focus-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 9px;
+    }
+
+    .focus-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .focus-head strong {
+      color: #173f42;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: #eef4ed;
+      color: #34513a;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .pill.amber {
+      background: #fff0d8;
+      color: #744f1d;
+    }
+
+    .focus-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .focus-table th,
+    .focus-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #e5ebe2;
+      text-align: right;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    .focus-table th:first-child,
+    .focus-table td:first-child {
+      text-align: left;
+      white-space: normal;
+    }
+
+    .focus-table th {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .milestone-list {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+    }
+
+    .milestone-list h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .milestone {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 9px;
+      align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5ebe2;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .milestone strong {
+      color: #173f42;
+    }
+
+    .data-section {
+      padding: 14px;
+    }
+
+    details summary {
+      cursor: pointer;
+      color: #173f42;
+      font-weight: 800;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      margin-top: 12px;
+      border: 1px solid #e4e9df;
+      border-radius: 8px;
+    }
+
+    .annual-table {
+      width: 100%;
+      min-width: 1120px;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .annual-table th,
+    .annual-table td {
+      padding: 7px 8px;
+      border-bottom: 1px solid #e9ede5;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .annual-table th:first-child,
+    .annual-table td:first-child {
+      text-align: left;
+    }
+
+    .annual-table th {
+      position: sticky;
+      top: 0;
+      background: #f0f5ef;
+      color: #4d574f;
+      font-weight: 800;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1080px) {
+      .layout,
+      .recommendation,
+      .focus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .input-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100vw - 20px, 1220px);
+        padding-top: 12px;
+      }
+
+      .topbar,
+      .pattern-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stamp {
+        min-width: 0;
+      }
+
+      .field-grid,
+      .recommend-metrics,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .amount-control {
+        grid-template-columns: 70px 38px minmax(70px, 1fr) 54px 38px;
+      }
+
+      .family-row {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+
+      .family-row .icon-button {
+        width: 100%;
+      }
+
+      .segmented {
+        width: 100%;
+        grid-template-columns: 1fr;
+      }
+
+      .chart-frame {
+        aspect-ratio: 1.28 / 1;
+        min-height: 350px;
+      }
+
+      .timeline-control {
+        grid-template-columns: 1fr;
+      }
+
+      .focus-table th,
+      .focus-table td {
+        white-space: normal;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-
-  <div class="print-header">
-    <div style="font-size:12px;color:#666;text-align:right;" id="printDate"></div>
-    <h1 style="color:#000;">住宅ローン返済シミュレーション結果</h1>
-  </div>
-
-  <header>
-    <h1>住宅ローン返済 対策シミュレーター</h1>
-    <p class="subtitle">金利上昇や繰り上げ返済で、毎月の返済と総額がどう変わるのか</p>
-  </header>
-
-  <!-- 入力 -->
-  <section class="input-section">
-    <div class="section-title">借入条件を入力</div>
-
-    <div class="input-block">
-      <div class="inputs-grid">
-        <div class="input-field">
-          <label for="loanAmount">借入金額</label>
-          <div class="input-with-unit"><input type="number" id="loanAmount" value="3000" step="100"><span class="unit">万円</span></div>
-        </div>
-        <div class="input-field">
-          <label for="loanYears">借入期間</label>
-          <div class="input-with-unit"><input type="number" id="loanYears" value="35" min="1" max="50"><span class="unit">年</span></div>
-        </div>
-        <div class="input-field">
-          <label for="initialRate">当初の年利</label>
-          <div class="input-with-unit"><input type="number" id="initialRate" value="1.0" step="0.01"><span class="unit">%</span></div>
-        </div>
-        <div class="input-field">
-          <label for="bonusPayAmount">ボーナス返済額</label>
-          <div class="input-with-unit"><input type="number" id="bonusPayAmount" value="0" step="1"><span class="unit">万/回</span></div>
-          <div class="hint">半年に1回の加算額。なければ0</div>
-        </div>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <h1>おすすめローンの組み方</h1>
+        <p class="subtitle">借入金額・ボーナス返済・金利・家族構成から、40年＋段階繰上、35年、40年の3パターンを比較します。</p>
       </div>
-    </div>
+      <aside class="stamp" aria-label="計算前提">
+        <strong>汎用シミュレーター</strong>
+        <span>固定金利・元利均等の概算</span>
+        <span>ボーナス返済は年2回で計算</span>
+      </aside>
+    </header>
 
-    <div class="option-block rate">
-      <div class="option-head">オプション：将来の金利変動</div>
-      <div class="option-note">「○年目から金利が○％に上がったら？」を試算。空欄なら金利は当初のまま。</div>
-      <div class="inputs-grid">
-        <div class="input-field">
-          <label for="rateChangeYear">変動開始</label>
-          <div class="input-with-unit"><input type="number" id="rateChangeYear" placeholder="例: 11" min="1"><span class="unit">年目</span></div>
-        </div>
-        <div class="input-field">
-          <label for="futureRate">変動後の金利</label>
-          <div class="input-with-unit"><input type="number" id="futureRate" placeholder="例: 2.0" step="0.01"><span class="unit">%</span></div>
-        </div>
-      </div>
-    </div>
+    <section class="layout">
+      <aside class="panel input-panel">
+        <section>
+          <h2 class="section-title">借入条件</h2>
+          <div class="field-grid">
+            <label class="field">
+              <span>借入金額</span>
+              <span class="input-wrap"><input id="principalMan" type="number" min="100" step="100" value="5000"><span class="unit">万円</span></span>
+            </label>
+            <label class="field">
+              <span>ボーナス返済</span>
+              <span class="input-wrap"><input id="bonusMan" type="number" min="0" step="1" value="10"><span class="unit">万円/回</span></span>
+            </label>
+            <label class="field wide">
+              <span>金利</span>
+              <span class="input-wrap"><input id="ratePct" type="number" min="0" step="0.01" value="1.20"><span class="unit">%</span></span>
+            </label>
+          </div>
+        </section>
 
-    <div class="option-block prepay">
-      <div class="option-head">オプション：繰り上げ返済の設定</div>
-      <div class="option-note">家計に余裕があるうちに「多めに返す」計画。数値を入れた分だけ反映され、空欄は0として扱います。</div>
-      <div id="prepayList"></div>
-      <button type="button" id="addPrepayBtn" class="add-btn">＋ 返済予定を追加</button>
-    </div>
-  </section>
+        <section>
+          <h2 class="section-title">家族構成</h2>
+          <div id="familyList" class="family-list"></div>
+          <div class="action-row" style="margin-top: 10px;">
+            <button id="addFamily" class="button" type="button">＋ 家族追加</button>
+            <button id="resetAll" class="button" type="button">初期値へ</button>
+          </div>
+        </section>
 
-  <!-- サマリー（元の条件 vs 今回の試算 を並列表示） -->
-  <section>
-    <div class="section-title">シミュレーション結果</div>
-    <div class="compare-grid">
-      <div class="compare-col base">
-        <div class="compare-head">元の条件<br>（当初のまま・変動も繰上もなし）</div>
-        <div class="compare-row"><span>毎月返済</span><span class="cv" id="b_m1">—</span></div>
-        <div class="compare-row"><span>完済まで</span><span class="cv" id="b_years">—</span></div>
-        <div class="compare-row"><span>総支払額</span><span class="cv" id="b_total">—</span></div>
-        <div class="compare-row sub"><span>うち利息</span><span class="cv" id="b_int">—</span></div>
-      </div>
-      <div class="compare-col scenario">
-        <div class="compare-head">今回の試算<br>（金利変動・繰上を反映）</div>
-        <div class="compare-row"><span>毎月返済</span><span class="cv" id="s_m1">—</span></div>
-        <div class="compare-row" id="s_m2row" style="display:none;"><span id="s_m2label">変動後</span><span class="cv" id="s_m2">—</span></div>
-        <div class="compare-row"><span>完済まで</span><span class="cv" id="s_years">—</span></div>
-        <div class="compare-row"><span>総支払額</span><span class="cv" id="s_total">—</span></div>
-        <div class="compare-row sub"><span>うち利息</span><span class="cv" id="s_int">—</span></div>
-      </div>
-    </div>
-    <div class="compare-diff" id="diffNote">借入総額 <span id="s_loan">—</span></div>
-  </section>
+        <p class="notice">本命案は、40年で毎月の固定返済を抑え、教育費が重い時期は支払額を下げ、独立後に繰上返済を強める設計です。手数料・団信・審査条件は含まない概算です。</p>
+      </aside>
 
-  <!-- スケジュール -->
-  <section>
-    <div class="section-title">返済詳細スケジュール</div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>時期</th><th>月返済</th><th>臨時返済</th><th>繰上(月)</th><th>賞与返済</th><th>繰上(賞)</th><th>ローン残高</th>
-          </tr>
-        </thead>
-        <tbody id="resTableBody"></tbody>
-      </table>
-    </div>
-  </section>
+      <section class="content">
+        <section class="panel recommendation">
+          <div>
+            <h2 id="recommendTitle">本命は 40年＋段階繰上</h2>
+            <p id="recommendText"></p>
+          </div>
+          <div id="recommendMetrics" class="recommend-metrics"></div>
+        </section>
 
-  <!-- アクション -->
-  <section class="actions">
-    <button id="printBtn" class="btn btn-print">🖨️ PDF保存 / 印刷</button>
-  </section>
+        <section id="patternGrid" class="pattern-grid" aria-label="返済パターン比較"></section>
 
-  <footer>
-    <p>※このシミュレーションは目安です。税・手数料・団信等は含みません。実際の返済額は金融機関の条件により異なります。具体的な検討は、信頼できる建築会社や金融機関にご確認ください。</p>
-    <div class="footer-divider"></div>
-    <p><a href="../index.html">← YKTラボ トップへ</a></p>
-  </footer>
+        <section class="panel chart-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2 id="chartTitle">残高推移</h2>
+              <p id="chartSubtitle">単位：万円、経過年別の借入残高</p>
+            </div>
+            <div class="segmented" role="group" aria-label="表示切替">
+              <button type="button" data-mode="balance" aria-pressed="true">残高推移</button>
+              <button type="button" data-mode="payment" aria-pressed="false">年間返済額</button>
+            </div>
+          </div>
 
-</div>
+          <div class="chart-wrap">
+            <div class="chart-frame">
+              <svg id="mainChart" viewBox="0 0 940 440" role="img" aria-labelledby="chartTitle chartSubtitle"></svg>
+            </div>
+          </div>
 
-<script>
-(function () {
-  'use strict';
-  const $ = (id) => document.getElementById(id);
-  const fmtY = (n) => Math.round(n).toLocaleString() + ' 円';
-  const fmtM = (n) => (n / 10000).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' 万円';
+          <div id="legend" class="legend" aria-label="系列"></div>
 
-  // 元利均等の毎月返済額（検証済みロジックを踏襲）
-  const calcPMT = (r, n, L) => {
-    if (r <= 0 || n <= 0) return Math.ceil(L / (n || 1));
-    return Math.ceil(L * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1));
-  };
+          <label class="timeline-control">
+            <span>経過年</span>
+            <input id="yearSlider" type="range" min="0" max="40" value="23" step="1">
+            <span id="yearReadout">23年</span>
+          </label>
+        </section>
 
-  // 繰り上げ返済 行の追加
-  const addRow = (y = 1) => {
-    const div = document.createElement('div');
-    div.className = 'prepay-row';
-    div.innerHTML = `
-      <div class="input-field"><label>開始年</label><input type="number" class="p-year" value="${y}"></div>
-      <div class="input-field"><label>毎月増額(万)</label><input type="number" class="p-monthly" value="0"></div>
-      <div class="input-field"><label>半年毎増(万)</label><input type="number" class="p-bonus" value="0"></div>
-      <div class="input-field"><label>一度だけ(万)</label><input type="number" class="p-spot" value="0"></div>
-      <div class="input-field"><label>種類</label>
-        <select class="p-type">
-          <option value="recalc">返済額軽減</option>
-          <option value="reduce">期間短縮</option>
-        </select>
-      </div>
-      <button type="button" class="remove-btn" aria-label="削除">×</button>
-    `;
-    div.querySelector('.remove-btn').addEventListener('click', () => { div.remove(); calc(); });
-    $('prepayList').appendChild(div);
-  };
-  addRow(1);
-  $('addPrepayBtn').addEventListener('click', () => {
-    addRow($('prepayList').children.length * 5 + 1);
-    calc();
-  });
+        <section class="focus-grid">
+          <section class="panel focus-box">
+            <div class="focus-head">
+              <h2>選択年の状況</h2>
+              <strong id="focusYear">23</strong>
+            </div>
+            <div id="focusPills" class="pill-row"></div>
+            <table class="focus-table">
+              <thead>
+                <tr>
+                  <th>パターン</th>
+                  <th>残高</th>
+                  <th>通常月</th>
+                  <th>ボーナス加算</th>
+                  <th>年間返済</th>
+                  <th>累計利息</th>
+                </tr>
+              </thead>
+              <tbody id="focusRows"></tbody>
+            </table>
+          </section>
 
-  function calc() {
-    const L_total_original = (parseFloat($('loanAmount').value) || 0) * 10000;
-    const years = parseInt($('loanYears').value) || 0;
-    const r1 = (parseFloat($('initialRate').value) || 0) / 100 / 12;
-    const B_amt = (parseFloat($('bonusPayAmount').value) || 0) * 10000;
-    const cY = parseInt($('rateChangeYear').value) || 999;
-    const r2 = (parseFloat($('futureRate').value) / 100 / 12) || r1;
-    const cM = (cY - 1) * 12 || 999999;
+          <section class="panel milestone-list">
+            <h2>ライフステージ</h2>
+            <div id="milestones"></div>
+          </section>
+        </section>
 
-    // 入力が未確定なら結果をクリア
-    if (L_total_original <= 0 || years <= 0) {
-      ['b_m1', 'b_years', 'b_total', 'b_int', 's_m1', 's_years', 's_total', 's_int', 's_m2'].forEach((id) => { if ($(id)) $(id).textContent = '—'; });
-      var _sm2 = $('s_m2row'); if (_sm2) _sm2.style.display = 'none';
-      $('resTableBody').innerHTML = '';
-      return;
+        <section class="panel data-section">
+          <details>
+            <summary>年次データ</summary>
+            <div class="table-scroll">
+              <table class="annual-table">
+                <thead>
+                  <tr>
+                    <th>経過年</th>
+                    <th>ライフステージ</th>
+                    <th>40年＋段階繰上 残高</th>
+                    <th>35年 残高</th>
+                    <th>40年 残高</th>
+                    <th>40年＋段階繰上 通常月</th>
+                    <th>35年 通常月</th>
+                    <th>40年 通常月</th>
+                    <th>40年＋段階繰上 年間返済</th>
+                    <th>35年 年間返済</th>
+                    <th>40年 年間返済</th>
+                  </tr>
+                </thead>
+                <tbody id="annualRows"></tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const SERIES = [
+      { id: "step40", name: "40年＋段階繰上", term: 40, color: "#0f8b8d", recommended: true },
+      { id: "fixed35", name: "35年ローン", term: 35, color: "#5868b3", recommended: false },
+      { id: "fixed40", name: "40年ローン", term: 40, color: "#d18a28", recommended: false }
+    ];
+
+    const DEFAULT_FAMILY = [
+      { role: "本人", name: "本人", age: 35 },
+      { role: "配偶者", name: "配偶者", age: 35 },
+      { role: "子", name: "子ども1", age: 1 }
+    ];
+
+    const state = {
+      chartMode: "balance",
+      focusYear: 23,
+      family: structuredClone(DEFAULT_FAMILY),
+      earlyExtraMan: 2,
+      strongExtraMan: 5,
+      result: null
+    };
+
+    const yen = new Intl.NumberFormat("ja-JP", { style: "currency", currency: "JPY", maximumFractionDigits: 0 });
+    const num = new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 0 });
+
+    function roundTo(value, unit) {
+      return Math.round(value / unit) * unit;
     }
 
-    const totalMonths = years * 12;
-
-    let L_bonus = 0;
-    if (B_amt > 0 && r1 >= 0) {
-      const semiRate = Math.pow(1 + r1, 6) - 1;
-      const semiPeriods = Math.floor(totalMonths / 6);
-      if (semiRate === 0) L_bonus = B_amt * semiPeriods;
-      else L_bonus = B_amt * (1 - Math.pow(1 + semiRate, -semiPeriods)) / semiRate;
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
     }
-    let L_monthly = L_total_original - L_bonus;
 
-    const prepays = Array.from(document.querySelectorAll('.prepay-row')).map((r) => ({
-      start: (parseInt(r.querySelector('.p-year').value) || 0) * 12 + 1,
-      m: (parseFloat(r.querySelector('.p-monthly').value) || 0) * 10000,
-      b: (parseFloat(r.querySelector('.p-bonus').value) || 0) * 10000,
-      s: (parseFloat(r.querySelector('.p-spot').value) || 0) * 10000,
-      type: r.querySelector('.p-type').value
-    }));
+    function yenMan(value) {
+      return `${num.format(Math.round((value || 0) / 10000))}万円`;
+    }
 
-    // 1シナリオ分の返済シミュレーション
-    // useCM=999999 で金利変動なし、usePrepays=[] で繰上返済なし＝「元の条件」
-    function runSim(useCM, usePrepays) {
-      let curM = calcPMT(r1, totalMonths, L_monthly);
-      let curB = B_amt;
-      let bal = L_total_original;
-      let balM_part = L_monthly;
-      let balB_part = L_bonus;
-      let month = 1, totalInt = 0, history = [];
-      let m2_disp = 0, b2_disp = 0;
-      const m1 = curM;
+    function monthLabel(month) {
+      const years = Math.floor(month / 12);
+      const rest = month % 12;
+      if (month <= 0) return "0年";
+      if (rest === 0) return `${years}年`;
+      return `${years}年${rest}か月`;
+    }
 
-      while (bal > 0.1 && month <= 600) {
-        let r = (month > useCM) ? r2 : r1;
-        const isB = (month % 6 === 0);
+    function ageAtMonthLabel(startAge, month) {
+      const years = Math.floor(month / 12);
+      const rest = month % 12;
+      const age = startAge + years;
+      if (rest === 0) return `${age}歳`;
+      return `${age}歳${rest}か月`;
+    }
 
-        if (month === useCM + 1) {
-          let rem = totalMonths - (month - 1);
-          if (rem > 0) {
-            curM = calcPMT(r, rem, balM_part);
-            const sR = Math.pow(1 + r, 6) - 1;
-            const sP = Math.ceil(rem / 6);
-            curB = (sR === 0) ? Math.ceil(balB_part / sP) : Math.ceil(balB_part * sR * Math.pow(1 + sR, sP) / (Math.pow(1 + sR, sP) - 1));
-            m2_disp = curM; b2_disp = curB;
-          }
-        }
+    function safe(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
 
-        const activePrepay = usePrepays.filter((s) => month >= s.start).pop();
-        const pM = activePrepay ? activePrepay.m : 0;
-        const pB = (activePrepay && isB) ? activePrepay.b : 0;
-        const pSpot = usePrepays.filter((s) => month === s.start).reduce((sum, s) => sum + s.s, 0);
+    function payment(rate, months, principal) {
+      if (months <= 0) return principal;
+      if (Math.abs(rate) < 0.0000001) return principal / months;
+      return principal * rate / (1 - Math.pow(1 + rate, -months));
+    }
 
-        const monthlyInt = Math.floor(bal * r);
-        totalInt += monthlyInt;
+    function getInputs() {
+      const principalMan = Number(document.getElementById("principalMan").value) || 0;
+      const bonusMan = Number(document.getElementById("bonusMan").value) || 0;
+      const ratePct = Number(document.getElementById("ratePct").value) || 0;
+      const earlyExtraInput = document.getElementById("earlyExtraMan");
+      const strongExtraInput = document.getElementById("strongExtraMan");
+      const earlyExtraMan = Number(earlyExtraInput ? earlyExtraInput.value : state.earlyExtraMan) || 0;
+      const strongExtraMan = Number(strongExtraInput ? strongExtraInput.value : state.strongExtraMan) || 0;
+      state.earlyExtraMan = earlyExtraMan;
+      state.strongExtraMan = strongExtraMan;
+      return {
+        principal: Math.max(0, principalMan * 10000),
+        bonus: Math.max(0, bonusMan * 10000),
+        annualRate: Math.max(0, ratePct / 100),
+        earlyExtra: Math.max(0, earlyExtraMan * 10000),
+        strongExtra: Math.max(0, strongExtraMan * 10000),
+        principalMan,
+        bonusMan,
+        ratePct,
+        earlyExtraMan,
+        strongExtraMan
+      };
+    }
 
-        let payThisMonth = curM + pM + pSpot + (isB ? (curB + pB) : 0);
-        payThisMonth = Math.min(bal + monthlyInt, payThisMonth);
-        const principalPay = payThisMonth - monthlyInt;
+    function familyFromDom() {
+      return [...document.querySelectorAll(".family-row")].map((row) => ({
+        role: row.querySelector("[data-family-role]").value,
+        name: row.querySelector("[data-family-name]").value.trim() || row.querySelector("[data-family-role]").value,
+        age: Math.max(0, Number(row.querySelector("[data-family-age]").value) || 0)
+      }));
+    }
 
-        const ratio = bal > 0 ? (balM_part / bal) : 0.5;
-        balM_part -= principalPay * ratio;
-        balB_part -= principalPay * (1 - ratio);
-        bal -= principalPay;
+    function children(family) {
+      return family.filter((member) => member.role === "子");
+    }
 
-        if (isB || bal <= 1 || pSpot > 0) {
-          history.push({ m: month, curM, pM, pSpot, curB: isB ? curB : 0, pB: isB ? pB : 0, bal: Math.max(0, bal) });
-        }
-        if (bal <= 1) break;
+    function youngestChildAge(family) {
+      const kids = children(family).map((member) => member.age);
+      return kids.length ? Math.min(...kids) : null;
+    }
 
-        if (activePrepay && activePrepay.type === 'recalc' && (pM > 0 || pB > 0 || pSpot > 0)) {
-          let rem = totalMonths - month;
-          if (rem > 0) {
-            curM = calcPMT(r, rem, balM_part);
-            const sR = Math.pow(1 + r, 6) - 1;
-            const sP = Math.ceil(rem / 6);
-            if (balB_part > 0) curB = (sR === 0) ? Math.ceil(balB_part / sP) : Math.ceil(balB_part * sR * Math.pow(1 + sR, sP) / (Math.pow(1 + sR, sP) - 1));
-          }
-        }
-        month++;
+    function borrowerAge(family) {
+      const borrower = family.find((member) => member.role === "本人");
+      if (borrower) return borrower.age;
+      const adults = family.filter((member) => member.role !== "子").map((member) => member.age);
+      return adults.length ? Math.max(...adults) : 35;
+    }
+
+    function familyAgesLabel(family, elapsedYears) {
+      return family.map((member) => `${member.name}：${Math.floor(member.age + elapsedYears)}歳`).join(" / ");
+    }
+
+    function lifeStage(family, elapsedYears) {
+      const childAge = youngestChildAge(family);
+      const age = borrowerAge(family) + elapsedYears;
+      if (childAge === null) {
+        if (age < 55) return "貯蓄形成期";
+        if (age < 65) return "定年前後・返済圧縮期";
+        return "退職後・固定費管理期";
       }
-      return { months: month, totalInt, m2_disp, b2_disp, history, m1 };
+      const currentChildAge = childAge + elapsedYears;
+      if (currentChildAge < 6) return "未就学期";
+      if (currentChildAge < 12) return "小学生期";
+      if (currentChildAge < 15) return "中学期";
+      if (currentChildAge < 18) return "高校期";
+      if (currentChildAge < 23) return "大学・専門期";
+      return "独立後・返済強化期";
     }
 
-    const yearsMonths = (mo) => `${Math.floor(mo / 12)}年 ${mo % 12}ヶ月`;
-    const bonusTag = B_amt > 0 ? (' ＋賞与' + fmtY(B_amt)) : '';
-
-    // 元の条件（変動なし・繰上なし） と 今回の試算
-    const base = runSim(999999, []);
-    const scen = runSim(cM, prepays);
-
-    // 元の条件カラム
-    $('b_m1').textContent = fmtY(base.m1) + bonusTag;
-    $('b_years').textContent = yearsMonths(base.months);
-    $('b_total').textContent = fmtM(L_total_original + base.totalInt);
-    $('b_int').textContent = fmtM(base.totalInt);
-
-    // 今回の試算カラム
-    $('s_m1').textContent = fmtY(scen.m1) + bonusTag;
-    $('s_years').textContent = yearsMonths(scen.months);
-    $('s_total').textContent = fmtM(L_total_original + scen.totalInt);
-    $('s_int').textContent = fmtM(scen.totalInt);
-
-    if (scen.m2_disp > 0) {
-      $('s_m2row').style.display = 'flex';
-      $('s_m2label').textContent = `${cY}年目から`;
-      $('s_m2').textContent = fmtY(scen.m2_disp) + (scen.b2_disp > 0 ? (' ＋賞与' + fmtY(scen.b2_disp)) : '');
-    } else {
-      $('s_m2row').style.display = 'none';
+    function extraPlan(family, elapsedYears, inputs) {
+      const childAge = youngestChildAge(family);
+      const baseEarly = inputs.earlyExtra;
+      const baseStrong = inputs.strongExtra;
+      const earlyBonus = 0;
+      const strongBonus = 0;
+      if (childAge === null) {
+        const age = borrowerAge(family) + elapsedYears;
+        if (age < 55) return { monthly: baseEarly, bonus: earlyBonus, label: "前半は余力分を繰上" };
+        return { monthly: baseStrong, bonus: strongBonus, label: "定年前に返済圧縮" };
+      }
+      const currentChildAge = childAge + elapsedYears;
+      if (currentChildAge < 12) return { monthly: baseEarly, bonus: earlyBonus, label: "教育費前に軽く前倒し" };
+      if (currentChildAge < 23) return { monthly: 0, bonus: 0, label: "教育費期は家計防衛" };
+      return { monthly: baseStrong, bonus: strongBonus, label: "独立後に期間短縮" };
     }
 
-    // 差額（今回 − 元の条件）。元金は同じなので利息差＝総支払差
-    const totalDiff = scen.totalInt - base.totalInt;
-    const monthDiff = scen.months - base.months;
-    let diffHtml = '借入総額 <span id="s_loan">' + fmtM(L_total_original) + '</span>';
-    if (Math.abs(totalDiff) >= 5000 || monthDiff !== 0) {
-      const totalWord = totalDiff > 0
-        ? '総支払は <strong>＋' + fmtM(totalDiff) + '</strong>'
-        : '総支払は <strong>−' + fmtM(-totalDiff) + '</strong>';
-      const monthWord = monthDiff < 0
-        ? '完済は <strong>' + Math.abs(monthDiff) + 'ヶ月 早まる</strong>'
-        : (monthDiff > 0 ? '完済は <strong>' + monthDiff + 'ヶ月 延びる</strong>' : '完済時期は変わらず');
-      diffHtml += '<br><span class="muted">元の条件と比べて、</span>' + totalWord + '・' + monthWord;
-    } else {
-      diffHtml += '<br><span class="muted">金利変動や繰上返済を設定すると、ここに元の条件との差が出ます。</span>';
+    function repaymentStageCode(family, elapsedYears) {
+      const childAge = youngestChildAge(family);
+      if (childAge === null) {
+        return borrowerAge(family) + elapsedYears < 55 ? "early" : "strong";
+      }
+      const currentChildAge = childAge + elapsedYears;
+      if (currentChildAge < 12) return "early";
+      if (currentChildAge < 23) return "education";
+      return "strong";
     }
-    $('diffNote').innerHTML = diffHtml;
 
-    // スケジュール表（今回の試算）
-    $('resTableBody').innerHTML = scen.history.map((h) => {
-      const isRateChanged = h.m > cM;
-      const rateCellClass = isRateChanged ? 'class="bg-rate"' : '';
-      const prepayCellClass = 'class="bg-prepay"';
-      return `
+    function simulatePattern(pattern, inputs, family) {
+      const monthlyRate = inputs.annualRate / 12;
+      const termMonths = pattern.term * 12;
+      const scheduledAnnual = payment(monthlyRate, termMonths, inputs.principal) * 12;
+      const baseMonthly = Math.max(0, (scheduledAnnual - inputs.bonus * 2) / 12);
+      const maxMonths = pattern.id === "fixed35" ? 35 * 12 : 40 * 12;
+      const annual = Array.from({ length: 41 }, (_, year) => ({
+        year,
+        balance: year === 0 ? inputs.principal : 0,
+        monthly: 0,
+        monthlySum: 0,
+        monthlyCount: 0,
+        bonusMonthly: 0,
+        bonusMonthlySum: 0,
+        bonusMonthlyCount: 0,
+        payment: 0,
+        interest: 0,
+        cumulativeInterest: 0
+      }));
+      let balance = inputs.principal;
+      let totalPayment = 0;
+      let totalInterest = 0;
+      let payoffMonth = 0;
+      let currentBaseMonthly = baseMonthly;
+      let paymentReductionApplied = false;
+
+      for (let month = 1; month <= maxMonths; month += 1) {
+        const yearIndex = Math.ceil(month / 12);
+        if (balance <= 0) {
+          annual[yearIndex].balance = 0;
+          annual[yearIndex].cumulativeInterest = totalInterest;
+          continue;
+        }
+
+        const elapsedYears = (month - 1) / 12;
+        const isBonusMonth = month % 6 === 0;
+        const stageCode = repaymentStageCode(family, elapsedYears);
+        if (pattern.id === "step40" && stageCode === "education" && !paymentReductionApplied) {
+          const remainingMonths = Math.max(1, maxMonths - month + 1);
+          const recalculatedAnnual = payment(monthlyRate, remainingMonths, balance) * 12;
+          currentBaseMonthly = Math.max(0, (recalculatedAnnual - inputs.bonus * 2) / 12);
+          paymentReductionApplied = true;
+        }
+        let extra = { monthly: 0, bonus: 0 };
+        if (pattern.id === "step40") {
+          extra = extraPlan(family, elapsedYears, inputs);
+        }
+        const normalMonthlyPayment = currentBaseMonthly + extra.monthly;
+        const bonusMonthPayment = normalMonthlyPayment + inputs.bonus + extra.bonus;
+
+        const interest = balance * monthlyRate;
+        let scheduled = isBonusMonth ? bonusMonthPayment : normalMonthlyPayment;
+        if (month === maxMonths) scheduled = Math.max(scheduled, balance + interest);
+        const actualPayment = Math.min(balance + interest, scheduled);
+        const principalPaid = Math.max(0, actualPayment - interest);
+        balance = Math.max(0, balance + interest - actualPayment);
+        totalPayment += actualPayment;
+        totalInterest += interest;
+        annual[yearIndex].monthlySum += normalMonthlyPayment;
+        annual[yearIndex].monthlyCount += 1;
+        annual[yearIndex].bonusMonthlySum += bonusMonthPayment;
+        annual[yearIndex].bonusMonthlyCount += 1;
+        annual[yearIndex].payment += actualPayment;
+        annual[yearIndex].interest += interest;
+        annual[yearIndex].balance = balance;
+        annual[yearIndex].cumulativeInterest = totalInterest;
+
+        if (balance <= 1 && payoffMonth === 0) {
+          payoffMonth = month;
+          balance = 0;
+        }
+      }
+
+      for (let year = 1; year <= 40; year += 1) {
+        annual[year].monthly = annual[year].monthlyCount > 0 ? annual[year].monthlySum / annual[year].monthlyCount : 0;
+        annual[year].bonusMonthly = annual[year].bonusMonthlyCount > 0 ? annual[year].bonusMonthlySum / annual[year].bonusMonthlyCount : 0;
+        if (!annual[year].cumulativeInterest) {
+          annual[year].cumulativeInterest = totalInterest;
+        }
+        if (payoffMonth && year * 12 >= payoffMonth) {
+          annual[year].balance = 0;
+        }
+      }
+
+      const firstYearPlan = pattern.id === "step40"
+        ? extraPlan(family, 0, inputs)
+        : { monthly: 0, bonus: 0, label: "定額返済" };
+      const educationPlan = pattern.id === "step40"
+        ? extraPlan(family, Math.max(0, 12 - (youngestChildAge(family) ?? 12)), inputs)
+        : { monthly: 0, bonus: 0, label: "定額返済" };
+      const strongPlan = pattern.id === "step40"
+        ? extraPlan(family, Math.max(0, 23 - (youngestChildAge(family) ?? 23)), inputs)
+        : { monthly: 0, bonus: 0, label: "定額返済" };
+      annual[0].monthly = baseMonthly + firstYearPlan.monthly;
+      annual[0].bonusMonthly = baseMonthly + firstYearPlan.monthly + inputs.bonus + firstYearPlan.bonus;
+
+      return {
+        ...pattern,
+        baseMonthly,
+        bonusPayment: inputs.bonus,
+        payoffMonth: payoffMonth || maxMonths,
+        totalPayment,
+        totalInterest,
+        annual,
+        stagePlans: {
+          early: firstYearPlan,
+          education: educationPlan,
+          strong: strongPlan
+        }
+      };
+    }
+
+    function calculate() {
+      const inputs = getInputs();
+      state.family = familyFromDom();
+      const patterns = SERIES.map((pattern) => simulatePattern(pattern, inputs, state.family));
+      const annual = Array.from({ length: 41 }, (_, year) => {
+        const row = {
+          year,
+          stage: lifeStage(state.family, year),
+          ages: familyAgesLabel(state.family, year)
+        };
+        patterns.forEach((pattern) => {
+          const pRow = pattern.annual[year] || pattern.annual[pattern.annual.length - 1];
+          row[`${pattern.id}Balance`] = pRow.balance;
+          row[`${pattern.id}Monthly`] = pRow.monthly;
+          row[`${pattern.id}BonusMonthly`] = pRow.bonusMonthly;
+          row[`${pattern.id}Payment`] = pRow.payment;
+          row[`${pattern.id}Interest`] = pRow.cumulativeInterest;
+        });
+        return row;
+      });
+      state.result = { inputs, patterns, annual };
+    }
+
+    function metric(label, value) {
+      return `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`;
+    }
+
+    function renderFamily() {
+      const list = document.getElementById("familyList");
+      list.innerHTML = state.family.map((member, index) => `
+        <div class="family-row" data-family-index="${index}">
+          <label><span>区分</span><select data-family-role>
+            ${["本人", "配偶者", "子", "親", "その他"].map((role) => `<option value="${role}" ${role === member.role ? "selected" : ""}>${role}</option>`).join("")}
+          </select></label>
+          <label><span>名前</span><input data-family-name value="${safe(member.name)}"></label>
+          <label><span>年齢</span><input data-family-age type="number" min="0" max="110" step="1" value="${member.age}"></label>
+          <button class="icon-button" type="button" data-delete-family aria-label="家族を削除">×</button>
+        </div>
+      `).join("");
+      list.querySelectorAll("input, select").forEach((el) => el.addEventListener("input", refresh));
+      list.querySelectorAll("[data-delete-family]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.family = familyFromDom();
+          if (state.family.length > 1) {
+            const index = Number(button.closest(".family-row").dataset.familyIndex);
+            state.family.splice(index, 1);
+            renderFamily();
+            refresh();
+          }
+        });
+      });
+    }
+
+    function renderRecommendation() {
+      const step = state.result.patterns.find((pattern) => pattern.id === "step40");
+      const fixed40 = state.result.patterns.find((pattern) => pattern.id === "fixed40");
+      const fixed35 = state.result.patterns.find((pattern) => pattern.id === "fixed35");
+      const interestSaving = Math.max(0, fixed40.totalInterest - step.totalInterest);
+      const monthlyGap = Math.max(0, fixed35.baseMonthly - step.baseMonthly);
+      const payoffGap = Math.max(0, fixed40.payoffMonth - step.payoffMonth);
+      document.getElementById("recommendText").textContent =
+        `40年の契約で月々の固定返済を抑え、ライフステージに合わせて繰上返済を強弱させます。35年ローンより月返済を抑えながら、40年ローンより利息と完済時期を圧縮しやすい組み方です。`;
+      document.getElementById("recommendMetrics").innerHTML = [
+        metric("40年定額との差", `${yenMan(interestSaving)} 利息圧縮`),
+        metric("35年ローンとの差", `${yen.format(Math.round(monthlyGap))}/月 低い`),
+        metric("完済目安", monthLabel(step.payoffMonth)),
+        metric("40年より短縮", monthLabel(payoffGap))
+      ].join("");
+    }
+
+    function renderPatterns() {
+      const grid = document.getElementById("patternGrid");
+      grid.innerHTML = state.result.patterns.map((pattern) => {
+        const featured = pattern.recommended ? " recommended" : "";
+        const stage = pattern.stagePlans;
+        const controlsHtml = pattern.id === "step40"
+          ? `
+            <div class="step-controls" aria-label="段階繰上の加算額">
+              <h3 class="section-title">段階繰上の加算額</h3>
+              <div class="step-amount-grid">
+                <div class="amount-control">
+                  <span class="amount-label">教育費前</span>
+                  <button class="step-button" type="button" data-step-target="earlyExtraMan" data-step="-1" aria-label="教育費前を減らす">−</button>
+                  <input id="earlyExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.earlyExtraMan}" aria-label="教育費前の毎月加算額">
+                  <span class="amount-unit">万円/月</span>
+                  <button class="step-button" type="button" data-step-target="earlyExtraMan" data-step="1" aria-label="教育費前を増やす">＋</button>
+                </div>
+                <div class="amount-control">
+                  <span class="amount-label">独立後</span>
+                  <button class="step-button" type="button" data-step-target="strongExtraMan" data-step="-1" aria-label="独立後を減らす">−</button>
+                  <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="独立後の毎月加算額">
+                  <span class="amount-unit">万円/月</span>
+                  <button class="step-button" type="button" data-step-target="strongExtraMan" data-step="1" aria-label="独立後を増やす">＋</button>
+                </div>
+              </div>
+            </div>
+          `
+          : "";
+        const planHtml = pattern.id === "step40"
+          ? `
+            <div class="stage-line"><span>教育費前</span>${yen.format(stage.early.monthly)}/月を返済額軽減型で繰上</div>
+            <div class="stage-line"><span>教育費期</span>軽減後の月額で家計防衛</div>
+            <div class="stage-line"><span>独立後</span>${yen.format(stage.strong.monthly)}/月を追加して期間短縮</div>
+          `
+          : `
+            <div class="stage-line"><span>返済</span>毎月・ボーナスを一定で継続</div>
+            <div class="stage-line"><span>期間</span>${pattern.term}年</div>
+            <div class="stage-line"><span>特徴</span>${pattern.id === "fixed35" ? "短期で利息を抑えるが月々は重め" : "月々を抑えるが利息は増えやすい"}</div>
+          `;
+        return `
+          <article class="panel pattern-card${featured}">
+            <div class="pattern-head">
+              <h2>${safe(pattern.name)}</h2>
+              <span class="tag" style="background:${pattern.color}">${pattern.recommended ? "本命" : `${pattern.term}年`}</span>
+            </div>
+            <div class="mini-grid">
+              ${metric("通常月", yen.format(Math.round(pattern.baseMonthly)))}
+              ${metric("ボーナス加算", `+${yenMan(pattern.bonusPayment)}/回`)}
+              ${metric("完済目安", monthLabel(pattern.payoffMonth))}
+              ${metric("総利息", yenMan(pattern.totalInterest))}
+            </div>
+            ${controlsHtml}
+            <div class="stage-plan">${planHtml}</div>
+          </article>
+        `;
+      }).join("");
+      wireStepControls();
+    }
+
+    function wireStepControls() {
+      ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
+        const input = document.getElementById(id);
+        if (!input) return;
+        input.addEventListener("input", () => {
+          state[id] = Math.max(0, Number(input.value) || 0);
+        });
+        input.addEventListener("change", refresh);
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") input.blur();
+        });
+      });
+      document.querySelectorAll("[data-step-target]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = document.getElementById(button.dataset.stepTarget);
+          if (!target) return;
+          const step = Number(button.dataset.step) || 0;
+          const next = Math.max(0, (Number(target.value) || 0) + step);
+          target.value = Number.isInteger(next) ? String(next) : next.toFixed(1);
+          state[button.dataset.stepTarget] = next;
+          refresh();
+        });
+      });
+    }
+
+    function makeSvg(tag, attrs = {}, text = "") {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+      if (text !== "") el.textContent = text;
+      return el;
+    }
+
+    function pathFrom(points) {
+      return points.map((point, index) => `${index === 0 ? "M" : "L"}${point[0].toFixed(2)},${point[1].toFixed(2)}`).join(" ");
+    }
+
+    function stageSegments() {
+      const childAge = youngestChildAge(state.family);
+      if (childAge === null) {
+        const age = borrowerAge(state.family);
+        return [
+          { start: 0, end: clamp(55 - age, 0, 40), label: "貯蓄形成期", color: "#eef7f3" },
+          { start: clamp(55 - age, 0, 40), end: clamp(65 - age, 0, 40), label: "定年前後", color: "#fff4df" },
+          { start: clamp(65 - age, 0, 40), end: 40, label: "退職後", color: "#f1f2fa" }
+        ].filter((segment) => segment.end > segment.start);
+      }
+      const points = [
+        { endAge: 6, label: "未就学", color: "#edf7f2" },
+        { endAge: 12, label: "小学生", color: "#f4f8ea" },
+        { endAge: 15, label: "中学", color: "#fff4df" },
+        { endAge: 18, label: "高校", color: "#fdeceb" },
+        { endAge: 23, label: "大学・専門", color: "#f1f2fa" },
+        { endAge: 200, label: "独立後", color: "#eef4ed" }
+      ];
+      let cursor = 0;
+      const segments = [];
+      points.forEach((point) => {
+        const end = Math.min(40, Math.max(cursor, point.endAge - childAge));
+        if (end > cursor) segments.push({ start: cursor, end, label: point.label, color: point.color });
+        cursor = end;
+      });
+      return segments;
+    }
+
+    function drawStageBands(svg, x, top, height) {
+      stageSegments().forEach((segment) => {
+        svg.appendChild(makeSvg("rect", {
+          class: "stage-band",
+          x: x(segment.start),
+          y: top,
+          width: x(segment.end) - x(segment.start),
+          height,
+          fill: segment.color
+        }));
+        if (segment.end - segment.start >= 2) {
+          svg.appendChild(makeSvg("text", {
+            class: "chart-label",
+            x: x((segment.start + segment.end) / 2),
+            y: top + 18,
+            "text-anchor": "middle"
+          }, segment.label));
+        }
+      });
+    }
+
+    function renderLineChart(mode) {
+      const svg = document.getElementById("mainChart");
+      svg.innerHTML = "";
+      const width = 940;
+      const height = 440;
+      const margin = { top: 26, right: 34, bottom: 58, left: 72 };
+      const plotW = width - margin.left - margin.right;
+      const plotH = height - margin.top - margin.bottom;
+      const x = (year) => margin.left + (year / 40) * plotW;
+      const chartMetrics = {
+        balance: { key: "Balance", stepSize: 500, unit: "万円" },
+        payment: { key: "Payment", stepSize: 50, unit: "万円/年" }
+      };
+      const metric = chartMetrics[mode] || chartMetrics.balance;
+      const valueKey = metric.key;
+      const values = [];
+      state.result.patterns.forEach((pattern) => {
+        state.result.annual.forEach((row) => values.push((row[`${pattern.id}${valueKey}`] || 0) / 10000));
+      });
+      const maxY = Math.max(metric.stepSize, Math.ceil(Math.max(...values) / metric.stepSize) * metric.stepSize);
+      const y = (value) => margin.top + (1 - value / maxY) * plotH;
+      drawStageBands(svg, x, margin.top, plotH);
+
+      Array.from({ length: 6 }, (_, index) => Math.round(maxY * index / 5)).forEach((tick) => {
+        const ty = y(tick);
+        svg.appendChild(makeSvg("line", { class: "grid-line", x1: margin.left, y1: ty, x2: width - margin.right, y2: ty }));
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: margin.left - 12, y: ty + 4, "text-anchor": "end" }, num.format(tick)));
+      });
+      [0, 10, 20, 30, 40].forEach((year) => {
+        const tx = x(year);
+        svg.appendChild(makeSvg("line", { class: "grid-line", x1: tx, y1: margin.top, x2: tx, y2: height - margin.bottom }));
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: tx, y: height - margin.bottom + 24, "text-anchor": "middle" }, `${year}年`));
+      });
+      [12, 18, 23, 35, 40].forEach((year) => {
+        const tx = x(year);
+        if (year >= 0 && year <= 40) svg.appendChild(makeSvg("line", { class: "marker-line", x1: tx, y1: margin.top, x2: tx, y2: height - margin.bottom }));
+      });
+      svg.appendChild(makeSvg("line", { class: "axis-line", x1: margin.left, y1: height - margin.bottom, x2: width - margin.right, y2: height - margin.bottom }));
+      svg.appendChild(makeSvg("line", { class: "axis-line", x1: margin.left, y1: margin.top, x2: margin.left, y2: height - margin.bottom }));
+      svg.appendChild(makeSvg("text", { class: "chart-label", x: 18, y: 18 }, metric.unit));
+
+      state.result.patterns.forEach((pattern) => {
+        const points = state.result.annual.map((row) => [x(row.year), y((row[`${pattern.id}${valueKey}`] || 0) / 10000)]);
+        svg.appendChild(makeSvg("path", { class: "series-path", d: pathFrom(points), stroke: pattern.color }));
+      });
+
+      const focusX = x(state.focusYear);
+      const focusRow = state.result.annual[state.focusYear];
+      svg.appendChild(makeSvg("line", { class: "focus-line", x1: focusX, y1: margin.top, x2: focusX, y2: height - margin.bottom }));
+      state.result.patterns.forEach((pattern) => {
+        svg.appendChild(makeSvg("circle", {
+          class: "focus-dot",
+          cx: focusX,
+          cy: y((focusRow[`${pattern.id}${valueKey}`] || 0) / 10000),
+          r: 5,
+          fill: pattern.color
+        }));
+      });
+
+      const hit = makeSvg("rect", { x: margin.left, y: margin.top, width: plotW, height: plotH, fill: "transparent" });
+      hit.style.cursor = "crosshair";
+      hit.addEventListener("pointermove", (event) => {
+        const bounds = svg.getBoundingClientRect();
+        const px = ((event.clientX - bounds.left) / bounds.width) * width;
+        const year = Math.max(0, Math.min(40, Math.round(((px - margin.left) / plotW) * 40)));
+        if (year !== state.focusYear) {
+          state.focusYear = year;
+          document.getElementById("yearSlider").value = year;
+          renderFocus();
+          renderChart();
+        }
+      });
+      svg.appendChild(hit);
+    }
+
+    function renderLifeChart() {
+      const svg = document.getElementById("mainChart");
+      svg.innerHTML = "";
+      const width = 940;
+      const height = 440;
+      const margin = { top: 34, right: 36, bottom: 52, left: 114 };
+      const plotW = width - margin.left - margin.right;
+      const x = (year) => margin.left + (year / 40) * plotW;
+      const rows = [
+        { y: 82, label: "家族" },
+        { y: 170, label: "返済戦略" },
+        { y: 258, label: "完済目安" },
+        { y: 346, label: "年齢" }
+      ];
+      [0, 10, 20, 30, 40].forEach((year) => {
+        const tx = x(year);
+        svg.appendChild(makeSvg("line", { class: "grid-line", x1: tx, y1: 44, x2: tx, y2: 368 }));
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: tx, y: 400, "text-anchor": "middle" }, `${year}年`));
+      });
+      rows.forEach((row) => {
+        svg.appendChild(makeSvg("text", { class: "chart-title-small", x: 24, y: row.y + 5 }, row.label));
+        svg.appendChild(makeSvg("line", { class: "axis-line", x1: margin.left, y1: row.y + 22, x2: width - margin.right, y2: row.y + 22 }));
+      });
+
+      stageSegments().forEach((segment) => {
+        svg.appendChild(makeSvg("rect", {
+          x: x(segment.start),
+          y: 58,
+          width: x(segment.end) - x(segment.start),
+          height: 46,
+          rx: 6,
+          fill: segment.color,
+          stroke: "#dbe1d7"
+        }));
+        if (segment.end - segment.start >= 2) {
+          svg.appendChild(makeSvg("text", { class: "chart-label", x: x((segment.start + segment.end) / 2), y: 87, "text-anchor": "middle" }, segment.label));
+        }
+      });
+
+      const childAge = youngestChildAge(state.family);
+      const borrower = borrowerAge(state.family);
+      const strategySegments = childAge === null
+        ? [
+            { start: 0, end: clamp(55 - borrower, 0, 40), label: "余力繰上", color: "#eaf6f3" },
+            { start: clamp(55 - borrower, 0, 40), end: 40, label: "返済圧縮", color: "#fff0d8" }
+          ]
+        : [
+            { start: 0, end: clamp(12 - childAge, 0, 40), label: "前倒し", color: "#eaf6f3" },
+            { start: clamp(12 - childAge, 0, 40), end: clamp(23 - childAge, 0, 40), label: "教育費期は抑制", color: "#fff0d8" },
+            { start: clamp(23 - childAge, 0, 40), end: 40, label: "繰上強化", color: "#edf0fa" }
+          ];
+      strategySegments.filter((segment) => segment.end > segment.start).forEach((segment) => {
+        svg.appendChild(makeSvg("rect", { x: x(segment.start), y: 146, width: x(segment.end) - x(segment.start), height: 46, rx: 6, fill: segment.color, stroke: "#dbe1d7" }));
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: x((segment.start + segment.end) / 2), y: 175, "text-anchor": "middle" }, segment.label));
+      });
+
+      state.result.patterns.forEach((pattern, index) => {
+        const payoffYear = Math.min(40, pattern.payoffMonth / 12);
+        const y = 250 + index * 24;
+        svg.appendChild(makeSvg("circle", { cx: x(payoffYear), cy: y, r: 6, fill: pattern.color }));
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: x(payoffYear) + 10, y: y + 4 }, `${pattern.name}: ${monthLabel(pattern.payoffMonth)}`));
+      });
+
+      [0, 10, 20, 30, 40].forEach((year) => {
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: x(year), y: 342, "text-anchor": "middle" }, `本人${Math.floor(borrower + year)}歳`));
+        if (childAge !== null) {
+          svg.appendChild(makeSvg("text", { class: "chart-label", x: x(year), y: 362, "text-anchor": "middle" }, `子${Math.floor(childAge + year)}歳`));
+        }
+      });
+
+      const focusX = x(state.focusYear);
+      svg.appendChild(makeSvg("line", { class: "focus-line", x1: focusX, y1: 44, x2: focusX, y2: 368 }));
+    }
+
+    function renderChart() {
+      const mode = state.chartMode;
+      document.getElementById("chartTitle").textContent = mode === "payment" ? "年間返済額" : "残高推移";
+      document.getElementById("chartSubtitle").textContent = mode === "balance"
+        ? "単位：万円、経過年別の借入残高。背景帯はライフステージ"
+        : "単位：万円/年、経過年別の年間返済額。背景帯はライフステージ";
+      renderLineChart(mode === "payment" ? "payment" : "balance");
+      renderLegend();
+    }
+
+    function renderLegend() {
+      document.getElementById("legend").innerHTML = state.result.patterns.map((pattern) => `
+        <span class="legend-item"><span class="swatch" style="background:${pattern.color}"></span>${safe(pattern.name)}</span>
+      `).join("");
+    }
+
+    function renderFocus() {
+      const year = state.focusYear;
+      const row = state.result.annual[year];
+      document.getElementById("focusYear").textContent = year;
+      document.getElementById("yearReadout").textContent = `${year}年`;
+      document.getElementById("focusPills").innerHTML = [
+        `<span class="pill amber">${safe(row.stage)}</span>`,
+        `<span class="pill">${safe(row.ages)}</span>`
+      ].join("");
+      document.getElementById("focusRows").innerHTML = state.result.patterns.map((pattern) => `
         <tr>
-          <td>${Math.ceil(h.m / 12)}年目${(h.m % 12 == 0) ? '12月' : (h.m % 12 == 6) ? '6月' : (h.m % 12) + '月'}</td>
-          <td ${rateCellClass}>${fmtY(h.curM)}</td>
-          <td ${h.pSpot > 0 ? prepayCellClass : ''}>${h.pSpot > 0 ? '<b>' + fmtY(h.pSpot) + '</b>' : '-'}</td>
-          <td ${h.pM > 0 ? prepayCellClass : ''}>${fmtY(h.pM)}</td>
-          <td ${rateCellClass}>${fmtY(h.curB)}</td>
-          <td ${h.pB > 0 ? prepayCellClass : ''}>${fmtY(h.pB)}</td>
-          <td>${fmtY(h.bal)}</td>
-        </tr>`;
-    }).join('');
+          <td><span class="swatch" style="background:${pattern.color};display:inline-block;margin-right:6px;"></span>${safe(pattern.name)}</td>
+          <td>${yenMan(row[`${pattern.id}Balance`])}</td>
+          <td>${yenMan(row[`${pattern.id}Monthly`])}</td>
+          <td>+${yenMan(state.result.inputs.bonus)}/回</td>
+          <td>${yenMan(row[`${pattern.id}Payment`])}</td>
+          <td>${yenMan(row[`${pattern.id}Interest`])}</td>
+        </tr>
+      `).join("");
+    }
 
-  }
+    function milestoneRows() {
+      const family = state.family;
+      const childAge = youngestChildAge(family);
+      const borrower = borrowerAge(family);
+      const rows = [{ year: 0, text: `開始時点：${familyAgesLabel(family, 0)}` }];
+      if (childAge !== null) {
+        [
+          { age: 12, label: "教育費が上がりやすい中学期" },
+          { age: 18, label: "大学・専門期の入口" },
+          { age: 23, label: "独立後の返済強化期" }
+        ].forEach((item) => {
+          const year = Math.ceil(item.age - childAge);
+          if (year >= 0 && year <= 40) rows.push({ year, text: `子${item.age}歳：${item.label}` });
+        });
+      }
+      [60, 65, 70].forEach((age) => {
+        const year = Math.ceil(age - borrower);
+        if (year >= 0 && year <= 40) rows.push({ year, text: `本人${age}歳：定年・年金・完済年齢の確認点` });
+      });
+      state.result.patterns.forEach((pattern) => {
+        const year = Math.ceil(pattern.payoffMonth / 12);
+        if (year >= 0 && year <= 40) rows.push({ year, text: `${pattern.name} 完済目安：${monthLabel(pattern.payoffMonth)}（本人${ageAtMonthLabel(borrower, pattern.payoffMonth)}）` });
+      });
+      return rows.sort((a, b) => a.year - b.year);
+    }
 
-  // リアルタイム反映：入力のたびに再計算（イベント委譲で動的行もカバー）
-  document.querySelector('.input-section').addEventListener('input', calc);
-  document.querySelector('.input-section').addEventListener('change', calc);
+    function renderMilestones() {
+      document.getElementById("milestones").innerHTML = milestoneRows().map((item) => `
+        <div class="milestone"><strong>${item.year}年</strong><span>${safe(item.text)}</span></div>
+      `).join("");
+    }
 
-  // 印刷
-  $('printBtn').addEventListener('click', () => {
-    $('printDate').textContent = '作成日: ' + new Date().toLocaleDateString('ja-JP');
-    window.print();
-  });
+    function renderAnnualRows() {
+      document.getElementById("annualRows").innerHTML = state.result.annual.map((row) => `
+        <tr>
+          <td>${row.year}年</td>
+          <td>${safe(row.stage)}</td>
+          <td>${yenMan(row.step40Balance)}</td>
+          <td>${yenMan(row.fixed35Balance)}</td>
+          <td>${yenMan(row.fixed40Balance)}</td>
+          <td>${yenMan(row.step40Monthly)}</td>
+          <td>${yenMan(row.fixed35Monthly)}</td>
+          <td>${yenMan(row.fixed40Monthly)}</td>
+          <td>${yenMan(row.step40Payment)}</td>
+          <td>${yenMan(row.fixed35Payment)}</td>
+          <td>${yenMan(row.fixed40Payment)}</td>
+        </tr>
+      `).join("");
+    }
 
-  calc();
-})();
-</script>
+    function renderAll() {
+      renderRecommendation();
+      renderPatterns();
+      renderChart();
+      renderFocus();
+      renderMilestones();
+      renderAnnualRows();
+    }
+
+    function refresh() {
+      calculate();
+      renderAll();
+    }
+
+    function init() {
+      renderFamily();
+      ["principalMan", "bonusMan", "ratePct"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", refresh);
+      });
+      document.getElementById("addFamily").addEventListener("click", () => {
+        state.family = familyFromDom();
+        const childCount = children(state.family).length + 1;
+        state.family.push({ role: "子", name: `子ども${childCount}`, age: 0 });
+        renderFamily();
+        refresh();
+      });
+      document.getElementById("resetAll").addEventListener("click", () => {
+        document.getElementById("principalMan").value = 5000;
+        document.getElementById("bonusMan").value = 10;
+        document.getElementById("ratePct").value = "1.20";
+        state.earlyExtraMan = 2;
+        state.strongExtraMan = 5;
+        state.family = structuredClone(DEFAULT_FAMILY);
+        state.focusYear = 23;
+        document.getElementById("yearSlider").value = 23;
+        renderFamily();
+        refresh();
+      });
+      document.querySelectorAll(".segmented button").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.chartMode = button.dataset.mode;
+          document.querySelectorAll(".segmented button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          renderChart();
+        });
+      });
+      document.getElementById("yearSlider").addEventListener("input", (event) => {
+        state.focusYear = Number(event.target.value);
+        renderChart();
+        renderFocus();
+      });
+      refresh();
+    }
+
+    init();
+  </script>
 </body>
 </html>
