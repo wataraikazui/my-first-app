@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>おすすめローンの組み方 汎用シミュレーター</title>
+  <title>子育て世帯の住宅ローン比較シミュレーター</title>
   <style>
     :root {
       --bg: #f6f7f3;
@@ -392,6 +392,24 @@
       font-size: 12px;
       line-height: 1.42;
       color: #3c443e;
+    }
+
+    .flex-note {
+      margin: 0;
+      padding: 10px 11px;
+      background: #eef8f3;
+      border: 1px solid rgba(15, 139, 141, 0.22);
+      border-radius: 8px;
+      color: #27413e;
+      font-size: 12px;
+      line-height: 1.58;
+    }
+
+    .flex-note strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #0f5d61;
+      font-size: 12px;
     }
 
     .step-controls {
@@ -832,8 +850,8 @@
   <main class="page">
     <header class="topbar">
       <div>
-        <h1>おすすめローンの組み方</h1>
-        <p class="subtitle">借入金額・ボーナス返済・金利・家族構成から、3パターンを比較します。</p>
+        <h1>子育て世帯の住宅ローン比較シミュレーター</h1>
+        <p class="subtitle">借入条件と家族構成から、教育費期も見ながら3パターンを比較します。</p>
       </div>
       <aside class="stamp" aria-label="計算前提">
         <strong>汎用シミュレーター</strong>
@@ -1340,6 +1358,9 @@
       const grid = document.getElementById("patternGrid");
       grid.innerHTML = state.result.patterns.map((pattern) => {
         const featured = pattern.recommended ? " recommended" : "";
+        const flexNoteHtml = pattern.recommended
+          ? `<p class="flex-note"><strong>将来に合わせて変えられる返済案</strong>緑の線は、教育費前・子ども自立後の加算額を変更できます。多く返せる時は増やし、家計を守りたい時は抑えるなど、先の読めない未来に合わせやすい案です。</p>`
+          : "";
         const controlsHtml = pattern.id === "step40"
           ? `
             <div class="step-controls" aria-label="段階繰上の加算額">
@@ -1379,6 +1400,7 @@
               ${metric("完済目安", monthLabel(pattern.payoffMonth))}
               ${metric("総利息", yenMan(pattern.totalInterest))}
             </div>
+            ${flexNoteHtml}
             ${controlsHtml}
           </article>
         `;
