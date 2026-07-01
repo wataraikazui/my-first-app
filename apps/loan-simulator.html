@@ -915,11 +915,11 @@
               <thead>
                 <tr>
                   <th>パターン</th>
-                  <th>残高</th>
                   <th>通常月</th>
                   <th>ボーナス加算</th>
                   <th>年間返済</th>
                   <th>累計利息</th>
+                  <th>残高</th>
                 </tr>
               </thead>
               <tbody id="focusRows"></tbody>
@@ -941,15 +941,15 @@
                   <tr>
                     <th>経過年</th>
                     <th>ライフステージ</th>
-                    <th id="stepBalanceHead">最長＋繰り上げ 残高</th>
-                    <th>年数可変ローン 残高</th>
-                    <th id="maxBalanceHead">最長ローン 残高</th>
                     <th id="stepMonthlyHead">最長＋繰り上げ 通常月</th>
                     <th>年数可変ローン 通常月</th>
                     <th id="maxMonthlyHead">最長ローン 通常月</th>
                     <th id="stepPaymentHead">最長＋繰り上げ 年間返済</th>
                     <th>年数可変ローン 年間返済</th>
                     <th id="maxPaymentHead">最長ローン 年間返済</th>
+                    <th id="stepBalanceHead">最長＋繰り上げ 残高</th>
+                    <th>年数可変ローン 残高</th>
+                    <th id="maxBalanceHead">最長ローン 残高</th>
                   </tr>
                 </thead>
                 <tbody id="annualRows"></tbody>
@@ -1690,11 +1690,11 @@
       document.getElementById("focusRows").innerHTML = state.result.patterns.map((pattern) => `
         <tr>
           <td><span class="swatch" style="background:${pattern.color};display:inline-block;margin-right:6px;"></span>${safe(pattern.name)}</td>
-          <td>${yenMan(row[`${pattern.id}Balance`])}</td>
           <td>${yenMan(row[`${pattern.id}Monthly`])}</td>
           <td>+${yenMan(state.result.inputs.bonus)}/回</td>
           <td>${yenMan(row[`${pattern.id}Payment`])}</td>
           <td>${yenMan(row[`${pattern.id}Interest`])}</td>
+          <td>${yenMan(row[`${pattern.id}Balance`])}</td>
         </tr>
       `).join("");
     }
@@ -1755,15 +1755,15 @@
         <tr>
           <td>${row.year}年</td>
           <td>${safe(row.stage)}</td>
-          <td>${yenMan(row.step40Balance)}</td>
-          <td>${yenMan(row.fixed35Balance)}</td>
-          <td>${yenMan(row.fixed40Balance)}</td>
           <td>${yenMan(row.step40Monthly)}</td>
           <td>${yenMan(row.fixed35Monthly)}</td>
           <td>${yenMan(row.fixed40Monthly)}</td>
           <td>${yenMan(row.step40Payment)}</td>
           <td>${yenMan(row.fixed35Payment)}</td>
           <td>${yenMan(row.fixed40Payment)}</td>
+          <td>${yenMan(row.step40Balance)}</td>
+          <td>${yenMan(row.fixed35Balance)}</td>
+          <td>${yenMan(row.fixed40Balance)}</td>
         </tr>
       `).join("");
     }
