@@ -1121,7 +1121,7 @@
       if (currentChildAge < 15) return "中学期";
       if (currentChildAge < 18) return "高校期";
       if (currentChildAge < 23) return "大学・専門期";
-      return "独立後・返済強化期";
+      return "子ども自立・返済強化期";
     }
 
     function extraPlan(family, elapsedYears, inputs) {
@@ -1138,7 +1138,7 @@
       const currentChildAge = childAge + elapsedYears;
       if (currentChildAge < 12) return { monthly: baseEarly, bonus: earlyBonus, label: "教育費前に軽く前倒し" };
       if (currentChildAge < 23) return { monthly: 0, bonus: 0, label: "教育費期は家計防衛" };
-      return { monthly: baseStrong, bonus: strongBonus, label: "独立後に期間短縮" };
+      return { monthly: baseStrong, bonus: strongBonus, label: "子ども自立後に期間短縮" };
     }
 
     function repaymentStageCode(family, elapsedYears) {
@@ -1353,9 +1353,9 @@
                   </span>
                 </label>
                 <label class="field" for="strongExtraMan">
-                  <span>独立後</span>
+                  <span>子ども自立</span>
                   <span class="input-wrap">
-                    <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="独立後の毎月加算額">
+                    <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="子ども自立後の毎月加算額">
                     <span class="unit">万円/月</span>
                   </span>
                 </label>
@@ -1478,7 +1478,7 @@
         { endAge: 15, label: "中学", color: "#fff4df" },
         { endAge: 18, label: "高校", color: "#fdeceb" },
         { endAge: 23, label: "大学・専門", color: "#f1f2fa" },
-        { endAge: 200, label: "独立後", color: "#eef4ed" }
+        { endAge: 200, label: "子ども自立", color: "#eef4ed" }
       ];
       let cursor = 0;
       const segments = [];
@@ -1727,7 +1727,7 @@
         [
           { age: 12, label: "教育費が上がりやすい中学期" },
           { age: 18, label: "大学・専門期の入口" },
-          { age: 23, label: "独立後の返済強化期" }
+          { age: 23, label: "子ども自立後の返済強化期" }
         ].forEach((item) => {
           const year = Math.ceil(item.age - childAge);
           if (year >= 0 && year <= maxYear) rows.push({ year, text: `子：${item.age}歳：${item.label}` });
