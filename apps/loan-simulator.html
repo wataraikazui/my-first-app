@@ -1491,6 +1491,22 @@
           document.activeElement.blur();
         }
         refresh({ preserveFocus: !options.closeKeyboard });
+        if (options.closeKeyboard) {
+          requestAnimationFrame(() => {
+            const active = document.activeElement;
+            if (active && ["earlyExtraMan", "strongExtraMan"].includes(active.id) && typeof active.blur === "function") {
+              active.blur();
+            }
+          });
+        }
+      };
+      let closeStepInputStarted = false;
+      const closeStepInputs = (event) => {
+        if (event) event.preventDefault();
+        if (closeStepInputStarted) return;
+        closeStepInputStarted = true;
+        clearTimeout(stepAmountTimer);
+        refreshStepAmounts({ closeKeyboard: true });
       };
 
       ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
@@ -1515,9 +1531,8 @@
       });
       const doneButton = document.getElementById("closeStepKeyboard");
       if (doneButton) {
-        doneButton.addEventListener("click", () => {
-          clearTimeout(stepAmountTimer);
-          refreshStepAmounts({ closeKeyboard: true });
+        ["pointerdown", "touchstart", "mousedown", "click"].forEach((eventName) => {
+          doneButton.addEventListener(eventName, closeStepInputs);
         });
       }
     }
