@@ -642,6 +642,7 @@
       color: #173f42;
       font-size: 28px;
       line-height: 1;
+      white-space: nowrap;
     }
 
     .pill-row {
@@ -918,7 +919,7 @@
           <label class="timeline-control">
             <span>経過年</span>
             <input id="yearSlider" type="range" min="0" max="40" value="23" step="1">
-            <span id="yearReadout">23年</span>
+            <span id="yearReadout">23年後</span>
           </label>
         </section>
 
@@ -926,7 +927,7 @@
           <section class="panel focus-box">
             <div class="focus-head">
               <h2>選択年の状況</h2>
-              <strong id="focusYear">23</strong>
+              <strong id="focusYear">23年後</strong>
             </div>
             <div id="focusPills" class="pill-row"></div>
             <table class="focus-table">
@@ -1700,11 +1701,16 @@
       `).join("");
     }
 
+    function elapsedYearLabel(year) {
+      return year === 0 ? "現在" : `${year}年後`;
+    }
+
     function renderFocus() {
       const year = state.focusYear;
       const row = state.result.annual[year];
-      document.getElementById("focusYear").textContent = year;
-      document.getElementById("yearReadout").textContent = `${year}年`;
+      const yearLabel = elapsedYearLabel(year);
+      document.getElementById("focusYear").textContent = yearLabel;
+      document.getElementById("yearReadout").textContent = yearLabel;
       document.getElementById("focusPills").innerHTML = [
         `<span class="pill amber">${safe(row.stage)}</span>`,
         `<span class="pill">${safe(row.ages)}</span>`
