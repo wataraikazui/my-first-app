@@ -419,11 +419,6 @@
       text-align: right;
     }
 
-    .step-apply {
-      width: 100%;
-      min-height: 38px;
-    }
-
     .stage-line {
       display: grid;
       grid-template-columns: 84px 1fr;
@@ -1365,7 +1360,6 @@
                   </span>
                 </label>
               </div>
-              <button id="applyStepAmounts" class="button primary step-apply" type="button">反映</button>
             </div>
           `
           : "";
@@ -1394,13 +1388,14 @@
     }
 
     function wireStepControls() {
-      const applyStepAmounts = () => {
+      let stepAmountTimer = null;
+      const refreshStepAmounts = () => {
         ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
           const input = document.getElementById(id);
           if (!input) return;
           state[id] = Math.max(0, Number(input.value) || 0);
         });
-        refresh();
+        refresh({ preserveFocus: true });
       };
 
       ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
@@ -1408,13 +1403,21 @@
         if (!input) return;
         input.addEventListener("input", () => {
           state[id] = Math.max(0, Number(input.value) || 0);
+          clearTimeout(stepAmountTimer);
+          stepAmountTimer = setTimeout(refreshStepAmounts, 360);
+        });
+        input.addEventListener("change", () => {
+          clearTimeout(stepAmountTimer);
+          refreshStepAmounts();
         });
         input.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") applyStepAmounts();
+          if (event.key === "Enter") {
+            event.preventDefault();
+            clearTimeout(stepAmountTimer);
+            refreshStepAmounts();
+          }
         });
       });
-      const applyButton = document.getElementById("applyStepAmounts");
-      if (applyButton) applyButton.addEventListener("click", applyStepAmounts);
     }
 
     function wireFixedTermControl() {
@@ -1765,6 +1768,30 @@
       `).join("");
     }
 
+    function captureFocus() {
+      const active = document.activeElement;
+      if (!active || !active.id) return null;
+      return {
+        id: active.id,
+        start: typeof active.selectionStart === "number" ? active.selectionStart : null,
+        end: typeof active.selectionEnd === "number" ? active.selectionEnd : null
+      };
+    }
+
+    function restoreFocus(snapshot) {
+      if (!snapshot) return;
+      const next = document.getElementById(snapshot.id);
+      if (!next) return;
+      next.focus();
+      if (snapshot.start !== null && typeof next.setSelectionRange === "function") {
+        try {
+          next.setSelectionRange(snapshot.start, snapshot.end);
+        } catch (error) {
+          // Number inputs do not support selection ranges in every browser.
+        }
+      }
+    }
+
     function renderAll() {
       syncDynamicControls();
       renderPatterns();
@@ -1774,9 +1801,11 @@
       renderAnnualRows();
     }
 
-    function refresh() {
+    function refresh(options = {}) {
+      const focusSnapshot = options.preserveFocus ? captureFocus() : null;
       calculate();
       renderAll();
+      restoreFocus(focusSnapshot);
     }
 
     function init() {
