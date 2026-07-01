@@ -876,7 +876,7 @@
           </div>
         </section>
 
-        <p class="notice">40年系の比較は、本人75歳を超えない範囲で期間を調整します。手数料・団信・審査条件は含まない概算です。</p>
+        <p class="notice">最長住宅ローンは、主債務者75歳まで・上限40年で自動計算します。手数料・団信・審査条件は含まない概算です。</p>
       </aside>
 
       <section class="content">
@@ -946,15 +946,15 @@
                   <tr>
                     <th>経過年</th>
                     <th>ライフステージ</th>
-                    <th>40年＋繰り上げ 残高</th>
+                    <th id="stepBalanceHead">最長＋繰り上げ 残高</th>
                     <th>年数可変ローン 残高</th>
-                    <th>40年 残高</th>
-                    <th>40年＋繰り上げ 通常月</th>
+                    <th id="maxBalanceHead">最長ローン 残高</th>
+                    <th id="stepMonthlyHead">最長＋繰り上げ 通常月</th>
                     <th>年数可変ローン 通常月</th>
-                    <th>40年 通常月</th>
-                    <th>40年＋繰り上げ 年間返済</th>
+                    <th id="maxMonthlyHead">最長ローン 通常月</th>
+                    <th id="stepPaymentHead">最長＋繰り上げ 年間返済</th>
                     <th>年数可変ローン 年間返済</th>
-                    <th>40年 年間返済</th>
+                    <th id="maxPaymentHead">最長ローン 年間返済</th>
                   </tr>
                 </thead>
                 <tbody id="annualRows"></tbody>
@@ -968,13 +968,13 @@
 
   <script>
     const SERIES = [
-      { id: "step40", baseName: "40年＋繰り上げ", requestedTerm: 40, color: "#0f8b8d", recommended: true, cappedAge: 75 },
+      { id: "step40", baseName: "年＋繰り上げ", requestedTerm: 40, color: "#0f8b8d", recommended: true, cappedAge: 75 },
       { id: "fixed35", baseName: "年ローン", requestedTerm: 35, color: "#5868b3", recommended: false, cappedAge: null },
-      { id: "fixed40", baseName: "40年ローン", requestedTerm: 40, color: "#d18a28", recommended: false, cappedAge: 75 }
+      { id: "fixed40", baseName: "年ローン", requestedTerm: 40, color: "#d18a28", recommended: false, cappedAge: 75 }
     ];
 
     const DEFAULT_FAMILY = [
-      { role: "本人", name: "本人", age: 35 },
+      { role: "主債務者", name: "主債務者", age: 35 },
       { role: "配偶者", name: "配偶者", age: 35 },
       { role: "子", name: "子ども1", age: 1 }
     ];
@@ -1088,10 +1088,14 @@
     }
 
     function borrowerAge(family) {
-      const borrower = family.find((member) => member.role === "本人");
+      const borrower = family.find((member) => member.role === "主債務者");
       if (borrower) return borrower.age;
       const adults = family.filter((member) => member.role !== "子").map((member) => member.age);
       return adults.length ? Math.max(...adults) : 35;
+    }
+
+    function maxMortgageYears(family) {
+      return cappedTermByAge(40, family, 75);
     }
 
     function cappedTermByAge(requestedTerm, family, maxAge) {
@@ -1154,27 +1158,28 @@
     }
 
     function buildPatterns(inputs, family) {
+      const maxTerm = maxMortgageYears(family);
       return SERIES.map((pattern) => {
         const term = pattern.id === "fixed35"
           ? inputs.fixedTermYears
-          : cappedTermByAge(pattern.requestedTerm, family, pattern.cappedAge);
-        const name = pattern.id === "fixed35" ? `${term}年ローン` : pattern.baseName;
+          : maxTerm;
+        const name = `${term}${pattern.baseName}`;
         return {
           ...pattern,
           name,
           term,
-          capped: Boolean(pattern.cappedAge && term < pattern.requestedTerm)
+          capped: Boolean(pattern.id !== "fixed35" && term < pattern.requestedTerm)
         };
       });
     }
 
-    function simulatePattern(pattern, inputs, family) {
+    function simulatePattern(pattern, inputs, family, chartYears) {
       const monthlyRate = inputs.annualRate / 12;
       const termMonths = pattern.term * 12;
       const scheduledAnnual = payment(monthlyRate, termMonths, inputs.principal) * 12;
       const baseMonthly = Math.max(0, (scheduledAnnual - inputs.bonus * 2) / 12);
       const maxMonths = termMonths;
-      const annual = Array.from({ length: 41 }, (_, year) => ({
+      const annual = Array.from({ length: chartYears + 1 }, (_, year) => ({
         year,
         balance: year === 0 ? inputs.principal : 0,
         monthly: 0,
@@ -1242,7 +1247,7 @@
         }
       }
 
-      for (let year = 1; year <= 40; year += 1) {
+      for (let year = 1; year <= chartYears; year += 1) {
         annual[year].monthly = annual[year].monthlyCount > 0 ? annual[year].monthlySum / annual[year].monthlyCount : 0;
         annual[year].bonusMonthly = annual[year].bonusMonthlyCount > 0 ? annual[year].bonusMonthlySum / annual[year].bonusMonthlyCount : 0;
         if (!annual[year].cumulativeInterest) {
@@ -1284,8 +1289,10 @@
     function calculate() {
       state.family = familyFromDom();
       const inputs = getInputs(state.family);
-      const patterns = buildPatterns(inputs, state.family).map((pattern) => simulatePattern(pattern, inputs, state.family));
-      const annual = Array.from({ length: 41 }, (_, year) => {
+      const chartYears = maxMortgageYears(state.family);
+      state.focusYear = clamp(state.focusYear, 0, chartYears);
+      const patterns = buildPatterns(inputs, state.family).map((pattern) => simulatePattern(pattern, inputs, state.family, chartYears));
+      const annual = Array.from({ length: chartYears + 1 }, (_, year) => {
         const row = {
           year,
           stage: lifeStage(state.family, year),
@@ -1301,7 +1308,7 @@
         });
         return row;
       });
-      state.result = { inputs, patterns, annual };
+      state.result = { inputs, patterns, annual, chartYears };
     }
 
     function metric(label, value) {
@@ -1313,7 +1320,7 @@
       list.innerHTML = state.family.map((member, index) => `
         <div class="family-row" data-family-index="${index}">
           <label><span>区分</span><select data-family-role>
-            ${["本人", "配偶者", "子", "親", "その他"].map((role) => `<option value="${role}" ${role === member.role ? "selected" : ""}>${role}</option>`).join("")}
+            ${["主債務者", "配偶者", "子", "親", "その他"].map((role) => `<option value="${role}" ${role === member.role ? "selected" : ""}>${role}</option>`).join("")}
           </select></label>
           <label><span>名前</span><input data-family-name value="${safe(member.name)}"></label>
           <label><span>年齢</span><input data-family-age type="number" min="0" max="110" step="1" value="${member.age}"></label>
@@ -1439,14 +1446,27 @@
       return points.map((point, index) => `${index === 0 ? "M" : "L"}${point[0].toFixed(2)},${point[1].toFixed(2)}`).join(" ");
     }
 
+    function chartYears() {
+      return state.result?.chartYears || maxMortgageYears(state.family);
+    }
+
+    function yearTicks(maxYear) {
+      const step = maxYear <= 25 ? 5 : 10;
+      const ticks = [];
+      for (let year = 0; year <= maxYear; year += step) ticks.push(year);
+      if (ticks[ticks.length - 1] !== maxYear) ticks.push(maxYear);
+      return ticks;
+    }
+
     function stageSegments() {
+      const maxYear = chartYears();
       const childAge = youngestChildAge(state.family);
       if (childAge === null) {
         const age = borrowerAge(state.family);
         return [
-          { start: 0, end: clamp(55 - age, 0, 40), label: "貯蓄形成期", color: "#eef7f3" },
-          { start: clamp(55 - age, 0, 40), end: clamp(65 - age, 0, 40), label: "定年前後", color: "#fff4df" },
-          { start: clamp(65 - age, 0, 40), end: 40, label: "退職後", color: "#f1f2fa" }
+          { start: 0, end: clamp(55 - age, 0, maxYear), label: "貯蓄形成期", color: "#eef7f3" },
+          { start: clamp(55 - age, 0, maxYear), end: clamp(65 - age, 0, maxYear), label: "定年前後", color: "#fff4df" },
+          { start: clamp(65 - age, 0, maxYear), end: maxYear, label: "退職後", color: "#f1f2fa" }
         ].filter((segment) => segment.end > segment.start);
       }
       const points = [
@@ -1460,7 +1480,7 @@
       let cursor = 0;
       const segments = [];
       points.forEach((point) => {
-        const end = Math.min(40, Math.max(cursor, point.endAge - childAge));
+        const end = Math.min(maxYear, Math.max(cursor, point.endAge - childAge));
         if (end > cursor) segments.push({ start: cursor, end, label: point.label, color: point.color });
         cursor = end;
       });
@@ -1496,7 +1516,8 @@
       const margin = { top: 26, right: 34, bottom: 58, left: 72 };
       const plotW = width - margin.left - margin.right;
       const plotH = height - margin.top - margin.bottom;
-      const x = (year) => margin.left + (year / 40) * plotW;
+      const maxYear = chartYears();
+      const x = (year) => margin.left + (year / maxYear) * plotW;
       const chartMetrics = {
         balance: { key: "Balance", stepSize: 500, unit: "万円" },
         payment: { key: "Payment", stepSize: 50, unit: "万円/年" }
@@ -1516,14 +1537,14 @@
         svg.appendChild(makeSvg("line", { class: "grid-line", x1: margin.left, y1: ty, x2: width - margin.right, y2: ty }));
         svg.appendChild(makeSvg("text", { class: "chart-label", x: margin.left - 12, y: ty + 4, "text-anchor": "end" }, num.format(tick)));
       });
-      [0, 10, 20, 30, 40].forEach((year) => {
+      yearTicks(maxYear).forEach((year) => {
         const tx = x(year);
         svg.appendChild(makeSvg("line", { class: "grid-line", x1: tx, y1: margin.top, x2: tx, y2: height - margin.bottom }));
         svg.appendChild(makeSvg("text", { class: "chart-label", x: tx, y: height - margin.bottom + 24, "text-anchor": "middle" }, `${year}年`));
       });
-      [12, 18, 23, 35, 40].forEach((year) => {
+      [...new Set([12, 18, 23, 35, maxYear])].forEach((year) => {
         const tx = x(year);
-        if (year >= 0 && year <= 40) svg.appendChild(makeSvg("line", { class: "marker-line", x1: tx, y1: margin.top, x2: tx, y2: height - margin.bottom }));
+        if (year >= 0 && year <= maxYear) svg.appendChild(makeSvg("line", { class: "marker-line", x1: tx, y1: margin.top, x2: tx, y2: height - margin.bottom }));
       });
       svg.appendChild(makeSvg("line", { class: "axis-line", x1: margin.left, y1: height - margin.bottom, x2: width - margin.right, y2: height - margin.bottom }));
       svg.appendChild(makeSvg("line", { class: "axis-line", x1: margin.left, y1: margin.top, x2: margin.left, y2: height - margin.bottom }));
@@ -1552,7 +1573,7 @@
       hit.addEventListener("pointermove", (event) => {
         const bounds = svg.getBoundingClientRect();
         const px = ((event.clientX - bounds.left) / bounds.width) * width;
-        const year = Math.max(0, Math.min(40, Math.round(((px - margin.left) / plotW) * 40)));
+        const year = Math.max(0, Math.min(maxYear, Math.round(((px - margin.left) / plotW) * maxYear)));
         if (year !== state.focusYear) {
           state.focusYear = year;
           document.getElementById("yearSlider").value = year;
@@ -1570,14 +1591,15 @@
       const height = 440;
       const margin = { top: 34, right: 36, bottom: 52, left: 114 };
       const plotW = width - margin.left - margin.right;
-      const x = (year) => margin.left + (year / 40) * plotW;
+      const maxYear = chartYears();
+      const x = (year) => margin.left + (year / maxYear) * plotW;
       const rows = [
         { y: 82, label: "家族" },
         { y: 170, label: "返済戦略" },
         { y: 258, label: "完済目安" },
         { y: 346, label: "年齢" }
       ];
-      [0, 10, 20, 30, 40].forEach((year) => {
+      yearTicks(maxYear).forEach((year) => {
         const tx = x(year);
         svg.appendChild(makeSvg("line", { class: "grid-line", x1: tx, y1: 44, x2: tx, y2: 368 }));
         svg.appendChild(makeSvg("text", { class: "chart-label", x: tx, y: 400, "text-anchor": "middle" }, `${year}年`));
@@ -1606,13 +1628,13 @@
       const borrower = borrowerAge(state.family);
       const strategySegments = childAge === null
         ? [
-            { start: 0, end: clamp(55 - borrower, 0, 40), label: "余力繰上", color: "#eaf6f3" },
-            { start: clamp(55 - borrower, 0, 40), end: 40, label: "返済圧縮", color: "#fff0d8" }
+            { start: 0, end: clamp(55 - borrower, 0, maxYear), label: "余力繰上", color: "#eaf6f3" },
+            { start: clamp(55 - borrower, 0, maxYear), end: maxYear, label: "返済圧縮", color: "#fff0d8" }
           ]
         : [
-            { start: 0, end: clamp(12 - childAge, 0, 40), label: "前倒し", color: "#eaf6f3" },
-            { start: clamp(12 - childAge, 0, 40), end: clamp(23 - childAge, 0, 40), label: "教育費期は抑制", color: "#fff0d8" },
-            { start: clamp(23 - childAge, 0, 40), end: 40, label: "繰上強化", color: "#edf0fa" }
+            { start: 0, end: clamp(12 - childAge, 0, maxYear), label: "前倒し", color: "#eaf6f3" },
+            { start: clamp(12 - childAge, 0, maxYear), end: clamp(23 - childAge, 0, maxYear), label: "教育費期は抑制", color: "#fff0d8" },
+            { start: clamp(23 - childAge, 0, maxYear), end: maxYear, label: "繰上強化", color: "#edf0fa" }
           ];
       strategySegments.filter((segment) => segment.end > segment.start).forEach((segment) => {
         svg.appendChild(makeSvg("rect", { x: x(segment.start), y: 146, width: x(segment.end) - x(segment.start), height: 46, rx: 6, fill: segment.color, stroke: "#dbe1d7" }));
@@ -1620,14 +1642,14 @@
       });
 
       state.result.patterns.forEach((pattern, index) => {
-        const payoffYear = Math.min(40, pattern.payoffMonth / 12);
+        const payoffYear = Math.min(maxYear, pattern.payoffMonth / 12);
         const y = 250 + index * 24;
         svg.appendChild(makeSvg("circle", { cx: x(payoffYear), cy: y, r: 6, fill: pattern.color }));
         svg.appendChild(makeSvg("text", { class: "chart-label", x: x(payoffYear) + 10, y: y + 4 }, `${pattern.name}: ${monthLabel(pattern.payoffMonth)}`));
       });
 
-      [0, 10, 20, 30, 40].forEach((year) => {
-        svg.appendChild(makeSvg("text", { class: "chart-label", x: x(year), y: 342, "text-anchor": "middle" }, `本人：${Math.floor(borrower + year)}歳`));
+      yearTicks(maxYear).forEach((year) => {
+        svg.appendChild(makeSvg("text", { class: "chart-label", x: x(year), y: 342, "text-anchor": "middle" }, `主債務者：${Math.floor(borrower + year)}歳`));
         if (childAge !== null) {
           svg.appendChild(makeSvg("text", { class: "chart-label", x: x(year), y: 362, "text-anchor": "middle" }, `子：${Math.floor(childAge + year)}歳`));
         }
@@ -1674,10 +1696,29 @@
       `).join("");
     }
 
+    function syncDynamicControls() {
+      const maxYear = chartYears();
+      const slider = document.getElementById("yearSlider");
+      state.focusYear = clamp(state.focusYear, 0, maxYear);
+      slider.max = maxYear;
+      slider.value = state.focusYear;
+      const step = state.result.patterns.find((pattern) => pattern.id === "step40");
+      const maxLoan = state.result.patterns.find((pattern) => pattern.id === "fixed40");
+      if (step && maxLoan) {
+        document.getElementById("stepBalanceHead").textContent = `${step.name} 残高`;
+        document.getElementById("maxBalanceHead").textContent = `${maxLoan.name} 残高`;
+        document.getElementById("stepMonthlyHead").textContent = `${step.name} 通常月`;
+        document.getElementById("maxMonthlyHead").textContent = `${maxLoan.name} 通常月`;
+        document.getElementById("stepPaymentHead").textContent = `${step.name} 年間返済`;
+        document.getElementById("maxPaymentHead").textContent = `${maxLoan.name} 年間返済`;
+      }
+    }
+
     function milestoneRows() {
       const family = state.family;
       const childAge = youngestChildAge(family);
       const borrower = borrowerAge(family);
+      const maxYear = chartYears();
       const rows = [{ year: 0, text: `開始時点：${familyAgesLabel(family, 0)}` }];
       if (childAge !== null) {
         [
@@ -1686,16 +1727,16 @@
           { age: 23, label: "独立後の返済強化期" }
         ].forEach((item) => {
           const year = Math.ceil(item.age - childAge);
-          if (year >= 0 && year <= 40) rows.push({ year, text: `子：${item.age}歳：${item.label}` });
+          if (year >= 0 && year <= maxYear) rows.push({ year, text: `子：${item.age}歳：${item.label}` });
         });
       }
       [60, 65, 70].forEach((age) => {
         const year = Math.ceil(age - borrower);
-        if (year >= 0 && year <= 40) rows.push({ year, text: `本人：${age}歳：定年・年金・完済年齢の確認点` });
+        if (year >= 0 && year <= maxYear) rows.push({ year, text: `主債務者：${age}歳：定年・年金・完済年齢の確認点` });
       });
       state.result.patterns.forEach((pattern) => {
         const year = Math.ceil(pattern.payoffMonth / 12);
-        if (year >= 0 && year <= 40) rows.push({ year, text: `${pattern.name} 完済目安：${monthLabel(pattern.payoffMonth)} / 本人：${ageAtMonthLabel(borrower, pattern.payoffMonth)}` });
+        if (year >= 0 && year <= maxYear) rows.push({ year, text: `${pattern.name} 完済目安：${monthLabel(pattern.payoffMonth)} / 主債務者：${ageAtMonthLabel(borrower, pattern.payoffMonth)}` });
       });
       return rows.sort((a, b) => a.year - b.year);
     }
@@ -1725,6 +1766,7 @@
     }
 
     function renderAll() {
+      syncDynamicControls();
       renderPatterns();
       renderChart();
       renderFocus();
