@@ -856,12 +856,12 @@
         <section class="panel chart-panel">
           <div class="panel-header">
             <div class="panel-title">
-              <h2 id="chartTitle">残高推移</h2>
-              <p id="chartSubtitle">単位：万円、経過年別の借入残高</p>
+              <h2 id="chartTitle">年間返済額</h2>
+              <p id="chartSubtitle">単位：万円/年、経過年別の年間返済額。背景帯はライフステージ</p>
             </div>
             <div class="segmented" role="group" aria-label="表示切替">
-              <button type="button" data-mode="balance" aria-pressed="true">残高推移</button>
-              <button type="button" data-mode="payment" aria-pressed="false">年間返済額</button>
+              <button type="button" data-mode="payment" aria-pressed="true">年間返済額</button>
+              <button type="button" data-mode="balance" aria-pressed="false">残高推移</button>
             </div>
           </div>
 
@@ -951,7 +951,7 @@
     ];
 
     const state = {
-      chartMode: "balance",
+      chartMode: "payment",
       focusYear: 23,
       family: structuredClone(DEFAULT_FAMILY),
       earlyExtraMan: 2,
