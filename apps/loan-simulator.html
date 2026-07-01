@@ -432,6 +432,45 @@
       gap: 9px;
     }
 
+    .step-amount-row {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .step-payment-result {
+      display: grid;
+      gap: 2px;
+      padding: 8px 9px;
+      border: 1px solid #dbe5d8;
+      border-radius: 8px;
+      background: #fff;
+      min-width: 0;
+    }
+
+    .step-payment-result span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .step-payment-result strong {
+      color: #143f3c;
+      font-size: 15px;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .step-done-button {
+      min-height: 38px;
+      border: 1px solid #b9c8b8;
+      border-radius: 8px;
+      background: #173f42;
+      color: #fff;
+      font-weight: 800;
+    }
+
     .amount-input {
       font-weight: 800;
       text-align: right;
@@ -815,6 +854,21 @@
 
       .step-amount-grid {
         grid-template-columns: 1fr;
+      }
+
+      .step-amount-row {
+        grid-template-columns: minmax(0, 1fr) minmax(116px, 0.78fr);
+        align-items: end;
+      }
+
+      .step-payment-result {
+        min-height: 64px;
+        justify-content: end;
+        text-align: right;
+      }
+
+      .step-payment-result strong {
+        font-size: 14px;
       }
 
       .family-row {
@@ -1362,26 +1416,41 @@
         const flexNoteHtml = pattern.recommended
           ? `<p class="flex-note"><strong>将来に合わせて変えられる返済案</strong>緑の線は、教育費前・子ども自立後の加算額を変更できます。多く返せる時は増やし、家計を守りたい時は抑えるなど、先の読めない未来に合わせやすい案です。</p>`
           : "";
+        const earlyMonthlyWithExtra = yen.format(Math.round(pattern.baseMonthly + state.result.inputs.earlyExtra));
+        const strongMonthlyWithExtra = yen.format(Math.round(pattern.baseMonthly + state.result.inputs.strongExtra));
         const controlsHtml = pattern.id === "step40"
           ? `
             <div class="step-controls" aria-label="段階繰上の加算額">
               <h3 class="section-title">段階繰上の加算額</h3>
               <div class="field-grid step-amount-grid">
-                <label class="field" for="earlyExtraMan">
-                  <span>教育費前</span>
-                  <span class="input-wrap">
-                    <input id="earlyExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.earlyExtraMan}" aria-label="教育費前の毎月加算額">
-                    <span class="unit">万円/月</span>
-                  </span>
-                </label>
-                <label class="field" for="strongExtraMan">
-                  <span>子ども自立</span>
-                  <span class="input-wrap">
-                    <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="子ども自立後の毎月加算額">
-                    <span class="unit">万円/月</span>
-                  </span>
-                </label>
+                <div class="step-amount-row">
+                  <label class="field" for="earlyExtraMan">
+                    <span>教育費前</span>
+                    <span class="input-wrap">
+                      <input id="earlyExtraMan" class="amount-input" type="number" inputmode="decimal" enterkeyhint="done" min="0" step="0.1" value="${state.result.inputs.earlyExtraMan}" aria-label="教育費前の毎月加算額">
+                      <span class="unit">万円/月</span>
+                    </span>
+                  </label>
+                  <div class="step-payment-result" aria-label="教育費前の加算後の通常月">
+                    <span>加算後の通常月</span>
+                    <strong>${earlyMonthlyWithExtra}/月</strong>
+                  </div>
+                </div>
+                <div class="step-amount-row">
+                  <label class="field" for="strongExtraMan">
+                    <span>子ども自立</span>
+                    <span class="input-wrap">
+                      <input id="strongExtraMan" class="amount-input" type="number" inputmode="decimal" enterkeyhint="done" min="0" step="0.1" value="${state.result.inputs.strongExtraMan}" aria-label="子ども自立後の毎月加算額">
+                      <span class="unit">万円/月</span>
+                    </span>
+                  </label>
+                  <div class="step-payment-result" aria-label="子ども自立後の加算後の通常月">
+                    <span>加算後の通常月</span>
+                    <strong>${strongMonthlyWithExtra}/月</strong>
+                  </div>
+                </div>
               </div>
+              <button id="closeStepKeyboard" class="step-done-button" type="button">入力完了</button>
             </div>
           `
           : "";
@@ -1412,13 +1481,16 @@
 
     function wireStepControls() {
       let stepAmountTimer = null;
-      const refreshStepAmounts = () => {
+      const refreshStepAmounts = (options = {}) => {
         ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
           const input = document.getElementById(id);
           if (!input) return;
           state[id] = Math.max(0, Number(input.value) || 0);
         });
-        refresh({ preserveFocus: true });
+        if (options.closeKeyboard && document.activeElement && typeof document.activeElement.blur === "function") {
+          document.activeElement.blur();
+        }
+        refresh({ preserveFocus: !options.closeKeyboard });
       };
 
       ["earlyExtraMan", "strongExtraMan"].forEach((id) => {
@@ -1437,10 +1509,17 @@
           if (event.key === "Enter") {
             event.preventDefault();
             clearTimeout(stepAmountTimer);
-            refreshStepAmounts();
+            refreshStepAmounts({ closeKeyboard: true });
           }
         });
       });
+      const doneButton = document.getElementById("closeStepKeyboard");
+      if (doneButton) {
+        doneButton.addEventListener("click", () => {
+          clearTimeout(stepAmountTimer);
+          refreshStepAmounts({ closeKeyboard: true });
+        });
+      }
     }
 
     function wireFixedTermControl() {
